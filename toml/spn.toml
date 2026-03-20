@@ -1,0 +1,11 @@
+[package]
+name = "toml"
+url = "https://github.com/tspader/toml.git"
+version = "1.2.1"
+commit = "11a5889f1ff9"
+author = "cktan"
+maintainer = "tspader"
+
+[[lib]]
+name = "toml"
+kinds = ["source"]
