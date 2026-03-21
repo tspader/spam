@@ -1,0 +1,11 @@
+[package]
+name = "curl"
+url = "https://github.com/curl/curl.git"
+version = "7.20"
+commit = "400fffa90f30c7a2dc762fa33009d24851bd2016"
+author = "bagder"
+maintainer = "tspader"
+
+[[lib]]
+name = "curl"
+kinds = ["static"]

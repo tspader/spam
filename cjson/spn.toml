@@ -1,0 +1,11 @@
+[package]
+name = "cjson"
+url = "https://github.com/DaveGamble/cjson.git"
+version = "1.17.19"
+commit = "c859b25da02955fef659d658b8f324b5cde87be3"
+author = "DaveGamble"
+maintainer = "tspader"
+
+[[lib]]
+name = "cjson"
+kinds = ["source"]

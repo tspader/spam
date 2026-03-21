@@ -1,0 +1,11 @@
+[package]
+name = "utest"
+url = "https://github.com/sheredom/utest.h.git"
+version = "1.0.0"
+commit = "fb622dc480a5"
+author = "sheredom"
+maintainer = "tspader"
+
+[[lib]]
+name = "utest"
+kinds = ["source"]

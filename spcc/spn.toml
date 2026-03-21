@@ -1,0 +1,15 @@
+[package]
+namespace = "spader"
+name = "spcc"
+url = "https://github.com/tspader/tinycc.git"
+version = "1.0.0"
+commit = "06e307464b"
+author = "bellard"
+maintainer = "tspader"
+
+[[lib]]
+name = "tcc"
+kinds = ["static"]
+
+[[bin]]
+name = "tcc"

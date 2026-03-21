@@ -1,0 +1,11 @@
+[package]
+name = "musl"
+url = "https://github.com/kraj/musl.git"
+version = "1.2.5"
+commit = "0784374d561435f7c787a555aeab8ede699ed298"
+author = "richfelker"
+maintainer = "tspader"
+
+[[lib]]
+name = "c"
+kinds = ["static"]

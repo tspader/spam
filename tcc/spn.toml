@@ -1,0 +1,14 @@
+[package]
+name = "tcc"
+url = "https://github.com/TinyCC/tinycc.git"
+version = "1.0.0"
+commit = "01d1b7bc7601"
+author = "bellard"
+maintainer = "tspader"
+
+[[lib]]
+name = "tcc"
+kinds = ["static"]
+
+[[bin]]
+name = "tcc"

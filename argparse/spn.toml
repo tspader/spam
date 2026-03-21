@@ -1,0 +1,11 @@
+[package]
+name = "argparse"
+url = "https://github.com/tspader/argparse.git"
+version = "1.2.0"
+commit = "f71ed6c7b11c"
+author = "cofyc"
+maintainer = "tspader"
+
+[[lib]]
+name = "argparse"
+kinds = ["source"]
