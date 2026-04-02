@@ -1,0 +1,32 @@
+[package]
+name = "toolchains"
+version = "0.1.0"
+author = "tspader"
+maintainer = "tspader"
+
+[[toolchain]]
+name = "gcc"
+compiler = "gcc"
+linker = "ld"
+archiver = "ar"
+driver = "gcc"
+abi = "gnu"
+export = true
+
+[[toolchain]]
+name = "tcc"
+compiler = "tcc"
+linker = "ld"
+archiver = "ar"
+driver = "gcc"
+abi = "gnu"
+export = true
+
+[[toolchain]]
+name = "clang"
+compiler = "clang"
+linker = "ld"
+archiver = "ar"
+driver = "gcc"
+abi = "gnu"
+export = true
