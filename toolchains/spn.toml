@@ -30,3 +30,12 @@ archiver = "ar"
 driver = "gcc"
 abi = "gnu"
 export = true
+
+[[toolchain]]
+name = "x86_64-linux-musl-native"
+url = "https://musl.cc/x86_64-linux-musl-native.tgz"
+compiler = "bin/x86_64-linux-musl-gcc"
+linker = "x86_64-linux-musl/bin/ld"
+archiver = "x86_64-linux-musl/bin/ar"
+driver = "gcc"
+export = true
