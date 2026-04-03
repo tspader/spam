@@ -1,0 +1,35 @@
+[package]
+name = "musl-gcc"
+version = "1.0.0"
+author = "tspader"
+maintainer = "tspader"
+
+[[toolchain]]
+url = "https://musl.cc/x86_64-linux-musl-cross.tgz"
+compiler = "bin/x86_64-linux-musl-gcc"
+linker = "x86_64-linux-musl/bin/ld"
+archiver = "x86_64-linux-musl/bin/ar"
+driver = "gcc"
+export = true
+host = [
+  { arch = "x86_64", os = "linux", abi = "gnu" },
+  { arch = "x86_64", os = "linux", abi = "musl" }
+]
+target = [
+  { arch = "x86_64", os = "linux", abi = "musl" }
+]
+
+[[toolchain]]
+url = "https://musl.cc/x86_64-w64-mingw32-cross.tgz"
+compiler = "bin/x86_64-linux-musl-gcc"
+linker = "x86_64-linux-musl/bin/ld"
+archiver = "x86_64-linux-musl/bin/ar"
+driver = "gcc"
+export = true
+host = [
+  { arch = "x86_64", os = "linux", abi = "gnu" },
+  { arch = "x86_64", os = "linux", abi = "musl" }
+]
+target = [
+  { arch = "x86_64", os = "windows", abi = "mingw" }
+]
