@@ -1,6 +1,6 @@
 [package]
 name = "musl-gcc"
-version = "1.0.2"
+version = "1.0.0"
 author = "tspader"
 maintainer = "tspader"
 
