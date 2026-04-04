@@ -10,7 +10,7 @@ url = "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz"
 compiler = "zig cc"
 linker = "zig cc"
 archiver = "zig ar"
-driver = "gcc"
+driver = "clang"
 host = [
   { arch = "x86_64", os = "linux", abi = "gnu" },
   { arch = "x86_64", os = "linux", abi = "musl" }
