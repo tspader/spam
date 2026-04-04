@@ -8,13 +8,11 @@ s32 run_autoconf(spn_node_ctx_t* ctx) {
   if (spn_profile_get_libc(profile) == SPN_LIBC_MUSL) {
     spn_autoconf_add_flag(ac, "--config-musl");
   }
-  spn_autoconf_run(ac);
-  return 0;
+  return spn_autoconf_run(ac);
 }
 
 s32 run_make(spn_node_ctx_t* ctx) {
-  spn_make(spn_node_ctx_get_build(ctx));
-  return 0;
+  return spn_make(spn_node_ctx_get_build(ctx));
 }
 
 void configure(spn_build_ctx_t* ctx) {

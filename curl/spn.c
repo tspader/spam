@@ -25,8 +25,7 @@ s32 run_cmake(spn_node_ctx_t* ctx) {
   spn_cmake_add_define(cmake, "CURL_DISABLE_POP3", "ON");
   spn_cmake_add_define(cmake, "CURL_DISABLE_SMTP", "ON");
   spn_cmake_add_define(cmake, "CURL_DISABLE_TFTP", "ON");
-  spn_cmake_run(cmake);
-  return 0;
+  return spn_cmake_run(cmake);
 }
 
 void configure(spn_build_ctx_t* ctx) {
