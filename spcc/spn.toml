@@ -10,3 +10,39 @@ maintainer = "tspader"
 [[lib]]
 name = "tcc"
 kinds = ["static"]
+source = ["libtcc.c"]
+headers = ["libtcc.h"]
+define = ["TCC_TARGET_X86_64=1", 'TCC_VERSION="0.9.28rc"']
+
+[[lib]]
+name = "tcc1"
+kinds = ["static"]
+link = false
+source = [
+  "lib/libtcc1.c",
+  "lib/stdatomic.c",
+  "lib/atomic.S",
+  "lib/builtin.c",
+  "lib/alloca.S",
+  "lib/alloca-bt.S",
+  "lib/tcov.c",
+  "lib/dsohandle.c",
+]
+flags = ["-std=gnu11", "-fPIC", "-fno-omit-frame-pointer", "-Wno-unused-function", "-Wno-unused-variable"]
+
+[[lib]]
+name = "runtime"
+kinds = ["object"]
+source = [
+  "lib/runmain.c",
+  "lib/run_nostdlib.c",
+  "lib/bt-exe.c",
+  "lib/bt-log.c",
+]
+flags = ["-std=gnu11", "-fPIC", "-fno-omit-frame-pointer", "-Wno-unused-function", "-Wno-unused-variable"]
+
+[[lib]]
+name = "bcheck"
+kinds = ["object"]
+source = ["lib/bcheck.c"]
+flags = ["-std=gnu11", "-fPIC", "-fno-omit-frame-pointer", "-Wno-unused-function", "-Wno-unused-variable", "-gdwarf"]
