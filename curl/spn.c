@@ -1,7 +1,7 @@
 #include "spn.h"
 
-s32 run_cmake(spn_node_ctx_t* ctx) {
-  spn_cmake_t* cmake = spn_cmake_new(spn_node_ctx_get_build(ctx));
+s32 run_cmake(spn_t* spn, spn_node_ctx_t* ctx) {
+  spn_cmake_t* cmake = spn_cmake_new(spn);
   spn_cmake_add_define(cmake, "BUILD_TESTING", "OFF");
   spn_cmake_add_define(cmake, "CURL_DISABLE_TESTS", "ON");
   spn_cmake_add_define(cmake, "CURL_DISABLE_EXAMPLES", "ON");
@@ -28,12 +28,14 @@ s32 run_cmake(spn_node_ctx_t* ctx) {
   return spn_cmake_run(cmake);
 }
 
-void configure(spn_build_ctx_t* ctx) {
-  spn_node_t* cmake = spn_add_node(ctx, "cmake");
+spn_err_t configure(spn_t* spn, spn_config_t* config) {
+  spn_node_t* cmake = spn_add_node(config, "cmake");
   spn_node_set_fn(cmake, run_cmake);
+  return SPN_OK;
 }
 
-void package(spn_build_ctx_t* b) {
-  spn_cmake_t* cmake = spn_cmake_new(b);
+spn_err_t package(spn_t* spn) {
+  spn_cmake_t* cmake = spn_cmake_new(spn);
   spn_cmake_install(cmake);
+  return SPN_OK;
 }

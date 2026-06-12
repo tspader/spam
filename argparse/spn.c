@@ -1,5 +1,6 @@
 #include "spn.h"
 
-void package(spn_build_ctx_t* dep) {
-  spn_copy(dep, SPN_DIR_SOURCE, "argparse.h", SPN_DIR_INCLUDE, "");
+spn_err_t package(spn_t* spn) {
+  spn_copy(spn, SPN_DIR_SOURCE, "argparse.h", SPN_DIR_INCLUDE, "");
+  return SPN_OK;
 }
