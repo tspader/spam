@@ -9,3 +9,8 @@ maintainer = "tspader"
 [[lib]]
 name = "argparse"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/argparse.h", to = "include" },
+]

@@ -9,3 +9,9 @@ maintainer = "tspader"
 [[lib]]
 name = "cjson"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/cJSON.h", to = "include" },
+  { from = "source/cJSON.c", to = "include" },
+]

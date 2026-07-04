@@ -11,3 +11,9 @@ system_deps = ["m"]
 [[lib]]
 name = "sp"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/sp.h", to = "include" },
+  { from = "source/sp/*", to = "include/sp" },
+]

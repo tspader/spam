@@ -10,3 +10,8 @@ maintainer = "tspader"
 name = "yyjson"
 kinds = ["static"]
 source = ["src/yyjson.c"]
+
+[publish]
+copy = [
+  { from = "source/src/yyjson.h", to = "include" },
+]

@@ -9,3 +9,8 @@ maintainer = "tspader"
 [[lib]]
 name = "utest"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/utest.h", to = "include" },
+]

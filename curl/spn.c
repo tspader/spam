@@ -1,5 +1,6 @@
 #include "spn.h"
 
+SPN_EXPORT
 s32 run_cmake(spn_t* spn, spn_node_ctx_t* ctx) {
   spn_cmake_t* cmake = spn_cmake_new(spn);
   spn_cmake_add_define(cmake, "BUILD_TESTING", "OFF");
@@ -28,14 +29,16 @@ s32 run_cmake(spn_t* spn, spn_node_ctx_t* ctx) {
   return spn_cmake_run(cmake);
 }
 
+SPN_EXPORT
 spn_err_t configure(spn_t* spn, spn_config_t* config) {
   spn_node_t* cmake = spn_add_node(config, "cmake");
-  spn_node_set_fn(cmake, run_cmake);
+  spn_node_set_fn(cmake, "run_cmake");
   return SPN_OK;
 }
 
-spn_err_t package(spn_t* spn) {
+SPN_EXPORT
+s32 package(spn_t* spn, spn_node_ctx_t* ctx) {
   spn_cmake_t* cmake = spn_cmake_new(spn);
   spn_cmake_install(cmake);
-  return SPN_OK;
+  return 0;
 }

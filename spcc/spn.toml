@@ -46,3 +46,11 @@ name = "bcheck"
 kinds = ["object"]
 source = ["lib/bcheck.c"]
 flags = ["-std=gnu11", "-fPIC", "-fno-omit-frame-pointer", "-Wno-unused-function", "-Wno-unused-variable", "-gdwarf"]
+
+[publish]
+copy = [
+  { from = "lib/libtcc1.a", to = "lib/tcc/libtcc1.a" },
+  { from = "lib/lib/*.o", to = "lib/tcc" },
+  { from = "source/include/*", to = "lib/tcc/include" },
+  { from = "source/tcclib.h", to = "lib/tcc/include/tcclib.h" },
+]

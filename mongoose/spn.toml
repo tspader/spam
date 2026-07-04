@@ -9,3 +9,9 @@ maintainer = "tspader"
 [[lib]]
 name = "mongoose"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/mongoose.h", to = "include" },
+  { from = "source/mongoose.c", to = "include" },
+]

@@ -9,3 +9,8 @@ maintainer = "tspader"
 [[lib]]
 name = "toml"
 kinds = ["source"]
+
+[publish]
+copy = [
+  { from = "source/toml.h", to = "include" },
+]
