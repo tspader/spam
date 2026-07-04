@@ -2,7 +2,7 @@
 namespace = "spader"
 name = "sp"
 url = "https://github.com/tspader/sp.git"
-version = "3.0.0"
+version = "3.1.0"
 commit = "ede42f835f63cdaf1d90c5eeeb9eaa1205ada954"
 author = "tspader"
 maintainer = "tspader"
