@@ -1,0 +1,44 @@
+[package]
+name = "imgui"
+version = "1.90.8"
+url = "https://github.com/ocornut/imgui.git"
+commit = "2ae16655a7072546bb23a3dfc8e1735cf0185b29"
+
+[options.sdl2]
+type = "bool"
+default = false
+
+[options.opengl3]
+type = "bool"
+default = false
+
+[deps.package]
+sdl2 = { version = "^2.30.0", when = { sdl2 = true } }
+
+[[lib]]
+name = "imgui"
+kinds = ["static", "shared"]
+source = [
+  "imgui.cpp",
+  "imgui_demo.cpp",
+  "imgui_draw.cpp",
+  "imgui_tables.cpp",
+  "imgui_widgets.cpp",
+  { path = "backends/imgui_impl_sdl2.cpp", when = { sdl2 = true } },
+  { path = "backends/imgui_impl_opengl3.cpp", when = { opengl3 = true } },
+]
+include = ["."]
+flags = [
+  { value = "-idirafter", when = { sdl2 = true, os = "linux" } },
+  { value = "/usr/include", when = { sdl2 = true, os = "linux" } },
+]
+system_deps = [
+  { value = "dl", when = { opengl3 = true, os = "linux" } },
+]
+cxx = { standard = "c++17" }
+
+[publish]
+copy = [
+  { from = "source/*.h", to = "include/imgui" },
+  { from = "source/backends/*.h", to = "include/imgui" },
+]

@@ -1,0 +1,22 @@
+[package]
+name = "flecs"
+version = "4.0.1"
+url = "https://github.com/SanderMertens/flecs.git"
+commit = "4db1bc1fd25990b2ec3fb8451bf965187ff2107c"
+system_deps = [
+  { lib = "pthread", when = { os = "linux" } },
+  { lib = "ws2_32", when = { os = "windows" } },
+]
+
+[[lib]]
+name = "flecs"
+kinds = ["static", "shared"]
+source = ["distr/flecs.c"]
+define = [
+  { value = "_GNU_SOURCE", when = { os = "linux" } },
+]
+
+[publish]
+copy = [
+  { from = "source/distr/flecs.h", to = "include/flecs/flecs.h" },
+]
