@@ -1,10 +1,14 @@
 [package]
 name = "toml"
 url = "https://github.com/tspader/toml.git"
-version = "1.5.0"
+version = "1.5.1"
 commit = "2e8ffdfa215c"
 author = "cktan"
 maintainer = "tspader"
+
+[options.strict]
+type = "bool"
+default = false
 
 [[lib]]
 name = "toml"
