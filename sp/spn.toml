@@ -2,8 +2,8 @@
 namespace = "spader"
 name = "sp"
 url = "https://github.com/tspader/sp.git"
-version = "3.2.0"
-commit = "7445c2ad28f988406c349ed466a2ecdb87ac8e28"
+version = "4.0.0"
+commit = "9cda3f445e50e7d7ef6827119401d4f42bca2ead"
 author = "tspader"
 maintainer = "tspader"
 system_deps = ["m"]
