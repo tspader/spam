@@ -1,6 +1,8 @@
 [package]
 name = "imgui"
 version = "1.90.8"
+
+[package.upstream]
 url = "https://github.com/ocornut/imgui.git"
 commit = "2ae16655a7072546bb23a3dfc8e1735cf0185b29"
 
@@ -36,6 +38,35 @@ system_deps = [
   { value = "dl", when = { opengl3 = true, os = "linux" } },
 ]
 cxx = { standard = "c++17" }
+
+[[example]]
+name = "headless"
+source = [{ path = "example/headless.cpp", tree = "manifest" }]
+deps = ["imgui"]
+cxx = { standard = "c++17" }
+
+[[example]]
+name = "window"
+source = [{ path = "example/window.cpp", tree = "manifest" }]
+deps = ["imgui"]
+cxx = { standard = "c++17" }
+
+[[toolchain]]
+name = "native"
+compiler = "clang"
+linker = "clang"
+archiver = "ar"
+driver = "clang"
+cxx = "clang++"
+
+[profile.default]
+toolchain = "native"
+linkage = "shared"
+abi = "gnu"
+options = { sdl2 = true, opengl3 = true }
+
+[config.sdl2]
+options = { x11 = true }
 
 [publish]
 copy = [

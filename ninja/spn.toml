@@ -1,0 +1,96 @@
+[package]
+name = "ninja"
+version = "1.14.0"
+
+[package.upstream]
+url = "https://github.com/ninja-build/ninja.git"
+commit = "b90f3587711b2171d2dafa8179fe013475558e8d"
+
+[[lib]]
+name = "libninja"
+kinds = ["static"]
+source = [
+  "src/build.cc",
+  "src/build_log.cc",
+  "src/clean.cc",
+  "src/clparser.cc",
+  "src/debug_flags.cc",
+  "src/depfile_parser.cc",
+  "src/deps_log.cc",
+  "src/disk_interface.cc",
+  "src/dyndep.cc",
+  "src/dyndep_parser.cc",
+  "src/edit_distance.cc",
+  "src/elide_middle.cc",
+  "src/eval_env.cc",
+  "src/graph.cc",
+  "src/graphviz.cc",
+  "src/jobserver.cc",
+  "src/json.cc",
+  "src/lexer.cc",
+  "src/line_printer.cc",
+  "src/manifest_parser.cc",
+  "src/metrics.cc",
+  "src/missing_deps.cc",
+  "src/parser.cc",
+  "src/real_command_runner.cc",
+  "src/state.cc",
+  "src/status_printer.cc",
+  "src/string_piece_util.cc",
+  "src/util.cc",
+  "src/version.cc",
+  { path = "src/jobserver-posix.cc", when = { os = { not = "windows" } } },
+  { path = "src/subprocess-posix.cc", when = { os = { not = "windows" } } },
+  { path = "src/getopt.c", when = { os = "windows" } },
+  { path = "src/includes_normalize-win32.cc", when = { os = "windows" } },
+  { path = "src/jobserver-win32.cc", when = { os = "windows" } },
+  { path = "src/minidump-win32.cc", when = { os = "windows" } },
+  { path = "src/msvc_helper-win32.cc", when = { os = "windows" } },
+  { path = "src/msvc_helper_main-win32.cc", when = { os = "windows" } },
+  { path = "src/subprocess-win32.cc", when = { os = "windows" } },
+]
+headers = [
+  "src/disk_interface.h",
+  "src/dyndep.h",
+  "src/eval_env.h",
+  "src/explanations.h",
+  "src/graph.h",
+  "src/hash_map.h",
+  "src/jobserver.h",
+  "src/lexer.h",
+  "src/manifest_parser.h",
+  "src/parser.h",
+  "src/state.h",
+  "src/string_piece.h",
+  "src/third_party/emhash/hash_table8.hpp",
+  "src/third_party/rapidhash/rapidhash.h",
+  "src/timestamp.h",
+  "src/util.h",
+  "src/win32port.h",
+]
+define = [
+  { value = "USE_PPOLL=1", when = { os = "linux" } },
+  { value = "NOMINMAX", when = { os = "windows" } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_WIN32_WINNT=0x0601", when = { os = "windows", abi = { not = "msvc" } } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = { not = "msvc" } } },
+]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "ninja"
+source = ["src/ninja.cc"]
+deps = ["libninja"]
+define = [
+  { value = "NOMINMAX", when = { os = "windows" } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_WIN32_WINNT=0x0601", when = { os = "windows", abi = { not = "msvc" } } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = { not = "msvc" } } },
+]
+cxx = { standard = "c++17" }
+
+[[example]]
+name = "targets"
+source = [{ path = "example/targets/main.c", tree = "manifest" }, { path = "example/targets/targets.cc", tree = "manifest" }]
+deps = ["libninja"]
+cxx = { standard = "c++17" }

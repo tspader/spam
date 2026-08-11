@@ -1,0 +1,15 @@
+[package]
+name = "dbus"
+version = "1.16.99"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/dbus/dbus.git"
+commit = "f64ae3cafdcf31606401171bb0e8fe3fccc761c2"
+
+[[example]]
+name = "version"
+source = [{ path = "example/version.c", tree = "manifest" }]
+
+[profile.default]
+linkage = "shared"
+abi = "gnu"

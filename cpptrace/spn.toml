@@ -1,12 +1,174 @@
 [package]
 name = "cpptrace"
 version = "0.7.3"
+system_deps = [
+  { lib = "dl", when = { os = "linux", symbols = "libbacktrace" } },
+  { lib = "dl", when = { os = "linux", symbols = "libdwarf" } },
+  { lib = "dl", when = { os = "linux", symbols = "libdl" } },
+  { lib = "dl", when = { os = "linux", symbols = "addr2line" } },
+  { lib = "dl", when = { os = "linux", symbols = "libdwarf_and_dbghelp" } },
+  { lib = "backtrace", when = { symbols = "libbacktrace" } },
+  { lib = "dwarf", when = { symbols = "libdwarf" } },
+  { lib = "zstd", when = { symbols = "libdwarf" } },
+  { lib = "z", when = { symbols = "libdwarf" } },
+  { lib = "dwarf", when = { symbols = "libdwarf_and_dbghelp" } },
+  { lib = "zstd", when = { symbols = "libdwarf_and_dbghelp" } },
+  { lib = "z", when = { symbols = "libdwarf_and_dbghelp" } },
+  { lib = "dbghelp", when = { os = "windows", symbols = "dbghelp" } },
+  { lib = "dbghelp", when = { os = "windows", symbols = "libdwarf_and_dbghelp" } },
+  { lib = "dbghelp", when = { os = "windows", unwind = "dbghelp" } },
+  { lib = "dbghelp", when = { os = "windows", demangle = "winapi" } },
+  { lib = "unwind", when = { os = "linux", unwind = "libunwind" } },
+]
+
+[package.upstream]
 url = "https://github.com/jeremy-rifkin/cpptrace.git"
 commit = "4354eb21ea3565a73afdf32ec0ba768fd648c425"
-system_deps = [
-  { lib = "dl", when = { os = "linux" } },
+
+[options.symbols]
+type = "enum"
+values = ["libbacktrace", "libdwarf", "libdl", "addr2line", "dbghelp", "libdwarf_and_dbghelp", "nothing"]
+default = [
+  { value = "dbghelp", when = { os = "windows" } },
+  { value = "libdl" },
 ]
+
+[options.unwind]
+type = "enum"
+values = ["unwind", "libunwind", "execinfo", "winapi", "dbghelp", "nothing"]
+default = [
+  { value = "winapi", when = { os = "windows", arch = "aarch64" } },
+  { value = "dbghelp", when = { os = "windows" } },
+  { value = "execinfo", when = { os = "macos" } },
+  { value = "unwind" },
+]
+
+[options.demangle]
+type = "enum"
+values = ["cxxabi", "winapi", "nothing"]
+default = [
+  { value = "winapi", when = { abi = "msvc" } },
+  { value = "cxxabi" },
+]
+
+[options.static]
+type = "bool"
+default = true
+define = "CPPTRACE_STATIC_DEFINE"
+public = true
+
+[options.no_std_format]
+type = "bool"
+default = false
+define = "CPPTRACE_NO_STD_FORMAT"
+public = true
+
+[options.unprefixed_try_catch]
+type = "bool"
+default = false
+define = "CPPTRACE_UNPREFIXED_TRY_CATCH"
+public = true
+
+[options.addr2line_search_system_path]
+type = "bool"
+default = true
+define = "CPPTRACE_ADDR2LINE_SEARCH_SYSTEM_PATH"
+
+[options.werror]
+type = "bool"
+default = false
 
 [[lib]]
 name = "cpptrace"
 kinds = ["static"]
+include = [
+  "include",
+  "src",
+  { path = "/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf" } },
+  { path = "/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf_and_dbghelp" } },
+]
+source = [
+  "src/binary/elf.cpp",
+  "src/binary/mach-o.cpp",
+  "src/binary/module_base.cpp",
+  "src/binary/object.cpp",
+  "src/binary/pe.cpp",
+  "src/binary/safe_dl.cpp",
+  "src/cpptrace.cpp",
+  "src/ctrace.cpp",
+  "src/exceptions.cpp",
+  "src/from_current.cpp",
+  "src/options.cpp",
+  "src/utils.cpp",
+  "src/demangle/demangle_with_cxxabi.cpp",
+  "src/demangle/demangle_with_nothing.cpp",
+  "src/demangle/demangle_with_winapi.cpp",
+  "src/snippets/snippet.cpp",
+  "src/symbols/dwarf/debug_map_resolver.cpp",
+  "src/symbols/dwarf/dwarf_resolver.cpp",
+  "src/symbols/symbols_core.cpp",
+  "src/symbols/symbols_with_addr2line.cpp",
+  "src/symbols/symbols_with_dbghelp.cpp",
+  "src/symbols/symbols_with_dl.cpp",
+  "src/symbols/symbols_with_libbacktrace.cpp",
+  "src/symbols/symbols_with_libdwarf.cpp",
+  "src/symbols/symbols_with_nothing.cpp",
+  "src/unwind/unwind_with_dbghelp.cpp",
+  "src/unwind/unwind_with_execinfo.cpp",
+  "src/unwind/unwind_with_libunwind.cpp",
+  "src/unwind/unwind_with_nothing.cpp",
+  "src/unwind/unwind_with_unwind.cpp",
+  "src/unwind/unwind_with_winapi.cpp",
+  "src/utils/microfmt.cpp",
+  "src/utils/utils.cpp",
+  "src/platform/dbghelp_syminit_manager.cpp",
+]
+define = [
+  { value = "NOMINMAX", when = { os = "windows" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_LIBBACKTRACE", when = { symbols = "libbacktrace" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_LIBDWARF", when = { symbols = "libdwarf" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_LIBDWARF", when = { symbols = "libdwarf_and_dbghelp" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_LIBDL", when = { symbols = "libdl" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_ADDR2LINE", when = { symbols = "addr2line" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_DBGHELP", when = { symbols = "dbghelp" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_DBGHELP", when = { symbols = "libdwarf_and_dbghelp" } },
+  { value = "CPPTRACE_GET_SYMBOLS_WITH_NOTHING", when = { symbols = "nothing" } },
+  { value = "CPPTRACE_UNWIND_WITH_UNWIND", when = { unwind = "unwind" } },
+  { value = "CPPTRACE_UNWIND_WITH_LIBUNWIND", when = { unwind = "libunwind" } },
+  { value = "UNW_LOCAL_ONLY", when = { unwind = "libunwind" } },
+  { value = "CPPTRACE_UNWIND_WITH_EXECINFO", when = { unwind = "execinfo" } },
+  { value = "CPPTRACE_UNWIND_WITH_WINAPI", when = { unwind = "winapi" } },
+  { value = "CPPTRACE_UNWIND_WITH_DBGHELP", when = { unwind = "dbghelp" } },
+  { value = "CPPTRACE_UNWIND_WITH_NOTHING", when = { unwind = "nothing" } },
+  { value = "CPPTRACE_DEMANGLE_WITH_CXXABI", when = { demangle = "cxxabi" } },
+  { value = "CPPTRACE_DEMANGLE_WITH_WINAPI", when = { demangle = "winapi" } },
+  { value = "CPPTRACE_DEMANGLE_WITH_NOTHING", when = { demangle = "nothing" } },
+  { value = "CPPTRACE_HAS_CXX_EXCEPTION_TYPE", when = { abi = { not = "msvc" } } },
+  { value = "CPPTRACE_HAS_DLADDR1", when = { os = "linux", abi = "gnu" } },
+  { value = "HAS_MACH_VM", when = { os = "macos" } },
+]
+flags = [
+  { value = "-Wall", when = { werror = true, abi = { not = "msvc" } } },
+  { value = "-Wextra", when = { werror = true, abi = { not = "msvc" } } },
+  { value = "-Werror", when = { werror = true, abi = { not = "msvc" } } },
+  { value = "-Wpedantic", when = { werror = true, abi = { not = "msvc" } } },
+  { value = "/W4", when = { werror = true, abi = "msvc" } },
+  { value = "/permissive-", when = { werror = true, abi = "msvc" } },
+  { value = "/WX", when = { werror = true, abi = "msvc" } },
+]
+cxx = { standard = "c++11" }
+
+[[example]]
+name = "trace"
+source = [{ path = "example/trace.cpp", tree = "manifest" }]
+deps = ["cpptrace"]
+cxx = { standard = "c++17" }
+
+[profile.default]
+options = { symbols = "addr2line" }
+
+[publish]
+copy = [
+  { from = "source/include/cpptrace/*", to = "include/cpptrace" },
+  { from = "source/include/ctrace/*", to = "include/ctrace" },
+]

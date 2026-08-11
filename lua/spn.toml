@@ -1,12 +1,13 @@
 [package]
-namespace = "lua"
 name = "lua"
 version = "5.4.6"
-url = "https://github.com/lua/lua.git"
-commit = "6443185167c77adcc8552a3fee7edab7895db1a9"
 system_deps = [
   { lib = "m", when = { os = "linux" } },
 ]
+
+[package.upstream]
+url = "https://github.com/lua/lua.git"
+commit = "6443185167c77adcc8552a3fee7edab7895db1a9"
 
 [[lib]]
 name = "lua"
@@ -49,3 +50,8 @@ headers = ["lua.h", "luaconf.h", "lualib.h", "lauxlib.h"]
 define = [
   { value = "LUA_USE_POSIX", when = { os = { not = "windows" } } },
 ]
+
+[[example]]
+name = "embed"
+source = [{ path = "example/embed.c", tree = "manifest" }]
+deps = ["lua"]

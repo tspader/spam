@@ -1,14 +1,203 @@
 [package]
 name = "freetype"
 version = "2.13.2"
+system_deps = [
+  { lib = "z", when = { zlib = "system" } },
+  { lib = "bz2", when = { bzip2 = true } },
+  { lib = "png", when = { png = true } },
+  { lib = "z", when = { png = true } },
+  { lib = "harfbuzz", when = { harfbuzz = true } },
+  { lib = "brotlidec", when = { brotli = true } },
+  { lib = "brotlicommon", when = { brotli = true } },
+]
+
+[package.upstream]
 url = "https://github.com/freetype/freetype.git"
 commit = "920c5502cc3ddda88f6c7d85ee834ac611bb11cc"
+
+[options.zlib]
+type = "enum"
+values = ["internal", "system"]
+default = "internal"
+
+[options.bzip2]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_USE_BZIP2"
+
+[options.png]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_USE_PNG"
+
+[options.harfbuzz]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_USE_HARFBUZZ"
+
+[options.brotli]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_USE_BROTLI"
+
+[options.error_strings]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_ERROR_STRINGS"
+public = true
+
+[options.subpixel_rendering]
+type = "bool"
+default = false
+define = "FT_CONFIG_OPTION_SUBPIXEL_RENDERING"
+
+[options.mmap]
+type = "bool"
+default = false
+
+[options.debug]
+type = "enum"
+values = ["none", "error", "trace"]
+default = "none"
+
+[options.t1_old_engine]
+type = "bool"
+default = false
+define = "T1_CONFIG_OPTION_OLD_ENGINE"
+
+[options.cff_old_engine]
+type = "bool"
+default = false
+define = "CFF_CONFIG_OPTION_OLD_ENGINE"
+
+[options.pcf_long_family_names]
+type = "bool"
+default = false
+define = "PCF_CONFIG_OPTION_LONG_FAMILY_NAMES"
+
+[options.tt_size_metrics]
+type = "bool"
+default = false
+define = "AF_CONFIG_OPTION_TT_SIZE_METRICS"
 
 [[lib]]
 name = "freetype"
 kinds = ["static"]
+include = [
+  "include",
+  { path = "/usr/include/harfbuzz", when = { harfbuzz = true, os = "linux" } },
+]
+source = [
+  "src/autofit/autofit.c",
+  "src/base/ftbase.c",
+  "src/base/ftbbox.c",
+  "src/base/ftbdf.c",
+  "src/base/ftbitmap.c",
+  "src/base/ftcid.c",
+  "src/base/ftdebug.c",
+  "src/base/ftfstype.c",
+  "src/base/ftgasp.c",
+  "src/base/ftglyph.c",
+  "src/base/ftgxval.c",
+  "src/base/ftinit.c",
+  "src/base/ftmm.c",
+  "src/base/ftotval.c",
+  "src/base/ftpatent.c",
+  "src/base/ftpfr.c",
+  "src/base/ftstroke.c",
+  "src/base/ftsynth.c",
+  "src/base/fttype1.c",
+  "src/base/ftwinfnt.c",
+  "src/bdf/bdf.c",
+  "src/bzip2/ftbzip2.c",
+  "src/cache/ftcache.c",
+  "src/cff/cff.c",
+  "src/cid/type1cid.c",
+  "src/gzip/ftgzip.c",
+  "src/lzw/ftlzw.c",
+  "src/pcf/pcf.c",
+  "src/pfr/pfr.c",
+  "src/psaux/psaux.c",
+  "src/pshinter/pshinter.c",
+  "src/psnames/psnames.c",
+  "src/raster/raster.c",
+  "src/sdf/sdf.c",
+  "src/sfnt/sfnt.c",
+  "src/smooth/smooth.c",
+  "src/svg/svg.c",
+  "src/truetype/truetype.c",
+  "src/type1/type1.c",
+  "src/type42/type42.c",
+  "src/winfonts/winfnt.c",
+  { path = "src/base/ftsystem.c", when = { mmap = false } },
+  { path = "builds/unix/ftsystem.c", when = { mmap = true, os = { not = "windows" } } },
+  { path = "builds/windows/ftsystem.c", when = { mmap = true, os = "windows" } },
+]
+flags = [
+  { value = "-idirafter", when = { zlib = "system", os = "linux" } },
+  { value = "/usr/include", when = { zlib = "system", os = "linux" } },
+  { value = "-idirafter", when = { bzip2 = true, os = "linux" } },
+  { value = "/usr/include", when = { bzip2 = true, os = "linux" } },
+  { value = "-idirafter", when = { png = true, os = "linux" } },
+  { value = "/usr/include", when = { png = true, os = "linux" } },
+  { value = "-idirafter", when = { harfbuzz = true, os = "linux" } },
+  { value = "/usr/include", when = { harfbuzz = true, os = "linux" } },
+  { value = "-idirafter", when = { brotli = true, os = "linux" } },
+  { value = "/usr/include", when = { brotli = true, os = "linux" } },
+]
+define = [
+  "FT2_BUILD_LIBRARY",
+  { value = "FT_CONFIG_OPTION_SYSTEM_ZLIB", when = { zlib = "system" } },
+  { value = "FT_DEBUG_LEVEL_ERROR", when = { debug = "error" } },
+  { value = "FT_DEBUG_LEVEL_TRACE", when = { debug = "trace" } },
+  { value = "HAVE_UNISTD_H", when = { mmap = true, os = { not = "windows" } } },
+  { value = "HAVE_FCNTL_H", when = { mmap = true, os = { not = "windows" } } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_WARNINGS", when = { abi = "msvc" } },
+]
+
+[[example]]
+name = "fontinfo"
+source = [{ path = "example/fontinfo.c", tree = "manifest" }]
+deps = ["freetype"]
+
+[[example]]
+name = "lcd"
+source = [{ path = "example/lcd.c", tree = "manifest" }]
+deps = ["freetype"]
+
+[[example]]
+name = "emoji"
+source = [{ path = "example/emoji.c", tree = "manifest" }]
+deps = ["freetype"]
+
+[[example]]
+name = "autohint"
+source = [{ path = "example/autohint.c", tree = "manifest" }]
+deps = ["freetype"]
+
+[[example]]
+name = "formats"
+source = [{ path = "example/formats.c", tree = "manifest" }]
+deps = ["freetype"]
+
+[[toolchain]]
+name = "native"
+compiler = "clang"
+linker = "clang"
+archiver = "ar"
+driver = "clang"
+cxx = "clang++"
+
+[profile.default]
+toolchain = "native"
+linkage = "shared"
+abi = "gnu"
+options = { zlib = "system", bzip2 = true, png = true, harfbuzz = true, brotli = true, error_strings = true, subpixel_rendering = true, mmap = true, debug = "trace" }
 
 [publish]
 copy = [
-  { from = "store/include/freetype2/*", to = "include" },
+  { from = "source/include/ft2build.h", to = "include/ft2build.h" },
+  { from = "source/include/freetype/*", to = "include/freetype" },
+  { from = "source/include/freetype/config/*", to = "include/freetype/config" },
 ]

@@ -1,12 +1,14 @@
 [package]
 name = "flecs"
 version = "4.0.1"
-url = "https://github.com/SanderMertens/flecs.git"
-commit = "4db1bc1fd25990b2ec3fb8451bf965187ff2107c"
 system_deps = [
   { lib = "pthread", when = { os = "linux" } },
   { lib = "ws2_32", when = { os = "windows" } },
 ]
+
+[package.upstream]
+url = "https://github.com/SanderMertens/flecs.git"
+commit = "4db1bc1fd25990b2ec3fb8451bf965187ff2107c"
 
 [[lib]]
 name = "flecs"
@@ -15,6 +17,16 @@ source = ["distr/flecs.c"]
 define = [
   { value = "_GNU_SOURCE", when = { os = "linux" } },
 ]
+
+[[example]]
+name = "hello"
+source = [{ path = "example/hello.c", tree = "manifest" }]
+deps = ["flecs"]
+
+[[example]]
+name = "query"
+source = [{ path = "example/query.c", tree = "manifest" }]
+deps = ["flecs"]
 
 [publish]
 copy = [

@@ -1,0 +1,2 @@
+#define SDL_REVISION "SDL-2.30.4 (spn)"
+#define SDL_REVISION_NUMBER 0

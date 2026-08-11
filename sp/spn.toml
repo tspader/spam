@@ -1,16 +1,89 @@
 [package]
-namespace = "spader"
 name = "sp"
-url = "https://github.com/tspader/sp.git"
-version = "4.0.0"
-commit = "9cda3f445e50e7d7ef6827119401d4f42bca2ead"
+version = "3.5.0"
 author = "tspader"
 maintainer = "tspader"
-system_deps = ["m"]
+system_deps = [
+  { lib = "m", when = { os = "linux" } },
+]
+
+[package.upstream]
+url = "https://github.com/tspader/sp.git"
+commit = "a6c1733125b3d664bc544c29b5887fe19e78af5c"
 
 [[lib]]
 name = "sp"
 kinds = ["source"]
+
+[[example]]
+name = "app"
+source = ["example/app.c"]
+deps = ["sp"]
+
+[[example]]
+name = "array"
+source = ["example/array.c"]
+deps = ["sp"]
+
+[[example]]
+name = "cargo"
+source = ["example/cargo.c"]
+deps = ["sp"]
+
+[[example]]
+name = "cli"
+source = ["example/cli.c"]
+deps = ["sp"]
+
+[[example]]
+name = "format"
+source = ["example/format.c"]
+deps = ["sp"]
+
+[[example]]
+name = "hash_table"
+source = ["example/hash_table.c"]
+deps = ["sp"]
+
+[[example]]
+name = "io"
+source = ["example/io.c"]
+deps = ["sp"]
+
+[[example]]
+name = "ls"
+source = ["example/ls.c"]
+deps = ["sp"]
+
+[[example]]
+name = "palette"
+source = ["example/palette.c"]
+deps = ["sp"]
+
+[[example]]
+name = "prompt"
+source = ["example/prompt.c"]
+deps = ["sp"]
+
+[[example]]
+name = "prompt_fancy"
+source = ["example/prompt_fancy.c"]
+deps = ["sp"]
+
+[[example]]
+name = "signal"
+source = ["example/signal.c"]
+deps = ["sp"]
+
+[[example]]
+name = "wc"
+source = ["example/wc.c"]
+deps = ["sp"]
+
+[[example]]
+name = "zero_copy"
+source = ["example/zero_copy.c"]
+deps = ["sp"]
 
 [publish]
 copy = [
