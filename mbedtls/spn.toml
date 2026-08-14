@@ -30,6 +30,57 @@ default = false
 define = "MBEDTLS_PSA_P256M_DRIVER_ENABLED"
 
 [[lib]]
+name = "mbedtls"
+kinds = ["static"]
+include = [
+  "include",
+  "library",
+  { path = "3rdparty/everest/include", when = { everest = true } },
+]
+source = [
+  "library/debug.c",
+  "library/mps_reader.c",
+  "library/mps_trace.c",
+  "library/net_sockets.c",
+  "library/ssl_cache.c",
+  "library/ssl_ciphersuites.c",
+  "library/ssl_client.c",
+  "library/ssl_cookie.c",
+  "library/ssl_debug_helpers_generated.c",
+  "library/ssl_msg.c",
+  "library/ssl_ticket.c",
+  "library/ssl_tls.c",
+  "library/ssl_tls12_client.c",
+  "library/ssl_tls12_server.c",
+  "library/ssl_tls13_keys.c",
+  "library/ssl_tls13_server.c",
+  "library/ssl_tls13_client.c",
+  "library/ssl_tls13_generic.c",
+]
+deps = ["mbedx509"]
+
+[[lib]]
+name = "mbedx509"
+kinds = ["static"]
+include = [
+  "include",
+  "library",
+  { path = "3rdparty/everest/include", when = { everest = true } },
+]
+source = [
+  "library/pkcs7.c",
+  "library/x509.c",
+  "library/x509_create.c",
+  "library/x509_crl.c",
+  "library/x509_crt.c",
+  "library/x509_csr.c",
+  "library/x509write.c",
+  "library/x509write_crt.c",
+  "library/x509write_csr.c",
+]
+deps = ["mbedcrypto"]
+
+[[lib]]
 name = "mbedcrypto"
 kinds = ["static"]
 include = [
@@ -135,57 +186,6 @@ system_deps = [
   { value = "ws2_32", when = { os = "windows" } },
   { value = "bcrypt", when = { os = "windows" } },
 ]
-
-[[lib]]
-name = "mbedx509"
-kinds = ["static"]
-include = [
-  "include",
-  "library",
-  { path = "3rdparty/everest/include", when = { everest = true } },
-]
-source = [
-  "library/pkcs7.c",
-  "library/x509.c",
-  "library/x509_create.c",
-  "library/x509_crl.c",
-  "library/x509_crt.c",
-  "library/x509_csr.c",
-  "library/x509write.c",
-  "library/x509write_crt.c",
-  "library/x509write_csr.c",
-]
-deps = ["mbedcrypto"]
-
-[[lib]]
-name = "mbedtls"
-kinds = ["static"]
-include = [
-  "include",
-  "library",
-  { path = "3rdparty/everest/include", when = { everest = true } },
-]
-source = [
-  "library/debug.c",
-  "library/mps_reader.c",
-  "library/mps_trace.c",
-  "library/net_sockets.c",
-  "library/ssl_cache.c",
-  "library/ssl_ciphersuites.c",
-  "library/ssl_client.c",
-  "library/ssl_cookie.c",
-  "library/ssl_debug_helpers_generated.c",
-  "library/ssl_msg.c",
-  "library/ssl_ticket.c",
-  "library/ssl_tls.c",
-  "library/ssl_tls12_client.c",
-  "library/ssl_tls12_server.c",
-  "library/ssl_tls13_keys.c",
-  "library/ssl_tls13_server.c",
-  "library/ssl_tls13_client.c",
-  "library/ssl_tls13_generic.c",
-]
-deps = ["mbedx509"]
 
 [[example]]
 name = "hash"
