@@ -1,10 +1,12 @@
 [package]
 name = "toml"
-url = "https://github.com/tspader/toml.git"
 version = "1.5.1"
-commit = "2e8ffdfa215c"
 author = "cktan"
 maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/tspader/toml.git"
+commit = "2e8ffdfa215c"
 
 [options.strict]
 type = "bool"
