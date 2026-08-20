@@ -1,0 +1,31 @@
+[package]
+name = "sdl3_shadercross"
+version = "3.0.0"
+include = ["include"]
+system_deps = [
+  { lib = "dxcompiler", when = { dxc = true } },
+]
+
+[package.upstream]
+url = "https://github.com/libsdl-org/SDL_shadercross.git"
+commit = "8315e12feae66f0840f9445435f921406c062f42"
+
+[options.dxc]
+type = "bool"
+default = false
+define = "SDL_SHADERCROSS_DXC"
+
+[deps.package]
+sdl3 = "3.4.14"
+spirv_cross = "1.3.296"
+
+[[lib]]
+name = "SDL3_shadercross"
+kinds = ["static"]
+source = ["src/SDL_shadercross.c"]
+deps = ["sdl3", "spirv_cross"]
+
+[publish]
+copy = [
+  { from = "source/include/SDL3_shadercross/SDL_shadercross.h", to = "include/SDL3_shadercross/SDL_shadercross.h" },
+]
