@@ -1,0 +1,39 @@
+# SPIRV-Tools generates its grammar tables, enum mappings, extension lists,
+# and version info with python at build time. The generators cannot run in a
+# build script, so the outputs are vendored in gen/; run generate.sh to
+# regenerate them. The pinned commit is the SPIRV-Tools submodule of
+# DirectXShaderCompiler 1.8.2502; gen/ is only valid against that commit and
+# the matching spirv_headers pin.
+[package]
+name = "spirv_tools"
+version = "2024.4.0"
+include = ["include", { path = "gen", tree = "manifest" }]
+
+[package.upstream]
+url = "https://github.com/KhronosGroup/SPIRV-Tools"
+commit = "4d2f0b40bfe290dea6c6904dafdf7fd8328ba346"
+
+[deps.package]
+spirv_headers = "1.5.5"
+
+[[lib]]
+name = "spirv_tools"
+kinds = ["static"]
+source = [
+  "source/*.cpp",
+  "source/util/*.cpp",
+  "source/val/*.cpp",
+  "source/opt/*.cpp",
+]
+deps = ["spirv_headers"]
+cxx = { standard = "c++17" }
+
+[[example]]
+name = "basic"
+source = [{ path = "example/basic.c", tree = "manifest" }]
+deps = ["spirv_tools"]
+
+[publish]
+copy = [
+  { from = "source/include/spirv-tools/*", to = "include/spirv-tools" },
+]

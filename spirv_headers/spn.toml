@@ -1,0 +1,21 @@
+[package]
+name = "spirv_headers"
+version = "1.5.5"
+
+[package.upstream]
+url = "https://github.com/KhronosGroup/SPIRV-Headers.git"
+commit = "3f17b2af6784bfa2c5aa5dbb8e0e74a607dd8b3b"
+
+[[lib]]
+name = "spirv_headers"
+kinds = ["source"]
+
+[[example]]
+name = "basic"
+source = [{ path = "example/basic.c", tree = "manifest" }]
+deps = ["spirv_headers"]
+
+[publish]
+copy = [
+  { from = "source/include/spirv/unified1/*.h*", to = "include/spirv/unified1" },
+]
