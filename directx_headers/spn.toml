@@ -1,0 +1,29 @@
+[package]
+name = "directx_headers"
+version = "1.4.9"
+
+[package.upstream]
+url = "https://github.com/microsoft/DirectX-Headers.git"
+commit = "980971e835876dc0cde415e8f9bc646e64667bf7"
+
+[[lib]]
+name = "directx_headers"
+kinds = ["source"]
+
+[[example]]
+name = "basic"
+source = [{ path = "example/basic.cpp", tree = "manifest" }]
+include = [
+  { path = "include/wsl/stubs", when = { os = { not = "windows" } } },
+  { path = "example/mingw", tree = "manifest", when = { os = "windows", abi = "mingw" } },
+]
+deps = ["directx_headers"]
+
+[publish]
+copy = [
+  { from = "source/include/directx/*.h", to = "include/directx" },
+  { from = "source/include/dxguids/*.h", to = "include/dxguids" },
+  { from = "source/include/wsl/*.h", to = "include/wsl" },
+  { from = "source/include/wsl/stubs/*.h", to = "include/wsl/stubs" },
+  { from = "source/include/wsl/stubs/wrl/*.h", to = "include/wsl/stubs/wrl" },
+]
