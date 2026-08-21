@@ -222,7 +222,4 @@ source = [{ path = "example/surface.c", tree = "manifest" }]
 deps = ["SDL2"]
 
 [profile.default]
-toolchain = "native"
-linkage = "shared"
-abi = "gnu"
 options = { x11 = true }

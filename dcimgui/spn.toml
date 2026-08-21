@@ -52,20 +52,6 @@ name = "headless"
 source = [{ path = "example/headless.c", tree = "manifest" }]
 deps = ["dcimgui"]
 
-[[toolchain]]
-name = "native"
-compiler = "clang"
-linker = "clang"
-archiver = "ar"
-driver = "clang"
-cxx = "clang++"
-
-[profile.default]
-toolchain = "native"
-linkage = "static"
-abi = "gnu"
-options = { internal = true, sdl3 = true, sdlgpu3 = true }
-
 [config.imgui]
 options = { sdl3 = true, sdlgpu3 = true }
 

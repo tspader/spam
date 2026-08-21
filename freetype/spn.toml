@@ -181,18 +181,7 @@ name = "formats"
 source = [{ path = "example/formats.c", tree = "manifest" }]
 deps = ["freetype"]
 
-[[toolchain]]
-name = "native"
-compiler = "clang"
-linker = "clang"
-archiver = "ar"
-driver = "clang"
-cxx = "clang++"
-
 [profile.default]
-toolchain = "native"
-linkage = "shared"
-abi = "gnu"
 options = { zlib = "system", bzip2 = true, png = true, harfbuzz = true, brotli = true, error_strings = true, subpixel_rendering = true, mmap = true, debug = "trace" }
 
 [publish]

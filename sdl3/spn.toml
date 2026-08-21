@@ -250,16 +250,5 @@ name = "gpu"
 source = [{ path = "example/gpu.c", tree = "manifest" }]
 deps = ["SDL3"]
 
-[[toolchain]]
-name = "native"
-compiler = "clang"
-linker = "clang"
-archiver = "ar"
-driver = "clang"
-cxx = "clang++"
-
 [profile.default]
-toolchain = "native"
-linkage = "shared"
-abi = "gnu"
 options = { x11 = true }
