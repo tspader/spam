@@ -8,7 +8,7 @@ commit = "0bebf8b8c7f07abe3571ded48a11aa907a1ffb20"
 
 [options.threading]
 type = "bool"
-default = false
+default = [{ value = false, when = { os = "windows" } }, { value = true }]
 public = true
 define = "MBEDTLS_THREADING_PTHREAD"
 
@@ -24,6 +24,11 @@ default = false
 public = true
 define = "MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED"
 
+[options.user_config]
+type = "bool"
+default = true
+define = 'MBEDTLS_USER_CONFIG_FILE="spn_mbedtls_user_config.h"'
+
 [options.p256m]
 type = "bool"
 default = false
@@ -35,8 +40,10 @@ kinds = ["static"]
 include = [
   "include",
   "library",
+  { path = "config", tree = "manifest" },
   { path = "3rdparty/everest/include", when = { everest = true } },
 ]
+define = [{ value = "WIN32_LEAN_AND_MEAN", when = { os = "windows" } }]
 source = [
   "library/debug.c",
   "library/mps_reader.c",
@@ -65,8 +72,10 @@ kinds = ["static"]
 include = [
   "include",
   "library",
+  { path = "config", tree = "manifest" },
   { path = "3rdparty/everest/include", when = { everest = true } },
 ]
+define = [{ value = "WIN32_LEAN_AND_MEAN", when = { os = "windows" } }]
 source = [
   "library/pkcs7.c",
   "library/x509.c",
@@ -91,7 +100,9 @@ include = [
   { path = "3rdparty/everest/include/everest/kremlib", when = { everest = true } },
   { path = "3rdparty/p256-m", when = { p256m = true } },
   { path = "3rdparty/p256-m/p256-m", when = { p256m = true } },
+  { path = "config", tree = "manifest" },
 ]
+define = [{ value = "WIN32_LEAN_AND_MEAN", when = { os = "windows" } }]
 source = [
   "library/aes.c",
   "library/aesni.c",
