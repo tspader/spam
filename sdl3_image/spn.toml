@@ -1,0 +1,60 @@
+[package]
+name = "sdl3_image"
+version = "3.5.0"
+author = "libsdl-org"
+maintainer = "tspader"
+include = ["include"]
+
+[package.upstream]
+url = "https://github.com/libsdl-org/SDL_image.git"
+commit = "fbba6503105a077efc9e192cdc2a20dc7a9377ae"
+
+[deps.package]
+sdl3 = "3.4.14"
+
+[[lib]]
+name = "SDL3_image"
+kinds = ["static"]
+source = ["src/*.c"]
+include = ["src"]
+deps = ["sdl3"]
+define = [
+  "SDL_BUILD_MAJOR_VERSION=3",
+  "SDL_BUILD_MINOR_VERSION=5",
+  "SDL_BUILD_MICRO_VERSION=0",
+  "USE_STBIMAGE",
+  "LOAD_ANI",
+  "SAVE_ANI=1",
+  "LOAD_BMP",
+  "SAVE_BMP=1",
+  "LOAD_GIF",
+  "SAVE_GIF=1",
+  "LOAD_JPG",
+  "SAVE_JPG=1",
+  "LOAD_LBM",
+  "LOAD_PCX",
+  "LOAD_PNG",
+  "SAVE_PNG=1",
+  "LOAD_PNM",
+  "LOAD_QOI",
+  "LOAD_SVG",
+  "LOAD_TGA",
+  "SAVE_TGA=1",
+  "LOAD_XCF",
+  "LOAD_XPM",
+  "LOAD_XV",
+  { value = "SDL_IMAGE_USE_COMMON_BACKEND", when = { os = "macos" } },
+]
+flags = [
+  { value = "-fvisibility=hidden", when = { abi = { not = "msvc" } } },
+]
+
+[[example]]
+name = "load"
+source = [{ path = "example/load.c", tree = "manifest" }]
+deps = ["SDL3_image"]
+
+[publish]
+copy = [
+  { from = "source/include/SDL3_image/SDL_image.h", to = "include/SDL3_image/SDL_image.h" },
+]
