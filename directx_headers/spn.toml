@@ -15,7 +15,7 @@ name = "basic"
 source = [{ path = "example/basic.cpp", tree = "manifest" }]
 include = [
   { path = "include/wsl/stubs", when = { os = { not = "windows" } } },
-  { path = "example/mingw", tree = "manifest", when = { os = "windows", abi = "mingw" } },
+  { path = "example/mingw", tree = "manifest", when = { os = "windows", abi = "gnu" } },
 ]
 deps = ["directx_headers"]
 
