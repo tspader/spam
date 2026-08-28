@@ -1,1 +1,4 @@
 /.clangd
+/*/build
+/*/compile_commands.json
+/*/spn.lock
