@@ -1,0 +1,36 @@
+[package]
+name = "sdl3_ttf"
+version = "3.3.0"
+include = ["include"]
+
+[package.upstream]
+url = "https://github.com/libsdl-org/SDL_ttf.git"
+commit = "a42434b8c96daaf7650dbd0befe480c090d1c2eb"
+
+[deps.package]
+sdl3 = "3.4.14"
+freetype = "2.13.2"
+
+[[lib]]
+name = "SDL3_ttf"
+kinds = ["static"]
+source = [
+  "src/SDL_hashtable.c",
+  "src/SDL_hashtable_ttf.c",
+  "src/SDL_gl_textengine.c",
+  "src/SDL_gpu_textengine.c",
+  "src/SDL_renderer_textengine.c",
+  "src/SDL_surface_textengine.c",
+  "src/SDL_ttf.c",
+]
+deps = ["sdl3", "freetype"]
+
+[[example]]
+name = "headless"
+source = [{ path = "example/headless.c", tree = "manifest" }]
+deps = ["SDL3_ttf"]
+
+[publish]
+copy = [
+  { from = "source/include/SDL3_ttf/*", to = "include/SDL3_ttf" },
+]
