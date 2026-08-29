@@ -1,6 +1,6 @@
 [package]
 name = "mbedtls"
-version = "3.6.6"
+version = "3.6.7"
 
 [package.upstream]
 url = "https://github.com/Mbed-TLS/mbedtls.git"
