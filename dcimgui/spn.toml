@@ -32,6 +32,13 @@ default = false
 [deps.package.imgui]
 version = "1.92.8"
 
+# imgui's backend headers include SDL3 headers, and spn only puts direct
+# deps' include dirs on the compile line; declare sdl3 directly until
+# public transitive re-export exists.
+[deps.package.sdl3]
+version = "3.4.14"
+when = { sdl3 = true }
+
 [[lib]]
 name = "dcimgui"
 kinds = ["static", "shared"]
