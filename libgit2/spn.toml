@@ -1,0 +1,495 @@
+[package]
+name = "libgit2"
+version = "1.9.0"
+include = ["include"]
+system_deps = [
+  { lib = "pthread", when = { threads = "pthreads" } },
+  { lib = "ws2_32", when = { os = "windows" } },
+  { lib = "secur32", when = { os = "windows" } },
+  { lib = "ssl", when = { https = "openssl" } },
+  { lib = "crypto", when = { https = "openssl" } },
+  { lib = "crypto", when = { sha1 = "openssl" } },
+  { lib = "crypto", when = { sha1 = "openssl-fips" } },
+  { lib = "crypto", when = { sha256 = "openssl" } },
+  { lib = "crypto", when = { sha256 = "openssl-fips" } },
+  { lib = "dl", when = { https = "openssl-dynamic" } },
+  { lib = "dl", when = { sha1 = "openssl-dynamic" } },
+  { lib = "dl", when = { sha256 = "openssl-dynamic" } },
+  { lib = "winhttp", when = { https = "winhttp" } },
+  { lib = "rpcrt4", when = { https = "winhttp" } },
+  { lib = "crypt32", when = { https = "winhttp" } },
+  { lib = "ole32", when = { https = "winhttp" } },
+  { lib = "rpcrt4", when = { https = "schannel" } },
+  { lib = "crypt32", when = { https = "schannel" } },
+  { lib = "ole32", when = { https = "schannel" } },
+  { lib = "llhttp", when = { http_parser = "llhttp" } },
+  { lib = "http_parser", when = { http_parser = "http-parser" } },
+  { lib = "pcre", when = { regex = "pcre" } },
+  { lib = "pcre2-8", when = { regex = "pcre2" } },
+  { lib = "z", when = { compression = "zlib" } },
+  { lib = "ssh2", when = { ssh = "libssh2" } },
+  { lib = "iconv", when = { i18n = true, os = "macos" } },
+  { lib = "gssapi_krb5", when = { negotiate = "gssapi" } },
+  { lib = "dbghelp", when = { leak_checker = "win32" } },
+]
+
+[package.upstream]
+url = "https://github.com/libgit2/libgit2.git"
+commit = "0551dfd4ad989b6a3d5683c0d4cf326c6efef929"
+
+[deps.package]
+mbedtls = { version = "3.6.6", when = { mbedtls = true } }
+
+[options.threads]
+type = "enum"
+values = ["off", "pthreads", "win32"]
+default = [
+  { value = "win32", when = { os = "windows" } },
+  { value = "pthreads" },
+]
+
+[options.http]
+type = "bool"
+default = true
+
+[options.https]
+type = "enum"
+values = ["off", "openssl", "openssl-dynamic", "mbedtls", "securetransport", "schannel", "winhttp"]
+default = [
+  { value = "off", when = { http = false } },
+  { value = "securetransport", when = { os = "macos" } },
+  { value = "winhttp", when = { os = "windows" } },
+  { value = "mbedtls" },
+]
+
+[options.sha1]
+type = "enum"
+values = ["builtin", "openssl", "openssl-fips", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
+default = "builtin"
+
+[options.sha256]
+type = "enum"
+values = ["builtin", "openssl", "openssl-fips", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
+default = [
+  { value = "openssl", when = { https = "openssl" } },
+  { value = "openssl-dynamic", when = { https = "openssl-dynamic" } },
+  { value = "mbedtls", when = { https = "mbedtls" } },
+  { value = "commoncrypto", when = { https = "securetransport" } },
+  { value = "win32", when = { https = "schannel" } },
+  { value = "win32", when = { https = "winhttp" } },
+  { value = "builtin" },
+]
+
+[options.mbedtls]
+type = "bool"
+default = [
+  { value = true, when = { https = "mbedtls" } },
+  { value = true, when = { sha1 = "mbedtls" } },
+  { value = true, when = { sha256 = "mbedtls" } },
+  { value = false },
+]
+
+[options.http_parser]
+type = "enum"
+values = ["builtin", "llhttp", "http-parser"]
+default = "builtin"
+
+[options.regex]
+type = "enum"
+values = ["builtin", "regcomp", "regcomp_l", "pcre", "pcre2"]
+default = [
+  { value = "regcomp_l", when = { os = "macos" } },
+  { value = "builtin" },
+]
+
+[options.compression]
+type = "enum"
+values = ["builtin", "zlib"]
+default = "builtin"
+
+[options.ssh]
+type = "enum"
+values = ["off", "libssh2", "exec"]
+default = "off"
+
+[options.nsec]
+type = "enum"
+values = ["off", "mtim", "mtimespec", "mtime_nsec", "win32"]
+default = [
+  { value = "win32", when = { os = "windows" } },
+  { value = "mtimespec", when = { os = "macos" } },
+  { value = "mtim" },
+]
+
+[options.i18n]
+type = "bool"
+default = [
+  { value = true, when = { os = "macos" } },
+  { value = false },
+]
+define = "GIT_I18N"
+
+[options.ntlm]
+type = "enum"
+values = ["off", "builtin", "sspi"]
+default = [
+  { value = "off", when = { http = false } },
+  { value = "sspi", when = { os = "windows" } },
+  { value = "off", when = { https = "off" } },
+  { value = "builtin" },
+]
+
+[options.negotiate]
+type = "enum"
+values = ["off", "gssapi", "gssframework", "sspi"]
+default = [
+  { value = "off", when = { http = false } },
+  { value = "sspi", when = { os = "windows" } },
+  { value = "gssframework", when = { os = "macos" } },
+  { value = "off" },
+]
+
+[options.deprecate_hard]
+type = "bool"
+default = false
+public = true
+define = "GIT_DEPRECATE_HARD"
+
+[options.debug_pool]
+type = "bool"
+default = false
+define = "GIT_DEBUG_POOL"
+
+[options.debug_strict_alloc]
+type = "bool"
+default = false
+define = "GIT_DEBUG_STRICT_ALLOC"
+
+[options.debug_strict_open]
+type = "bool"
+default = false
+define = "GIT_DEBUG_STRICT_OPEN"
+
+[options.leak_checker]
+type = "enum"
+values = ["off", "valgrind", "win32"]
+default = "off"
+
+[[lib]]
+name = "git2"
+kinds = ["static"]
+include = [
+  "src/libgit2",
+  "src/util",
+  "deps/reftable",
+  "deps/xdiff",
+  { path = "config", tree = "manifest" },
+  { path = "deps/llhttp", when = { http_parser = "builtin" } },
+  { path = "deps/pcre2", when = { regex = "builtin" } },
+  { path = "deps/zlib", when = { compression = "builtin" } },
+  { path = "deps/ntlmclient", when = { ntlm = "builtin" } },
+  { path = "deps/winhttp", when = { https = "winhttp", abi = "gnu" } },
+]
+source = [
+  "src/libgit2/*.c",
+  "src/libgit2/streams/*.c",
+  "src/libgit2/transports/*.c",
+  "src/util/*.c",
+  "src/util/allocators/*.c",
+  { path = "src/util/unix/*.c", when = { os = { not = "windows" } } },
+  { path = "src/util/win32/*.c", when = { os = "windows" } },
+  { path = "src/util/hash/collisiondetect.c", when = { sha1 = "builtin" } },
+  { path = "src/util/hash/sha1dc/*.c", when = { sha1 = "builtin" } },
+  { path = "src/util/hash/openssl.c", when = { sha1 = "openssl" } },
+  { path = "src/util/hash/openssl.c", when = { sha1 = "openssl-fips" } },
+  { path = "src/util/hash/openssl.c", when = { sha1 = "openssl-dynamic" } },
+  { path = "src/util/hash/mbedtls.c", when = { sha1 = "mbedtls" } },
+  { path = "src/util/hash/common_crypto.c", when = { sha1 = "commoncrypto" } },
+  { path = "src/util/hash/win32.c", when = { sha1 = "win32" } },
+  { path = "src/util/hash/builtin.c", when = { sha256 = "builtin" } },
+  { path = "src/util/hash/rfc6234/*.c", when = { sha256 = "builtin" } },
+  { path = "src/util/hash/openssl.c", when = { sha256 = "openssl" } },
+  { path = "src/util/hash/openssl.c", when = { sha256 = "openssl-fips" } },
+  { path = "src/util/hash/openssl.c", when = { sha256 = "openssl-dynamic" } },
+  { path = "src/util/hash/mbedtls.c", when = { sha256 = "mbedtls" } },
+  { path = "src/util/hash/common_crypto.c", when = { sha256 = "commoncrypto" } },
+  { path = "src/util/hash/win32.c", when = { sha256 = "win32" } },
+  "deps/reftable/*.c",
+  "deps/xdiff/*.c",
+]
+define = [
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+  { value = "_DEBUG", when = { mode = "debug" } },
+  { value = "WIN32", when = { os = "windows" } },
+  { value = "GIT_STATIC", when = { os = "windows" } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = "gnu" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "GIT_THREADS", when = { threads = { not = "off" } } },
+  { value = "GIT_THREADS_PTHREADS", when = { threads = "pthreads" } },
+  { value = "GIT_THREADS_WIN32", when = { threads = "win32" } },
+  { value = "GIT_HTTP", when = { http = true } },
+  { value = "GIT_HTTPS", when = { https = { not = "off" } } },
+  { value = "GIT_HTTPS_OPENSSL", when = { https = "openssl" } },
+  { value = "GIT_HTTPS_OPENSSL_DYNAMIC", when = { https = "openssl-dynamic" } },
+  { value = "GIT_HTTPS_MBEDTLS", when = { https = "mbedtls" } },
+  { value = "GIT_HTTPS_SECURETRANSPORT", when = { https = "securetransport" } },
+  { value = "GIT_HTTPS_SCHANNEL", when = { https = "schannel" } },
+  { value = "GIT_HTTPS_WINHTTP", when = { https = "winhttp" } },
+  { value = "GIT_SHA1_BUILTIN", when = { sha1 = "builtin" } },
+  { value = "SHA1DC_NO_STANDARD_INCLUDES=1", when = { sha1 = "builtin" } },
+  { value = 'SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h"', when = { sha1 = "builtin" } },
+  { value = 'SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h"', when = { sha1 = "builtin" } },
+  { value = "GIT_SHA1_OPENSSL", when = { sha1 = "openssl" } },
+  { value = "GIT_SHA1_OPENSSL_FIPS", when = { sha1 = "openssl-fips" } },
+  { value = "GIT_SHA1_OPENSSL_DYNAMIC", when = { sha1 = "openssl-dynamic" } },
+  { value = "GIT_SHA1_MBEDTLS", when = { sha1 = "mbedtls" } },
+  { value = "GIT_SHA1_COMMON_CRYPTO", when = { sha1 = "commoncrypto" } },
+  { value = "GIT_SHA1_WIN32", when = { sha1 = "win32" } },
+  { value = "GIT_SHA256_BUILTIN", when = { sha256 = "builtin" } },
+  { value = "GIT_SHA256_OPENSSL", when = { sha256 = "openssl" } },
+  { value = "GIT_SHA256_OPENSSL_FIPS", when = { sha256 = "openssl-fips" } },
+  { value = "GIT_SHA256_OPENSSL_DYNAMIC", when = { sha256 = "openssl-dynamic" } },
+  { value = "GIT_SHA256_MBEDTLS", when = { sha256 = "mbedtls" } },
+  { value = "GIT_SHA256_COMMON_CRYPTO", when = { sha256 = "commoncrypto" } },
+  { value = "GIT_SHA256_WIN32", when = { sha256 = "win32" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl-fips" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl-dynamic" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl-fips" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl-dynamic" } },
+  { value = "GIT_HTTPPARSER_BUILTIN", when = { http_parser = "builtin" } },
+  { value = "GIT_HTTPPARSER_LLHTTP", when = { http_parser = "llhttp" } },
+  { value = "GIT_HTTPPARSER_HTTPPARSER", when = { http_parser = "http-parser" } },
+  { value = "GIT_REGEX_BUILTIN", when = { regex = "builtin" } },
+  { value = "PCRE2_STATIC", when = { regex = "builtin" } },
+  { value = "PCRE2_EXPORT=", when = { regex = "builtin" } },
+  { value = "PCRE2_EXP_DECL=", when = { regex = "builtin" } },
+  { value = "PCRE2_EXP_DEFN=", when = { regex = "builtin" } },
+  { value = "GIT_REGEX_REGCOMP", when = { regex = "regcomp" } },
+  { value = "GIT_REGEX_REGCOMP_L", when = { regex = "regcomp_l" } },
+  { value = "GIT_REGEX_PCRE", when = { regex = "pcre" } },
+  { value = "GIT_REGEX_PCRE2", when = { regex = "pcre2" } },
+  { value = "GIT_COMPRESSION_BUILTIN", when = { compression = "builtin" } },
+  { value = "GIT_COMPRESSION_ZLIB", when = { compression = "zlib" } },
+  { value = "GIT_SSH", when = { ssh = { not = "off" } } },
+  { value = "GIT_SSH_LIBSSH2", when = { ssh = "libssh2" } },
+  { value = "GIT_SSH_LIBSSH2_MEMORY_CREDENTIALS", when = { ssh = "libssh2" } },
+  { value = "GIT_SSH_EXEC", when = { ssh = "exec" } },
+  { value = "GIT_NSEC", when = { nsec = { not = "off" } } },
+  { value = "GIT_NSEC_MTIM", when = { nsec = "mtim" } },
+  { value = "GIT_NSEC_MTIMESPEC", when = { nsec = "mtimespec" } },
+  { value = "GIT_NSEC_MTIME_NSEC", when = { nsec = "mtime_nsec" } },
+  { value = "GIT_NSEC_WIN32", when = { nsec = "win32" } },
+  { value = "GIT_I18N_ICONV", when = { i18n = true } },
+  { value = "GIT_AUTH_NTLM", when = { ntlm = { not = "off" } } },
+  { value = "GIT_AUTH_NTLM_BUILTIN", when = { ntlm = "builtin" } },
+  { value = "GIT_AUTH_NTLM_SSPI", when = { ntlm = "sspi" } },
+  { value = "GIT_AUTH_NEGOTIATE", when = { negotiate = { not = "off" } } },
+  { value = "GIT_AUTH_NEGOTIATE_GSSAPI", when = { negotiate = "gssapi" } },
+  { value = "GIT_AUTH_NEGOTIATE_GSSFRAMEWORK", when = { negotiate = "gssframework" } },
+  { value = "GIT_AUTH_NEGOTIATE_SSPI", when = { negotiate = "sspi" } },
+  { value = "VALGRIND", when = { leak_checker = "valgrind" } },
+  { value = "GIT_DEBUG_LEAKCHECK_WIN32", when = { leak_checker = "win32" } },
+]
+flags = [
+  { value = "-idirafter", when = { os = "linux", https = "openssl" } },
+  { value = "/usr/include", when = { os = "linux", https = "openssl" } },
+  { value = "-idirafter", when = { os = "linux", sha1 = "openssl" } },
+  { value = "/usr/include", when = { os = "linux", sha1 = "openssl" } },
+  { value = "-idirafter", when = { os = "linux", sha1 = "openssl-fips" } },
+  { value = "/usr/include", when = { os = "linux", sha1 = "openssl-fips" } },
+  { value = "-idirafter", when = { os = "linux", sha256 = "openssl" } },
+  { value = "/usr/include", when = { os = "linux", sha256 = "openssl" } },
+  { value = "-idirafter", when = { os = "linux", sha256 = "openssl-fips" } },
+  { value = "/usr/include", when = { os = "linux", sha256 = "openssl-fips" } },
+  { value = "-idirafter", when = { os = "linux", http_parser = "llhttp" } },
+  { value = "/usr/include", when = { os = "linux", http_parser = "llhttp" } },
+  { value = "-idirafter", when = { os = "linux", http_parser = "http-parser" } },
+  { value = "/usr/include", when = { os = "linux", http_parser = "http-parser" } },
+  { value = "-idirafter", when = { os = "linux", regex = "pcre" } },
+  { value = "/usr/include", when = { os = "linux", regex = "pcre" } },
+  { value = "-idirafter", when = { os = "linux", regex = "pcre2" } },
+  { value = "/usr/include", when = { os = "linux", regex = "pcre2" } },
+  { value = "-idirafter", when = { os = "linux", compression = "zlib" } },
+  { value = "/usr/include", when = { os = "linux", compression = "zlib" } },
+  { value = "-idirafter", when = { os = "linux", ssh = "libssh2" } },
+  { value = "/usr/include", when = { os = "linux", ssh = "libssh2" } },
+  { value = "-idirafter", when = { os = "linux", negotiate = "gssapi" } },
+  { value = "/usr/include", when = { os = "linux", negotiate = "gssapi" } },
+]
+deps = [
+  { pkg = "mbedtls", when = { mbedtls = true } },
+  # @spader Does this work? Internally, how do we know git2_llhttp is a library?
+  { pkg = "git2_llhttp", when = { http_parser = "builtin" } },
+  { pkg = "git2_pcre2", when = { regex = "builtin" } },
+  { pkg = "git2_zlib", when = { compression = "builtin" } },
+  { pkg = "git2_ntlmclient", when = { ntlm = "builtin" } },
+]
+
+[lib.macos]
+frameworks = ["CoreFoundation", "Security", "GSS"]
+
+[[lib]]
+name = "git2_llhttp"
+kinds = ["static"]
+include = ["deps/llhttp"]
+source = [{ path = "deps/llhttp/*.c", when = { http_parser = "builtin" } }]
+define = [
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+  { value = "_DEBUG", when = { mode = "debug" } },
+  { value = "WIN32", when = { os = "windows" } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = "gnu" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+]
+
+[[lib]]
+name = "git2_pcre2"
+kinds = ["static"]
+include = [
+  "deps/pcre2",
+  { path = "config/pcre2", tree = "manifest" },
+]
+source = [
+  { path = "deps/pcre2/pcre2_auto_possess.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_chartables.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_chkdint.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_compile.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_compile_cgroup.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_compile_class.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_config.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_context.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_convert.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_dfa_match.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_error.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_extuni.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_find_bracket.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_maketables.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_match.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_match_data.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_match_next.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_newline.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_ord2utf.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_pattern_info.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_script_run.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_serialize.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_string_utils.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_study.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_substitute.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_substring.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_tables.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_ucd.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_valid_utf.c", when = { regex = "builtin" } },
+  { path = "deps/pcre2/pcre2_xclass.c", when = { regex = "builtin" } },
+]
+define = [
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+  { value = "_DEBUG", when = { mode = "debug" } },
+  { value = "WIN32", when = { os = "windows" } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = "gnu" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+  "HAVE_CONFIG_H",
+  "PCRE2_CODE_UNIT_WIDTH=8",
+  "PCRE2_STATIC",
+  "PCRE2_EXPORT=",
+  "PCRE2_EXP_DECL=",
+  "PCRE2_EXP_DEFN=",
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+]
+
+[[lib]]
+name = "git2_zlib"
+kinds = ["static"]
+include = ["deps/zlib"]
+source = [{ path = "deps/zlib/*.c", when = { compression = "builtin" } }]
+define = [
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+  { value = "_DEBUG", when = { mode = "debug" } },
+  { value = "WIN32", when = { os = "windows" } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = "gnu" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+  "NO_VIZ",
+  "STDC",
+  "NO_GZIP",
+  "HAVE_SYS_TYPES_H",
+  "HAVE_STDINT_H",
+  "HAVE_STDDEF_H",
+  { value = "Z_HAVE_UNISTD_H", when = { os = "windows", abi = "gnu" } },
+  { value = "_LFS64_LARGEFILE", when = { os = "windows", abi = "gnu" } },
+  { value = "_LARGEFILE64_SOURCE=1", when = { os = "windows", abi = "gnu" } },
+]
+
+[[lib]]
+name = "git2_ntlmclient"
+kinds = ["static"]
+include = ["deps/ntlmclient"]
+source = [
+  { path = "deps/ntlmclient/ntlm.c", when = { ntlm = "builtin" } },
+  { path = "deps/ntlmclient/util.c", when = { ntlm = "builtin" } },
+  { path = "deps/ntlmclient/unicode_builtin.c", when = { ntlm = "builtin" } },
+  { path = "deps/ntlmclient/crypt_commoncrypto.c", when = { ntlm = "builtin", https = "securetransport" } },
+  { path = "deps/ntlmclient/crypt_openssl.c", when = { ntlm = "builtin", https = "openssl" } },
+  { path = "deps/ntlmclient/crypt_openssl.c", when = { ntlm = "builtin", https = "openssl-dynamic" } },
+  { path = "deps/ntlmclient/crypt_mbedtls.c", when = { ntlm = "builtin", https = "mbedtls" } },
+  { path = "deps/ntlmclient/crypt_builtin_md4.c", when = { ntlm = "builtin", https = "mbedtls" } },
+]
+define = [
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+  { value = "_DEBUG", when = { mode = "debug" } },
+  { value = "WIN32", when = { os = "windows" } },
+  { value = "__USE_MINGW_ANSI_STDIO=1", when = { os = "windows", abi = "gnu" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+  "NTLM_STATIC=1",
+  "UNICODE_BUILTIN=1",
+  { value = "CRYPT_COMMONCRYPTO", when = { https = "securetransport" } },
+  { value = "CRYPT_OPENSSL", when = { https = "openssl" } },
+  { value = "CRYPT_OPENSSL", when = { https = "openssl-dynamic" } },
+  { value = "CRYPT_OPENSSL_DYNAMIC", when = { https = "openssl-dynamic" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { https = "openssl" } },
+  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { https = "openssl-dynamic" } },
+  { value = "CRYPT_MBEDTLS", when = { https = "mbedtls" } },
+]
+flags = [
+  { value = "-idirafter", when = { os = "linux", https = "openssl" } },
+  { value = "/usr/include", when = { os = "linux", https = "openssl" } },
+]
+deps = [
+  { pkg = "mbedtls", when = { https = "mbedtls" } },
+]
+
+[[example]]
+name = "init"
+source = [{ path = "example/init.c", tree = "manifest" }]
+deps = ["git2"]
+
+[[example]]
+name = "lg2"
+source = ["examples/*.c"]
+define = [
+  "GIT_DEPRECATE_HARD",
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+]
+deps = ["git2"]
+
+[publish]
+copy = [
+  { from = "source/include/git2.h", to = "include" },
+  { from = "source/include/git2/*", to = "include/git2" },
+  { from = "source/include/git2/sys/*", to = "include/git2/sys" },
+]
