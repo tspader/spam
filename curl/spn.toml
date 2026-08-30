@@ -1,6 +1,6 @@
 [package]
 name = "curl"
-version = "8.19.0"
+version = "8.19.1"
 author = "curl"
 maintainer = "tspader"
 include = ["include"]

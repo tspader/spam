@@ -1,6 +1,6 @@
 [package]
 name = "sdl3"
-version = "3.4.14"
+version = "3.4.15"
 system_deps = [
   { lib = "m", when = { os = "linux" } },
   { lib = "dl", when = { os = "linux" } },

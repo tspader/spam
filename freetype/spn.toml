@@ -1,6 +1,6 @@
 [package]
 name = "freetype"
-version = "2.13.2"
+version = "2.13.3"
 system_deps = [
   { lib = "z", when = { zlib = "system" } },
   { lib = "bz2", when = { bzip2 = true } },
