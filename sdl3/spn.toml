@@ -119,7 +119,7 @@ source = [
   "src/video/offscreen/*.c",
   "src/video/yuv2rgb/*.c",
 
-  { path = "src/gpu/vulkan/*.c", when = { os = { not = "macos" } } },
+  "src/gpu/vulkan/*.c",
 
   { path = "src/camera/v4l2/*.c", when = { os = "linux" } },
   { path = "src/core/unix/*.c", when = { os = "linux" } },
@@ -238,6 +238,25 @@ flags = [
   { value = "/usr/lib/dbus-1.0/include", when = { os = "linux", dbus = true } },
   { value = "-idirafter", when = { os = "linux", dbus = true } },
   { value = "/usr/lib/x86_64-linux-gnu/dbus-1.0/include", when = { os = "linux", dbus = true } },
+]
+
+[lib.macos]
+frameworks = [
+  "AVFoundation",
+  "AudioToolbox",
+  "Carbon",
+  "Cocoa",
+  "CoreAudio",
+  "CoreFoundation",
+  "CoreHaptics",
+  "CoreMedia",
+  "CoreVideo",
+  "ForceFeedback",
+  "GameController",
+  "IOKit",
+  "Metal",
+  "QuartzCore",
+  "UniformTypeIdentifiers",
 ]
 
 [[example]]
