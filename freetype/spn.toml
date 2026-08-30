@@ -182,7 +182,7 @@ source = [{ path = "example/formats.c", tree = "manifest" }]
 deps = ["freetype"]
 
 [profile.default]
-options = { zlib = "system", bzip2 = true, png = true, harfbuzz = true, brotli = true, error_strings = true, subpixel_rendering = true, mmap = true, debug = "trace" }
+options = { zlib = "system", bzip2 = false, png = false, harfbuzz = false, brotli = false, error_strings = true, subpixel_rendering = true, mmap = true, debug = "trace" }
 
 [publish]
 copy = [
