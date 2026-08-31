@@ -1,0 +1,35 @@
+[package]
+name = "qrcodegen"
+version = "1.8.0"
+author = "nayuki"
+maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/nayuki/QR-Code-generator.git"
+commit = "720f62bddb7226106071d4728c292cb1df519ceb"
+
+[[lib]]
+name = "qrcodegen"
+kinds = ["static"]
+include = ["c"]
+source = ["c/qrcodegen.c"]
+
+[[test]]
+name = "qrcodegen"
+source = ["c/qrcodegen-test.c", "c/qrcodegen.c"]
+define = ["QRCODEGEN_TEST"]
+
+[[example]]
+name = "demo"
+source = ["c/qrcodegen-demo.c"]
+deps = ["qrcodegen"]
+
+[[example]]
+name = "print"
+source = [{ path = "example/print.c", tree = "manifest" }]
+deps = ["qrcodegen"]
+
+[publish]
+copy = [
+  { from = "source/c/qrcodegen.h", to = "include" },
+]
