@@ -6,6 +6,10 @@ static const c8* SDL_BUILD_CONFIG =
   "#include <SDL3/SDL_platform_defines.h>\n"
   "#if defined(SDL_PLATFORM_WIN32)\n"
   "#include \"SDL_build_config_windows.h\"\n"
+  "#if defined(__has_include) && !__has_include(<windows.gaming.input.h>)\n"
+  "#undef HAVE_WINDOWS_GAMING_INPUT_H\n"
+  "#undef SDL_JOYSTICK_WGI\n"
+  "#endif\n"
   "#elif defined(SDL_PLATFORM_MACOS)\n"
   "#include \"SDL_build_config_macos.h\"\n"
   "#elif defined(SDL_PLATFORM_LINUX)\n"
@@ -301,6 +305,9 @@ spn_err_t configure(spn_t* spn, spn_config_t* config) {
   spn_node_t* headers = spn_add_node(config, "headers");
   spn_node_set_fn(headers, "stage_headers");
   spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "config/SDL_build_config.h"));
+  spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "config/SDL_build_config_spn.h"));
+  spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "config/SDL_build_config_windows.h"));
+  spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "config/SDL_build_config_macos.h"));
 
   return SPN_OK;
 }

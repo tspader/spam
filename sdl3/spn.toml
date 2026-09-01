@@ -1,6 +1,6 @@
 [package]
 name = "sdl3"
-version = "3.4.15"
+version = "3.4.16"
 system_deps = [
   { lib = "m", when = { os = "linux" } },
   { lib = "dl", when = { os = "linux" } },
@@ -182,6 +182,9 @@ source = [
   { path = "src/timer/windows/*.c", when = { os = "windows" } },
   { path = "src/tray/windows/*.c", when = { os = "windows" } },
   { path = "src/video/windows/*.c", when = { os = "windows" } },
+  { path = "src/core/windows/*.cpp", when = { os = "windows" } },
+  { path = "src/video/windows/*.cpp", when = { os = "windows" } },
+  { path = "src/joystick/gdk/*.cpp", when = { os = "windows" } },
 
   { path = "src/audio/coreaudio/*.m", when = { os = "macos" } },
   { path = "src/camera/coremedia/*.m", when = { os = "macos" } },
