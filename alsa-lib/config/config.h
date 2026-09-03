@@ -77,7 +77,7 @@
 
 /* Define to 1 if you have the declaration of 'closefrom', and to 0 if you
    don't. */
-#ifdef __GLIBC__
+#if defined(__GLIBC__) && __GLIBC_PREREQ(2, 34)
 #define HAVE_DECL_CLOSEFROM 1
 #else
 #define HAVE_DECL_CLOSEFROM 0
