@@ -1,0 +1,71 @@
+[package]
+name = "luajit"
+version = "2.1.0"
+author = "Mike Pall"
+maintainer = "tspader"
+system_deps = [
+  { lib = "m", when = { os = "linux" } },
+  { lib = "dl", when = { os = "linux" } },
+  { lib = "unwind", when = { os = "linux", unwind = true } },
+]
+
+[package.upstream]
+url = "https://github.com/LuaJIT/LuaJIT.git"
+commit = "b925b3e3fc6771171602323b45fbe9fb8fc90369"
+
+[options.unwind]
+type = "bool"
+default = [{ value = false, when = { os = "windows" } }, { value = true }]
+
+[[lib]]
+name = "luajit"
+kinds = ["static", "shared"]
+include = [
+  "src",
+  { path = "gen", tree = "manifest" },
+  { path = "gen/x86_64-linux", tree = "manifest", when = { os = "linux", arch = "x86_64" } },
+  { path = "gen/aarch64-macos", tree = "manifest", when = { os = "macos", arch = "aarch64" } },
+]
+source = [
+  "src/lj_*.c",
+  "src/lib_*.c",
+  { path = "gen/x86_64-linux/lj_vm.S", tree = "manifest", when = { os = "linux", arch = "x86_64" } },
+  { path = "gen/aarch64-macos/lj_vm.S", tree = "manifest", when = { os = "macos", arch = "aarch64" } },
+]
+define = [
+  { value = "LUAJIT_UNWIND_EXTERNAL", when = { unwind = true } },
+  { value = "_GNU_SOURCE", when = { os = "linux" } },
+  { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
+  { value = "_LARGEFILE_SOURCE", when = { os = { not = "windows" } } },
+]
+flags = [
+  "-fno-stack-protector",
+  "-fomit-frame-pointer",
+  "-U_FORTIFY_SOURCE",
+  { value = "-fno-sanitize=undefined", when = { abi = { not = "msvc" } } },
+]
+
+[[bin]]
+name = "luajit"
+source = ["src/luajit.c"]
+include = ["src", { path = "gen", tree = "manifest" }]
+define = [{ value = "_GNU_SOURCE", when = { os = "linux" } }]
+deps = ["luajit"]
+
+[[example]]
+name = "embed"
+source = [{ path = "example/embed.c", tree = "manifest" }]
+include = [{ path = "gen", tree = "manifest" }]
+deps = ["luajit"]
+
+[profile.default]
+linkage = "shared"
+
+[publish]
+copy = [
+  { from = "source/src/lua.h", to = "include" },
+  { from = "source/src/luaconf.h", to = "include" },
+  { from = "source/src/lualib.h", to = "include" },
+  { from = "source/src/lauxlib.h", to = "include" },
+  { from = "source/src/lua.hpp", to = "include" },
+]
