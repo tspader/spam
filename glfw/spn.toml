@@ -1,0 +1,121 @@
+[package]
+name = "glfw"
+version = "3.4.0"
+author = "elmindreda"
+maintainer = "tspader"
+system_deps = [
+  { lib = "m", when = { os = "linux" } },
+  { lib = "pthread", when = { os = "linux" } },
+  { lib = "dl", when = { os = "linux" } },
+  { lib = "gdi32", when = { os = "windows" } },
+  { lib = "user32", when = { os = "windows" } },
+  { lib = "shell32", when = { os = "windows" } },
+]
+
+[package.upstream]
+url = "https://github.com/glfw/glfw.git"
+commit = "7b6aead9fb88b3623e3b3725ebb42670cbe4c579"
+
+[options.x11]
+type = "bool"
+default = [{ value = true, when = { os = "linux" } }, { value = false }]
+
+[[lib]]
+name = "glfw"
+kinds = ["static", "shared"]
+include = ["include", "src"]
+source = [
+  "src/context.c",
+  "src/init.c",
+  "src/input.c",
+  "src/monitor.c",
+  "src/platform.c",
+  "src/vulkan.c",
+  "src/window.c",
+  "src/egl_context.c",
+  "src/osmesa_context.c",
+  "src/null_init.c",
+  "src/null_monitor.c",
+  "src/null_window.c",
+  "src/null_joystick.c",
+  { path = "src/posix_module.c", when = { os = { not = "windows" } } },
+  { path = "src/posix_thread.c", when = { os = { not = "windows" } } },
+  { path = "src/posix_time.c", when = { os = "linux" } },
+  { path = "src/posix_poll.c", when = { os = "linux", x11 = true } },
+  { path = "src/linux_joystick.c", when = { os = "linux", x11 = true } },
+  { path = "src/x11_init.c", when = { os = "linux", x11 = true } },
+  { path = "src/x11_monitor.c", when = { os = "linux", x11 = true } },
+  { path = "src/x11_window.c", when = { os = "linux", x11 = true } },
+  { path = "src/xkb_unicode.c", when = { os = "linux", x11 = true } },
+  { path = "src/glx_context.c", when = { os = "linux", x11 = true } },
+  { path = "src/win32_module.c", when = { os = "windows" } },
+  { path = "src/win32_time.c", when = { os = "windows" } },
+  { path = "src/win32_thread.c", when = { os = "windows" } },
+  { path = "src/win32_init.c", when = { os = "windows" } },
+  { path = "src/win32_joystick.c", when = { os = "windows" } },
+  { path = "src/win32_monitor.c", when = { os = "windows" } },
+  { path = "src/win32_window.c", when = { os = "windows" } },
+  { path = "src/wgl_context.c", when = { os = "windows" } },
+  { path = "src/cocoa_time.c", when = { os = "macos" } },
+  { path = "src/cocoa_init.m", when = { os = "macos" } },
+  { path = "src/cocoa_joystick.m", when = { os = "macos" } },
+  { path = "src/cocoa_monitor.m", when = { os = "macos" } },
+  { path = "src/cocoa_window.m", when = { os = "macos" } },
+  { path = "src/nsgl_context.m", when = { os = "macos" } },
+]
+define = [
+  { value = "_GLFW_X11", when = { os = "linux", x11 = true } },
+  { value = "_DEFAULT_SOURCE", when = { os = "linux" } },
+  { value = "_GLFW_WIN32", when = { os = "windows" } },
+  { value = "UNICODE", when = { os = "windows" } },
+  { value = "_UNICODE", when = { os = "windows" } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
+  { value = "_GLFW_COCOA", when = { os = "macos" } },
+]
+flags = [
+  { value = "-idirafter", when = { os = "linux", x11 = true } },
+  { value = "/usr/include", when = { os = "linux", x11 = true } },
+]
+
+[lib.macos]
+frameworks = ["Cocoa", "IOKit", "CoreFoundation", "QuartzCore"]
+
+[[example]]
+name = "window"
+source = [{ path = "example/window.c", tree = "manifest" }]
+deps = ["glfw"]
+
+[[example]]
+name = "triangle"
+source = ["examples/triangle-opengl.c"]
+include = ["deps"]
+deps = ["glfw"]
+
+[[example]]
+name = "gears"
+source = ["examples/gears.c"]
+include = ["deps"]
+define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+deps = ["glfw"]
+
+[[example]]
+name = "boing"
+source = ["examples/boing.c"]
+include = ["deps"]
+define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+deps = ["glfw"]
+
+[[example]]
+name = "wave"
+source = ["examples/wave.c"]
+include = ["deps"]
+define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+deps = ["glfw"]
+
+[profile.default]
+linkage = "shared"
+
+[publish]
+copy = [
+  { from = "source/include/GLFW/*.h", to = "include/GLFW" },
+]
