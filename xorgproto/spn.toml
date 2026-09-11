@@ -1,0 +1,18 @@
+[package]
+name = "xorgproto"
+version = "2025.1.0"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/proto/xorgproto.git"
+commit = "c18d2bc22813793bba7f0e4e603c0104d7724802"
+
+[publish]
+copy = [
+  { from = "source/include/GL/*.h", to = "include/GL" },
+  { from = "source/include/GL/internal/*.h", to = "include/GL/internal" },
+  { from = "source/include/X11/*.h", to = "include/X11" },
+  { from = "source/include/X11/PM/*.h", to = "include/X11/PM" },
+  { from = "source/include/X11/dri/*.h", to = "include/X11/dri" },
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+  { from = "source/include/X11/fonts/*.h", to = "include/X11/fonts" },
+]

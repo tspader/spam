@@ -1,0 +1,13 @@
+[package]
+name = "libx11"
+version = "1.8.13"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libx11.git"
+commit = "6c75545a1deb51f5903992c52af6bc35cc9bc103"
+
+[publish]
+copy = [
+  { from = "source/include/X11/*.h", to = "include/X11" },
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

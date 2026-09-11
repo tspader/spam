@@ -1,0 +1,12 @@
+[package]
+name = "libxtst"
+version = "1.2.5"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxtst.git"
+commit = "abf3ff74b97c4231d2324d66318bfa1d22e44913"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

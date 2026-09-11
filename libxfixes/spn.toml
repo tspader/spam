@@ -1,0 +1,12 @@
+[package]
+name = "libxfixes"
+version = "6.0.2"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxfixes.git"
+commit = "70d5b0e37f8a759f3dbc218f22954347ceed094a"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

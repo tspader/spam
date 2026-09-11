@@ -6,6 +6,11 @@ version = "1.16.99"
 url = "https://gitlab.freedesktop.org/dbus/dbus.git"
 commit = "f64ae3cafdcf31606401171bb0e8fe3fccc761c2"
 
+[publish]
+copy = [
+  { from = "source/dbus/*.h", to = "include/dbus" },
+]
+
 [[example]]
 name = "version"
 source = [{ path = "example/version.c", tree = "manifest" }]

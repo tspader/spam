@@ -1,0 +1,18 @@
+[package]
+name = "libglvnd"
+version = "1.7.0"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/glvnd/libglvnd.git"
+commit = "faa23f21fc677af5792825dc30cb1ccef4bf33a6"
+
+[publish]
+copy = [
+  { from = "source/include/EGL/*.h", to = "include/EGL" },
+  { from = "source/include/GL/*.h", to = "include/GL" },
+  { from = "source/include/GLES/*.h", to = "include/GLES" },
+  { from = "source/include/GLES2/*.h", to = "include/GLES2" },
+  { from = "source/include/GLES3/*.h", to = "include/GLES3" },
+  { from = "source/include/KHR/*.h", to = "include/KHR" },
+  { from = "source/include/glvnd/*.h", to = "include/glvnd" },
+]

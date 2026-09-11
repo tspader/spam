@@ -282,11 +282,6 @@ s32 stage_headers(spn_t* spn) {
 }
 
 SPN_EXPORT
-s32 package(spn_t* spn) {
-  return spn_copy(spn, SPN_DIR_SOURCE, "include/SDL3/*.h", SPN_DIR_INCLUDE, "SDL3");
-}
-
-SPN_EXPORT
 spn_err_t configure(spn_t* spn, spn_config_t* config) {
   const c8* staged = spn_get_subdir(spn, SPN_DIR_WORK, "config");
 

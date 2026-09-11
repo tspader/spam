@@ -30,8 +30,11 @@ s32 stage_headers(spn_t* spn) {
 }
 
 SPN_EXPORT
-s32 package(spn_t* spn) {
-  return spn_copy(spn, SPN_DIR_WORK, "public/alsa/*", SPN_DIR_INCLUDE, "alsa");
+s32 publish_headers(spn_t* spn) {
+  if (spn_copy(spn, SPN_DIR_MANIFEST, "config/version.h", SPN_DIR_INCLUDE, "alsa/version.h")) {
+    return 1;
+  }
+  return spn_copy(spn, SPN_DIR_MANIFEST, "config/asoundlib.h", SPN_DIR_INCLUDE, "alsa/asoundlib.h");
 }
 
 SPN_EXPORT
@@ -52,6 +55,13 @@ spn_err_t configure(spn_t* spn, spn_config_t* config) {
   spn_node_add_input(headers, spn_get_subdir(spn, SPN_DIR_MANIFEST, "config/ctl_symbols_list.c"));
   spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "private/config.h"));
   spn_node_add_output(headers, spn_get_subdir(spn, SPN_DIR_WORK, "public/alsa/asoundlib.h"));
+
+  spn_node_t* publish = spn_add_node(config, "publish");
+  spn_node_set_fn(publish, "publish_headers");
+  spn_node_add_input(publish, spn_get_subdir(spn, SPN_DIR_MANIFEST, "config/version.h"));
+  spn_node_add_input(publish, spn_get_subdir(spn, SPN_DIR_MANIFEST, "config/asoundlib.h"));
+  spn_node_add_output(publish, spn_get_subdir(spn, SPN_DIR_INCLUDE, "alsa/version.h"));
+  spn_node_add_output(publish, spn_get_subdir(spn, SPN_DIR_INCLUDE, "alsa/asoundlib.h"));
 
   return SPN_OK;
 }

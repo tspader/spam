@@ -1,0 +1,12 @@
+[package]
+name = "libxrandr"
+version = "1.5.5"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxrandr.git"
+commit = "540c3ceef2be3e513b18002a858c7a9591dd749a"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

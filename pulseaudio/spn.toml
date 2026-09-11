@@ -1,0 +1,7 @@
+[package]
+name = "pulseaudio"
+version = "17.0.0"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
+commit = "1f020889c9aa44ea0f63d7222e8c2b62c3f45f68"

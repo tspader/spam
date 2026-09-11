@@ -1,0 +1,12 @@
+[package]
+name = "systemd"
+version = "261.3.0"
+
+[package.upstream]
+url = "https://github.com/systemd/systemd.git"
+commit = "3255daee1572366b74fe92f002a3d60ecbb27103"
+
+[publish]
+copy = [
+  { from = "source/src/libudev/libudev.h", to = "include" },
+]

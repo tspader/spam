@@ -1,0 +1,12 @@
+[package]
+name = "libxi"
+version = "1.8.3"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxi.git"
+commit = "f00f7e9140b4707775331950dd67851e55058c40"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

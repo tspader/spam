@@ -1,0 +1,8 @@
+[package]
+name = "libxcb"
+version = "1.17.0"
+
+[publish]
+copy = [
+  { from = "source/gen/*.h", to = "include/xcb" },
+]

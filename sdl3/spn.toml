@@ -1,6 +1,6 @@
 [package]
 name = "sdl3"
-version = "3.4.16"
+version = "3.4.14"
 system_deps = [
   { lib = "m", when = { os = "linux" } },
   { lib = "dl", when = { os = "linux" } },
@@ -22,6 +22,25 @@ system_deps = [
 [package.upstream]
 url = "https://github.com/libsdl-org/SDL.git"
 commit = "147a8ee32dbf9ac02f3794964490687b6bbda1bc"
+
+[deps.package]
+xorgproto = { version = "2025.1.0", when = { os = "linux", x11 = true } }
+libx11 = { version = "1.8.13", when = { os = "linux", x11 = true } }
+libxext = { version = "1.3.7", when = { os = "linux", x11 = true } }
+libxcursor = { version = "1.2.3", when = { os = "linux", x11 = true } }
+libxfixes = { version = "6.0.2", when = { os = "linux", x11 = true } }
+libxi = { version = "1.8.3", when = { os = "linux", x11 = true } }
+libxrandr = { version = "1.5.5", when = { os = "linux", x11 = true } }
+libxrender = { version = "0.9.12", when = { os = "linux", x11 = true } }
+libxscrnsaver = { version = "1.2.5", when = { os = "linux", x11 = true } }
+libxtst = { version = "1.2.5", when = { os = "linux", x11 = true } }
+libglvnd = { version = "1.7.0", when = { os = "linux", x11 = true } }
+libxcb = { version = "1.17.0", when = { os = "linux", x11 = true } }
+alsa-lib = { version = "1.2.15", when = { os = "linux", alsa = true } }
+pulseaudio = { version = "17.0.0", when = { os = "linux", pulseaudio = true } }
+pipewire = { version = "1.6.8", when = { os = "linux", pipewire = true } }
+dbus = { version = "1.16.99", when = { os = "linux", dbus = true } }
+systemd = { version = "261.3.0", when = { os = "linux", udev = true } }
 
 [options.x11]
 type = "bool"
@@ -218,29 +237,7 @@ flags = [
   { value = "-msse", when = { arch = "x86_64" } },
   { value = "-msse2", when = { arch = "x86_64" } },
   { value = "-msse3", when = { arch = "x86_64" } },
-  # STRICTLY A HACK. DO NOT USE THIS PATTERN.
-  #
-  # Just to get it building; the real solution is proper packages for
-  # e.g. X11 headers.
   { value = "-fobjc-arc", when = { os = "macos" } },
-  { value = "-idirafter", when = { os = "linux", x11 = true } },
-  { value = "/usr/include", when = { os = "linux", x11 = true } },
-  { value = "-idirafter", when = { os = "linux", alsa = true } },
-  { value = "/usr/include", when = { os = "linux", alsa = true } },
-  { value = "-idirafter", when = { os = "linux", pulseaudio = true } },
-  { value = "/usr/include", when = { os = "linux", pulseaudio = true } },
-  { value = "-idirafter", when = { os = "linux", pipewire = true } },
-  { value = "/usr/include/pipewire-0.3", when = { os = "linux", pipewire = true } },
-  { value = "-idirafter", when = { os = "linux", pipewire = true } },
-  { value = "/usr/include/spa-0.2", when = { os = "linux", pipewire = true } },
-  { value = "-idirafter", when = { os = "linux", udev = true } },
-  { value = "/usr/include", when = { os = "linux", udev = true } },
-  { value = "-idirafter", when = { os = "linux", dbus = true } },
-  { value = "/usr/include/dbus-1.0", when = { os = "linux", dbus = true } },
-  { value = "-idirafter", when = { os = "linux", dbus = true } },
-  { value = "/usr/lib/dbus-1.0/include", when = { os = "linux", dbus = true } },
-  { value = "-idirafter", when = { os = "linux", dbus = true } },
-  { value = "/usr/lib/x86_64-linux-gnu/dbus-1.0/include", when = { os = "linux", dbus = true } },
 ]
 
 [lib.macos]
@@ -260,6 +257,11 @@ frameworks = [
   "Metal",
   "QuartzCore",
   "UniformTypeIdentifiers",
+]
+
+[publish]
+copy = [
+  { from = "source/include/SDL3/*.h", to = "include/SDL3" },
 ]
 
 [[example]]

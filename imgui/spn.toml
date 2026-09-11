@@ -25,6 +25,8 @@ default = false
 [deps.package]
 sdl2 = { version = "^2.30.0", when = { sdl2 = true } }
 sdl3 = { version = "3.4.14", when = { sdl3 = true } }
+xorgproto = { version = "2025.1.0", when = { sdl2 = true, os = "linux" } }
+libx11 = { version = "1.8.13", when = { sdl2 = true, os = "linux" } }
 
 [[lib]]
 name = "imgui"
@@ -39,10 +41,6 @@ source = [
   { path = "backends/imgui_impl_opengl3.cpp", when = { opengl3 = true } },
   { path = "backends/imgui_impl_sdl3.cpp", when = { sdl3 = true } },
   { path = "backends/imgui_impl_sdlgpu3.cpp", when = { sdlgpu3 = true } },
-]
-flags = [
-  { value = "-idirafter", when = { sdl2 = true, os = "linux" } },
-  { value = "/usr/include", when = { sdl2 = true, os = "linux" } },
 ]
 system_deps = [
   { value = "dl", when = { opengl3 = true, os = "linux" } },

@@ -1,0 +1,12 @@
+[package]
+name = "libxscrnsaver"
+version = "1.2.5"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
+commit = "60c957ba8a727d01b376da0142aef7e18aa86fe1"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]

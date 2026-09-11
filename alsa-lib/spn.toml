@@ -121,6 +121,13 @@ source = [
 ]
 flags = ["-std=gnu17"]
 
+[publish]
+copy = [
+  { from = "source/include/*.h", to = "include/alsa" },
+  { from = "source/include/sound/*.h", to = "include/alsa/sound" },
+  { from = "source/include/sound/uapi/*.h", to = "include/alsa/sound/uapi" },
+]
+
 [[example]]
 name = "devices"
 source = [{ path = "example/devices.c", tree = "manifest" }]

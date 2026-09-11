@@ -1,0 +1,26 @@
+[package]
+name = "pipewire"
+version = "1.6.8"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/pipewire/pipewire.git"
+commit = "b741e0c74f5436f0c925f7741140db0efd32cf4e"
+
+[publish]
+copy = [
+  { from = "source/spa/include/spa/buffer/*.h", to = "include/spa/buffer" },
+  { from = "source/spa/include/spa/control/*.h", to = "include/spa/control" },
+  { from = "source/spa/include/spa/debug/*.h", to = "include/spa/debug" },
+  { from = "source/spa/include/spa/filter-graph/*.h", to = "include/spa/filter-graph" },
+  { from = "source/spa/include/spa/graph/*.h", to = "include/spa/graph" },
+  { from = "source/spa/include/spa/interfaces/audio/*.h", to = "include/spa/interfaces/audio" },
+  { from = "source/spa/include/spa/monitor/*.h", to = "include/spa/monitor" },
+  { from = "source/spa/include/spa/node/*.h", to = "include/spa/node" },
+  { from = "source/spa/include/spa/param/*.h", to = "include/spa/param" },
+  { from = "source/spa/include/spa/param/audio/*.h", to = "include/spa/param/audio" },
+  { from = "source/spa/include/spa/param/bluetooth/*.h", to = "include/spa/param/bluetooth" },
+  { from = "source/spa/include/spa/param/video/*.h", to = "include/spa/param/video" },
+  { from = "source/spa/include/spa/pod/*.h", to = "include/spa/pod" },
+  { from = "source/spa/include/spa/support/*.h", to = "include/spa/support" },
+  { from = "source/spa/include/spa/utils/*.h", to = "include/spa/utils" },
+]

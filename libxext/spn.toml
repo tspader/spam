@@ -1,0 +1,12 @@
+[package]
+name = "libxext"
+version = "1.3.7"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxext.git"
+commit = "2a694ba264ccdb205909909abfe8b136f9156ebe"
+
+[publish]
+copy = [
+  { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
+]
