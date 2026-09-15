@@ -5,3 +5,38 @@ version = "17.0.0"
 [package.upstream]
 url = "https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
 commit = "1f020889c9aa44ea0f63d7222e8c2b62c3f45f68"
+
+[publish]
+copy = [
+  { from = "source/src/pulse/cdecl.h", to = "include/pulse/cdecl.h" },
+  { from = "source/src/pulse/channelmap.h", to = "include/pulse/channelmap.h" },
+  { from = "source/src/pulse/context.h", to = "include/pulse/context.h" },
+  { from = "source/src/pulse/def.h", to = "include/pulse/def.h" },
+  { from = "source/src/pulse/direction.h", to = "include/pulse/direction.h" },
+  { from = "source/src/pulse/error.h", to = "include/pulse/error.h" },
+  { from = "source/src/pulse/ext-device-manager.h", to = "include/pulse/ext-device-manager.h" },
+  { from = "source/src/pulse/ext-device-restore.h", to = "include/pulse/ext-device-restore.h" },
+  { from = "source/src/pulse/ext-stream-restore.h", to = "include/pulse/ext-stream-restore.h" },
+  { from = "source/src/pulse/format.h", to = "include/pulse/format.h" },
+  { from = "source/src/pulse/gccmacro.h", to = "include/pulse/gccmacro.h" },
+  { from = "source/src/pulse/introspect.h", to = "include/pulse/introspect.h" },
+  { from = "source/src/pulse/mainloop-api.h", to = "include/pulse/mainloop-api.h" },
+  { from = "source/src/pulse/mainloop-signal.h", to = "include/pulse/mainloop-signal.h" },
+  { from = "source/src/pulse/mainloop.h", to = "include/pulse/mainloop.h" },
+  { from = "source/src/pulse/operation.h", to = "include/pulse/operation.h" },
+  { from = "source/src/pulse/proplist.h", to = "include/pulse/proplist.h" },
+  { from = "source/src/pulse/pulseaudio.h", to = "include/pulse/pulseaudio.h" },
+  { from = "source/src/pulse/rtclock.h", to = "include/pulse/rtclock.h" },
+  { from = "source/src/pulse/sample.h", to = "include/pulse/sample.h" },
+  { from = "source/src/pulse/scache.h", to = "include/pulse/scache.h" },
+  { from = "source/src/pulse/simple.h", to = "include/pulse/simple.h" },
+  { from = "source/src/pulse/stream.h", to = "include/pulse/stream.h" },
+  { from = "source/src/pulse/subscribe.h", to = "include/pulse/subscribe.h" },
+  { from = "source/src/pulse/thread-mainloop.h", to = "include/pulse/thread-mainloop.h" },
+  { from = "source/src/pulse/timeval.h", to = "include/pulse/timeval.h" },
+  { from = "source/src/pulse/utf8.h", to = "include/pulse/utf8.h" },
+  { from = "source/src/pulse/util.h", to = "include/pulse/util.h" },
+  { from = "source/src/pulse/volume.h", to = "include/pulse/volume.h" },
+  { from = "source/src/pulse/xmalloc.h", to = "include/pulse/xmalloc.h" },
+  { from = "manifest/gen/pulse/version.h", to = "include/pulse/version.h" },
+]
