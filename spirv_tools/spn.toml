@@ -14,7 +14,7 @@ url = "https://github.com/KhronosGroup/SPIRV-Tools"
 commit = "4d2f0b40bfe290dea6c6904dafdf7fd8328ba346"
 
 [deps.package]
-spirv_headers = "1.5.5"
+spirv_headers = "1.4.304"
 
 [[lib]]
 name = "spirv_tools"

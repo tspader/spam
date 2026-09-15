@@ -15,7 +15,7 @@ commit = "80a7375441f416f6b3e3df815c14ac9132725450"
 
 [deps.package]
 spirv_tools = "2024.4.0"
-spirv_headers = "1.5.5"
+spirv_headers = "1.4.304"
 directx_headers = "1.4.9"
 
 [[lib]]
