@@ -68,4 +68,5 @@ copy = [
   { from = "source/src/lualib.h", to = "include" },
   { from = "source/src/lauxlib.h", to = "include" },
   { from = "source/src/lua.hpp", to = "include" },
+  { from = "manifest/gen/luajit.h", to = "include/luajit.h" },
 ]
