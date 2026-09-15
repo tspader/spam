@@ -53,6 +53,7 @@ flags = [
 name = "load"
 source = [{ path = "example/load.c", tree = "manifest" }]
 deps = ["SDL3_image"]
+embed = [{ path = "example/sample.png", tree = "manifest", dest = "sdl3_image_sample.png" }]
 
 [publish]
 copy = [
