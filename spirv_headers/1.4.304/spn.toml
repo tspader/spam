@@ -1,6 +1,6 @@
 [package]
 name = "spirv_headers"
-version = "1.5.5"
+version = "1.4.304"
 
 [package.upstream]
 url = "https://github.com/KhronosGroup/SPIRV-Headers.git"

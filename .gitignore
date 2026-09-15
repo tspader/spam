@@ -2,3 +2,6 @@
 /*/build
 /*/compile_commands.json
 /*/spn.lock
+/*/*/build
+/*/*/compile_commands.json
+/*/*/spn.lock
