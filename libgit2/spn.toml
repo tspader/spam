@@ -26,7 +26,6 @@ system_deps = [
   { lib = "http_parser", when = { http_parser = "http-parser" } },
   { lib = "pcre", when = { regex = "pcre" } },
   { lib = "pcre2-8", when = { regex = "pcre2" } },
-  { lib = "z", when = { compression = "zlib" } },
   { lib = "ssh2", when = { ssh = "libssh2" } },
   { lib = "iconv", when = { i18n = true, os = "macos" } },
   { lib = "gssapi_krb5", when = { negotiate = "gssapi" } },
@@ -39,6 +38,7 @@ commit = "0551dfd4ad989b6a3d5683c0d4cf326c6efef929"
 
 [deps.package]
 mbedtls = { version = "3.6.6", when = { mbedtls = true } }
+zlib = { version = "1.3.2", when = { compression = "zlib" } }
 
 [options.threads]
 type = "enum"
@@ -314,8 +314,6 @@ flags = [
   { value = "/usr/include", when = { os = "linux", regex = "pcre" } },
   { value = "-idirafter", when = { os = "linux", regex = "pcre2" } },
   { value = "/usr/include", when = { os = "linux", regex = "pcre2" } },
-  { value = "-idirafter", when = { os = "linux", compression = "zlib" } },
-  { value = "/usr/include", when = { os = "linux", compression = "zlib" } },
   { value = "-idirafter", when = { os = "linux", ssh = "libssh2" } },
   { value = "/usr/include", when = { os = "linux", ssh = "libssh2" } },
   { value = "-idirafter", when = { os = "linux", negotiate = "gssapi" } },
@@ -323,6 +321,7 @@ flags = [
 ]
 deps = [
   { pkg = "mbedtls", when = { mbedtls = true } },
+  { pkg = "zlib", when = { compression = "zlib" } },
   # @spader Does this work? Internally, how do we know git2_llhttp is a library?
   { pkg = "git2_llhttp", when = { http_parser = "builtin" } },
   { pkg = "git2_pcre2", when = { regex = "builtin" } },
