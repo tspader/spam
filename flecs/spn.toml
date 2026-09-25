@@ -30,5 +30,5 @@ deps = ["flecs"]
 
 [publish]
 copy = [
-  { from = "source/distr/flecs.h", to = "include/flecs/flecs.h" },
+  { from = "source/distr/flecs.h", to = "include/flecs" },
 ]

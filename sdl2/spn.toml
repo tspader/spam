@@ -210,9 +210,9 @@ source = [
 [publish]
 copy = [
   { from = "source/include/*.h", to = "include" },
-  { from = "manifest/config/SDL_config.h", to = "include/SDL_config.h" },
-  { from = "manifest/config/SDL_config_spn.h", to = "include/SDL_config_spn.h" },
-  { from = "manifest/config/SDL_revision.h", to = "include/SDL_revision.h" },
+  { from = "manifest/config/SDL_config.h", to = "include" },
+  { from = "manifest/config/SDL_config_spn.h", to = "include" },
+  { from = "manifest/config/SDL_revision.h", to = "include" },
 ]
 
 [[example]]

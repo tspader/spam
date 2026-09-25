@@ -57,5 +57,5 @@ embed = [{ path = "example/sample.png", tree = "manifest", dest = "sdl3_image_sa
 
 [publish]
 copy = [
-  { from = "source/include/SDL3_image/SDL_image.h", to = "include/SDL3_image/SDL_image.h" },
+  { from = "source/include/SDL3_image/SDL_image.h", to = "include/SDL3_image" },
 ]

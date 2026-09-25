@@ -15,6 +15,6 @@ copy = [
   { from = "source/include/X11/dri/*.h", to = "include/X11/dri" },
   { from = "source/include/X11/extensions/*.h", to = "include/X11/extensions" },
   { from = "source/include/X11/fonts/*.h", to = "include/X11/fonts" },
-  { from = "manifest/gen/glibc/X11/Xpoll.h", to = "include/X11/Xpoll.h", when = { abi = "gnu" } },
-  { from = "manifest/gen/libc/X11/Xpoll.h", to = "include/X11/Xpoll.h", when = { abi = { not = "gnu" } } },
+  { from = "manifest/gen/glibc/X11/Xpoll.h", to = "include/X11", when = { abi = "gnu" } },
+  { from = "manifest/gen/libc/X11/Xpoll.h", to = "include/X11", when = { abi = { not = "gnu" } } },
 ]

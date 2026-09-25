@@ -1,0 +1,28 @@
+[package]
+name = "vulkan_headers"
+version = "1.4.362"
+
+[package.upstream]
+url = "https://github.com/KhronosGroup/Vulkan-Headers.git"
+commit = "ee2ec5fd83dafce291024683b50dc89219333076"
+
+[[lib]]
+name = "vulkan_headers"
+kinds = ["source"]
+
+[[example]]
+name = "basic"
+source = [{ path = "example/basic.c", tree = "manifest" }]
+deps = ["vulkan_headers"]
+
+[[example]]
+name = "hpp"
+source = [{ path = "example/hpp.cpp", tree = "manifest" }]
+deps = ["vulkan_headers"]
+cxx = { standard = "c++17" }
+
+[publish]
+copy = [
+  { from = "source/include/vulkan/*.h*", to = "include/vulkan" },
+  { from = "source/include/vk_video/*.h", to = "include/vk_video" },
+]

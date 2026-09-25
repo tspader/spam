@@ -8,5 +8,5 @@ commit = "8ae6cf61b18ecddf26f72a07bbfbd1ea9f022c36"
 
 [publish]
 copy = [
-  { from = "manifest/gen/X11/Xcursor/Xcursor.h", to = "include/X11/Xcursor/Xcursor.h" },
+  { from = "manifest/gen/X11/Xcursor/Xcursor.h", to = "include/X11/Xcursor" },
 ]

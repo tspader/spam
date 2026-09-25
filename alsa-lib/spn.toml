@@ -126,8 +126,8 @@ copy = [
   { from = "source/include/*.h", to = "include/alsa" },
   { from = "source/include/sound/*.h", to = "include/alsa/sound" },
   { from = "source/include/sound/uapi/*.h", to = "include/alsa/sound/uapi" },
-  { from = "manifest/config/version.h", to = "include/alsa/version.h" },
-  { from = "manifest/config/asoundlib.h", to = "include/alsa/asoundlib.h" },
+  { from = "manifest/config/version.h", to = "include/alsa" },
+  { from = "manifest/config/asoundlib.h", to = "include/alsa" },
 ]
 
 [[example]]

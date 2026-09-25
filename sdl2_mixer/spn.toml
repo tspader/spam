@@ -30,5 +30,5 @@ deps = ["SDL2_mixer"]
 
 [publish]
 copy = [
-  { from = "source/include/SDL_mixer.h", to = "include/SDL_mixer.h" },
+  { from = "source/include/SDL_mixer.h", to = "include" },
 ]

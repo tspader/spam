@@ -1,0 +1,131 @@
+[package]
+name = "zlib"
+version = "1.3.2"
+author = "madler"
+maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/madler/zlib.git"
+commit = "da607da739fa6047df13e66a2af6b8bec7c2a498"
+
+[options.const]
+type = "bool"
+default = false
+public = true
+define = "ZLIB_CONST"
+
+[options.zprefix]
+type = "bool"
+default = false
+public = true
+define = "Z_PREFIX"
+
+[options.solo]
+type = "bool"
+default = false
+public = true
+define = "Z_SOLO"
+
+[[lib]]
+name = "z"
+kinds = ["static", "shared"]
+source = [
+  "adler32.c",
+  "crc32.c",
+  "deflate.c",
+  "infback.c",
+  "inffast.c",
+  "inflate.c",
+  "inftrees.c",
+  "trees.c",
+  "zutil.c",
+  { path = "compress.c", when = { solo = false } },
+  { path = "uncompr.c", when = { solo = false } },
+  { path = "gzclose.c", when = { solo = false } },
+  { path = "gzlib.c", when = { solo = false } },
+  { path = "gzread.c", when = { solo = false } },
+  { path = "gzwrite.c", when = { solo = false } },
+]
+define = [
+  "HAVE_STDARG_H=1",
+  { value = "HAVE_UNISTD_H=1", when = { abi = { not = "msvc" } } },
+  { value = "HAVE_HIDDEN", when = { os = { not = "windows" } } },
+  { value = "_LARGEFILE64_SOURCE=1", when = { os = "linux" } },
+  { value = "_CRT_SECURE_NO_DEPRECATE", when = { abi = "msvc" } },
+  { value = "_CRT_NONSTDC_NO_DEPRECATE", when = { abi = "msvc" } },
+]
+
+[[test]]
+name = "example"
+source = ["test/example.c"]
+include = ["."]
+define = [{ value = "HAVE_UNISTD_H=1", when = { abi = { not = "msvc" } } }]
+deps = ["z"]
+
+[[test]]
+name = "infcover"
+source = [{ path = "test/infcover.c", when = { solo = false } }]
+include = ["."]
+define = [{ value = "HAVE_UNISTD_H=1", when = { abi = { not = "msvc" } } }]
+deps = ["z"]
+
+[[example]]
+name = "roundtrip"
+source = [{ path = "example/roundtrip.c", tree = "manifest", when = { solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "minigzip"
+source = ["test/minigzip.c"]
+deps = ["z"]
+
+[[example]]
+name = "enough"
+source = ["examples/enough.c"]
+
+[[example]]
+name = "fitblk"
+source = [{ path = "examples/fitblk.c", when = { solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "gun"
+source = [
+  { path = "examples/gun.c", when = { os = "linux", solo = false } },
+  { path = "examples/gun.c", when = { os = "macos", solo = false } },
+]
+define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+deps = ["z"]
+
+[[example]]
+name = "gzappend"
+source = [{ path = "examples/gzappend.c", when = { abi = { not = "msvc" }, solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "gzjoin"
+source = [{ path = "examples/gzjoin.c", when = { abi = { not = "msvc" }, solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "gznorm"
+source = [{ path = "examples/gznorm.c", when = { solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "zpipe"
+source = [{ path = "examples/zpipe.c", when = { solo = false } }]
+deps = ["z"]
+
+[[example]]
+name = "zran"
+source = [{ path = "examples/zran.c", when = { abi = { not = "msvc" }, solo = false } }]
+define = ["TEST", { value = "_DEFAULT_SOURCE", when = { os = { not = "windows" } } }]
+deps = ["z"]
+
+[publish]
+copy = [
+  { from = "source/zlib.h", to = "include" },
+  { from = "manifest/gen/posix/zconf.h", to = "include", when = { abi = { not = "msvc" } } },
+  { from = "manifest/gen/msvc/zconf.h", to = "include", when = { abi = "msvc" } },
+]

@@ -35,9 +35,6 @@ spn_err_t configure(spn_t* spn, spn_config_t* config) {
   spn_target_add_include(asound, spn_get_subdir(spn, SPN_DIR_WORK, "private"));
   spn_target_add_include(asound, spn_get_subdir(spn, SPN_DIR_WORK, "public"));
 
-  spn_target_t* devices = spn_get_target(spn, "devices");
-  spn_target_add_include(devices, spn_get_subdir(spn, SPN_DIR_WORK, "public"));
-
   spn_node_t* headers = spn_add_node(config, "headers");
   spn_node_set_fn(headers, "stage_headers");
   spn_node_add_input(headers, spn_get_subdir(spn, SPN_DIR_MANIFEST, "config/config.h"));

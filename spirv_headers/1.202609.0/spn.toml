@@ -17,5 +17,8 @@ deps = ["spirv_headers"]
 
 [publish]
 copy = [
+  { from = "source/include/spirv/1.0/*.h*", to = "include/spirv/1.0" },
+  { from = "source/include/spirv/1.1/*.h*", to = "include/spirv/1.1" },
+  { from = "source/include/spirv/1.2/*.h*", to = "include/spirv/1.2" },
   { from = "source/include/spirv/unified1/*.h*", to = "include/spirv/unified1" },
 ]

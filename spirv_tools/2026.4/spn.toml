@@ -1,0 +1,199 @@
+[package]
+name = "spirv_tools"
+version = "2026.4.0"
+include = [".", "include", { path = "gen", tree = "manifest" }]
+define = [
+  { value = "SPIRV_WINDOWS", when = { os = "windows" } },
+  { value = "SPIRV_TIMER_ENABLED", when = { os = "linux", timers = true } },
+  { value = "SPIRV_CHECK_CONTEXT", when = { mode = "debug", check_context = true } },
+  { value = "_CRT_SECURE_NO_WARNINGS", when = { driver = "msvc" } },
+  { value = "_SCL_SECURE_NO_WARNINGS", when = { driver = "msvc" } },
+]
+
+[package.upstream]
+url = "https://github.com/KhronosGroup/SPIRV-Tools.git"
+commit = "ef96ed763b43b59b33b31b362f09a02b729fa1c9"
+
+[options.timers]
+type = "bool"
+default = true
+
+[options.check_context]
+type = "bool"
+default = true
+
+[options.color_terminal]
+type = "bool"
+default = true
+define = "SPIRV_COLOR_TERMINAL"
+
+[options.log_debug]
+type = "bool"
+default = false
+define = "SPIRV_LOG_DEBUG"
+
+[deps.package]
+spirv_headers = { path = "../../spirv_headers/1.202609.0" }
+
+[[lib]]
+name = "spirv_tools"
+kinds = ["static", "shared"]
+source = [
+  "source/assembly_grammar.cpp",
+  "source/binary.cpp",
+  "source/diagnostic.cpp",
+  "source/disassemble.cpp",
+  "source/ext_inst.cpp",
+  "source/extensions.cpp",
+  "source/libspirv.cpp",
+  "source/name_mapper.cpp",
+  "source/opcode.cpp",
+  "source/operand.cpp",
+  "source/parsed_operand.cpp",
+  "source/print.cpp",
+  "source/software_version.cpp",
+  "source/spirv_endian.cpp",
+  "source/spirv_fuzzer_options.cpp",
+  "source/spirv_optimizer_options.cpp",
+  "source/spirv_reducer_options.cpp",
+  "source/spirv_target_env.cpp",
+  "source/spirv_validator_options.cpp",
+  "source/table.cpp",
+  "source/table2.cpp",
+  "source/text.cpp",
+  "source/text_handler.cpp",
+  "source/to_string.cpp",
+  "source/util/*.cpp",
+  "source/val/*.cpp",
+]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+system_deps = [{ value = "rt", when = { os = "linux" } }]
+deps = ["spirv_headers"]
+cxx = { standard = "c++17" }
+
+[[lib]]
+name = "spirv_tools_opt"
+kinds = ["static", "shared"]
+source = ["source/opt/*.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[lib]]
+name = "spirv_tools_link"
+kinds = ["static", "shared"]
+source = ["source/link/*.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[lib]]
+name = "spirv_tools_lint"
+kinds = ["static", "shared"]
+source = ["source/lint/*.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[lib]]
+name = "spirv_tools_diff"
+kinds = ["static", "shared"]
+source = ["source/diff/*.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[lib]]
+name = "spirv_tools_reduce"
+kinds = ["static", "shared"]
+source = ["source/reduce/*.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-as"
+source = ["tools/as/as.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-dis"
+source = ["tools/dis/dis.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-val"
+source = ["tools/val/val.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-opt"
+source = ["tools/opt/opt.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-cfg"
+source = ["tools/cfg/cfg.cpp", "tools/cfg/bin_to_dot.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-link"
+source = ["tools/link/linker.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_link"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-lint"
+source = ["tools/lint/lint.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt", "spirv_tools_lint"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-diff"
+source = ["tools/diff/diff.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_opt", "spirv_tools_diff"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-reduce"
+source = ["tools/reduce/reduce.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools", "spirv_tools_reduce"]
+cxx = { standard = "c++17" }
+
+[[bin]]
+name = "spirv-objdump"
+source = ["tools/objdump/objdump.cpp", "tools/objdump/extract_source.cpp", "tools/util/cli_consumer.cpp", "tools/io.cpp", "tools/util/flags.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools"]
+cxx = { standard = "c++17" }
+
+[[example]]
+name = "cpp_interface"
+source = ["examples/cpp-interface/main.cpp"]
+flags = [{ value = "/EHs", when = { driver = "msvc" } }]
+deps = ["spirv_tools_opt"]
+cxx = { standard = "c++17" }
+
+[[example]]
+name = "basic"
+source = [{ path = "example/basic.c", tree = "manifest" }]
+deps = ["spirv_tools"]
+
+[publish]
+copy = [
+  { from = "source/include/spirv-tools/*", to = "include/spirv-tools" },
+]
