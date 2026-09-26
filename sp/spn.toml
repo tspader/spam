@@ -1,6 +1,6 @@
 [package]
 name = "sp"
-version = "3.5.0"
+version = "4.0.0"
 author = "tspader"
 maintainer = "tspader"
 system_deps = [
@@ -9,7 +9,7 @@ system_deps = [
 
 [package.upstream]
 url = "https://github.com/tspader/sp.git"
-commit = "a6c1733125b3d664bc544c29b5887fe19e78af5c"
+commit = "36a2176e82c1f8da27bc94584e98d213caa9d6ad"
 
 [[lib]]
 name = "sp"
