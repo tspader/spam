@@ -1093,4 +1093,6 @@ deps = ["ssl"]
 [publish]
 copy = [
   { from = "source/include/openssl/*.h", to = "include/openssl" },
+  { from = "manifest/gen/include/openssl/*.h", to = "include/openssl" },
+  { from = "manifest/config/include/openssl/configuration.h", to = "include/openssl" },
 ]
