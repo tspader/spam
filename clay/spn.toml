@@ -1,0 +1,44 @@
+[package]
+name = "clay"
+version = "0.14.0"
+author = "nicbarker"
+maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/nicbarker/clay.git"
+commit = "76ec3632d80c145158136fd44db501448e7b17c4"
+
+[[lib]]
+name = "clay"
+kinds = ["source"]
+
+[[example]]
+name = "layout"
+source = [{ path = "example/layout.c", tree = "manifest" }]
+deps = ["clay"]
+
+[[example]]
+name = "terminal"
+source = [{ path = "examples/terminal-example/main.c", when = { abi = { not = "msvc" } } }]
+deps = ["clay"]
+
+[[example]]
+name = "cpp"
+source = ["examples/cpp-project-example/main.cpp"]
+deps = ["clay"]
+cxx = { standard = "c++20" }
+
+[publish]
+copy = [
+  { from = "source/clay.h", to = "include" },
+  { from = "source/renderers/cairo/clay_renderer_cairo.c", to = "include/renderers/cairo" },
+  { from = "source/renderers/GLES3/*.[ch]", to = "include/renderers/GLES3" },
+  { from = "source/renderers/playdate/clay_renderer_playdate.c", to = "include/renderers/playdate" },
+  { from = "source/renderers/raylib/clay_renderer_raylib.c", to = "include/renderers/raylib" },
+  { from = "source/renderers/SDL2/clay_renderer_SDL2.c", to = "include/renderers/SDL2" },
+  { from = "source/renderers/SDL3/clay_renderer_SDL3.c", to = "include/renderers/SDL3" },
+  { from = "source/renderers/sokol/sokol_clay.h", to = "include/renderers/sokol" },
+  { from = "source/renderers/termbox2/*.[ch]", to = "include/renderers/termbox2" },
+  { from = "source/renderers/terminal/clay_renderer_terminal_ansi.c", to = "include/renderers/terminal" },
+  { from = "source/renderers/win32_gdi/clay_renderer_gdi.c", to = "include/renderers/win32_gdi" },
+]
