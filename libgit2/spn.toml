@@ -6,12 +6,6 @@ system_deps = [
   { lib = "pthread", when = { threads = "pthreads" } },
   { lib = "ws2_32", when = { os = "windows" } },
   { lib = "secur32", when = { os = "windows" } },
-  { lib = "ssl", when = { https = "openssl" } },
-  { lib = "crypto", when = { https = "openssl" } },
-  { lib = "crypto", when = { sha1 = "openssl" } },
-  { lib = "crypto", when = { sha1 = "openssl-fips" } },
-  { lib = "crypto", when = { sha256 = "openssl" } },
-  { lib = "crypto", when = { sha256 = "openssl-fips" } },
   { lib = "dl", when = { https = "openssl-dynamic" } },
   { lib = "dl", when = { sha1 = "openssl-dynamic" } },
   { lib = "dl", when = { sha256 = "openssl-dynamic" } },
@@ -22,13 +16,7 @@ system_deps = [
   { lib = "rpcrt4", when = { https = "schannel" } },
   { lib = "crypt32", when = { https = "schannel" } },
   { lib = "ole32", when = { https = "schannel" } },
-  { lib = "llhttp", when = { http_parser = "llhttp" } },
-  { lib = "http_parser", when = { http_parser = "http-parser" } },
-  { lib = "pcre", when = { regex = "pcre" } },
-  { lib = "pcre2-8", when = { regex = "pcre2" } },
-  { lib = "ssh2", when = { ssh = "libssh2" } },
   { lib = "iconv", when = { i18n = true, os = "macos" } },
-  { lib = "gssapi_krb5", when = { negotiate = "gssapi" } },
   { lib = "dbghelp", when = { leak_checker = "win32" } },
 ]
 
@@ -38,6 +26,8 @@ commit = "0551dfd4ad989b6a3d5683c0d4cf326c6efef929"
 
 [deps.package]
 mbedtls = { version = "3.6.6", when = { mbedtls = true } }
+openssl = { version = "4.2.0", when = { openssl = true } }
+libssh2 = { version = "1.11.2", when = { ssh = "libssh2" } }
 zlib = { version = "1.3.2", when = { compression = "zlib" } }
 
 [options.threads]
@@ -64,12 +54,12 @@ default = [
 
 [options.sha1]
 type = "enum"
-values = ["builtin", "openssl", "openssl-fips", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
+values = ["builtin", "openssl", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
 default = "builtin"
 
 [options.sha256]
 type = "enum"
-values = ["builtin", "openssl", "openssl-fips", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
+values = ["builtin", "openssl", "openssl-dynamic", "mbedtls", "commoncrypto", "win32"]
 default = [
   { value = "openssl", when = { https = "openssl" } },
   { value = "openssl-dynamic", when = { https = "openssl-dynamic" } },
@@ -89,14 +79,18 @@ default = [
   { value = false },
 ]
 
-[options.http_parser]
-type = "enum"
-values = ["builtin", "llhttp", "http-parser"]
-default = "builtin"
+[options.openssl]
+type = "bool"
+default = [
+  { value = true, when = { https = "openssl" } },
+  { value = true, when = { sha1 = "openssl" } },
+  { value = true, when = { sha256 = "openssl" } },
+  { value = false },
+]
 
 [options.regex]
 type = "enum"
-values = ["builtin", "regcomp", "regcomp_l", "pcre", "pcre2"]
+values = ["builtin", "regcomp", "regcomp_l"]
 default = [
   { value = "regcomp_l", when = { os = "macos" } },
   { value = "builtin" },
@@ -141,7 +135,7 @@ default = [
 
 [options.negotiate]
 type = "enum"
-values = ["off", "gssapi", "gssframework", "sspi"]
+values = ["off", "gssframework", "sspi"]
 default = [
   { value = "off", when = { http = false } },
   { value = "sspi", when = { os = "windows" } },
@@ -184,7 +178,7 @@ include = [
   "deps/reftable",
   "deps/xdiff",
   { path = "config", tree = "manifest" },
-  { path = "deps/llhttp", when = { http_parser = "builtin" } },
+  "deps/llhttp",
   { path = "deps/pcre2", when = { regex = "builtin" } },
   { path = "deps/zlib", when = { compression = "builtin" } },
   { path = "deps/ntlmclient", when = { ntlm = "builtin" } },
@@ -201,7 +195,6 @@ source = [
   { path = "src/util/hash/collisiondetect.c", when = { sha1 = "builtin" } },
   { path = "src/util/hash/sha1dc/*.c", when = { sha1 = "builtin" } },
   { path = "src/util/hash/openssl.c", when = { sha1 = "openssl" } },
-  { path = "src/util/hash/openssl.c", when = { sha1 = "openssl-fips" } },
   { path = "src/util/hash/openssl.c", when = { sha1 = "openssl-dynamic" } },
   { path = "src/util/hash/mbedtls.c", when = { sha1 = "mbedtls" } },
   { path = "src/util/hash/common_crypto.c", when = { sha1 = "commoncrypto" } },
@@ -209,7 +202,6 @@ source = [
   { path = "src/util/hash/builtin.c", when = { sha256 = "builtin" } },
   { path = "src/util/hash/rfc6234/*.c", when = { sha256 = "builtin" } },
   { path = "src/util/hash/openssl.c", when = { sha256 = "openssl" } },
-  { path = "src/util/hash/openssl.c", when = { sha256 = "openssl-fips" } },
   { path = "src/util/hash/openssl.c", when = { sha256 = "openssl-dynamic" } },
   { path = "src/util/hash/mbedtls.c", when = { sha256 = "mbedtls" } },
   { path = "src/util/hash/common_crypto.c", when = { sha256 = "commoncrypto" } },
@@ -243,27 +235,21 @@ define = [
   { value = 'SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h"', when = { sha1 = "builtin" } },
   { value = 'SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h"', when = { sha1 = "builtin" } },
   { value = "GIT_SHA1_OPENSSL", when = { sha1 = "openssl" } },
-  { value = "GIT_SHA1_OPENSSL_FIPS", when = { sha1 = "openssl-fips" } },
   { value = "GIT_SHA1_OPENSSL_DYNAMIC", when = { sha1 = "openssl-dynamic" } },
   { value = "GIT_SHA1_MBEDTLS", when = { sha1 = "mbedtls" } },
   { value = "GIT_SHA1_COMMON_CRYPTO", when = { sha1 = "commoncrypto" } },
   { value = "GIT_SHA1_WIN32", when = { sha1 = "win32" } },
   { value = "GIT_SHA256_BUILTIN", when = { sha256 = "builtin" } },
   { value = "GIT_SHA256_OPENSSL", when = { sha256 = "openssl" } },
-  { value = "GIT_SHA256_OPENSSL_FIPS", when = { sha256 = "openssl-fips" } },
   { value = "GIT_SHA256_OPENSSL_DYNAMIC", when = { sha256 = "openssl-dynamic" } },
   { value = "GIT_SHA256_MBEDTLS", when = { sha256 = "mbedtls" } },
   { value = "GIT_SHA256_COMMON_CRYPTO", when = { sha256 = "commoncrypto" } },
   { value = "GIT_SHA256_WIN32", when = { sha256 = "win32" } },
   { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl" } },
-  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl-fips" } },
   { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha1 = "openssl-dynamic" } },
   { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl" } },
-  { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl-fips" } },
   { value = "OPENSSL_API_COMPAT=0x10100000L", when = { sha256 = "openssl-dynamic" } },
-  { value = "GIT_HTTPPARSER_BUILTIN", when = { http_parser = "builtin" } },
-  { value = "GIT_HTTPPARSER_LLHTTP", when = { http_parser = "llhttp" } },
-  { value = "GIT_HTTPPARSER_HTTPPARSER", when = { http_parser = "http-parser" } },
+  "GIT_HTTPPARSER_BUILTIN",
   { value = "GIT_REGEX_BUILTIN", when = { regex = "builtin" } },
   { value = "PCRE2_STATIC", when = { regex = "builtin" } },
   { value = "PCRE2_EXPORT=", when = { regex = "builtin" } },
@@ -271,8 +257,6 @@ define = [
   { value = "PCRE2_EXP_DEFN=", when = { regex = "builtin" } },
   { value = "GIT_REGEX_REGCOMP", when = { regex = "regcomp" } },
   { value = "GIT_REGEX_REGCOMP_L", when = { regex = "regcomp_l" } },
-  { value = "GIT_REGEX_PCRE", when = { regex = "pcre" } },
-  { value = "GIT_REGEX_PCRE2", when = { regex = "pcre2" } },
   { value = "GIT_COMPRESSION_BUILTIN", when = { compression = "builtin" } },
   { value = "GIT_COMPRESSION_ZLIB", when = { compression = "zlib" } },
   { value = "GIT_SSH", when = { ssh = { not = "off" } } },
@@ -289,41 +273,18 @@ define = [
   { value = "GIT_AUTH_NTLM_BUILTIN", when = { ntlm = "builtin" } },
   { value = "GIT_AUTH_NTLM_SSPI", when = { ntlm = "sspi" } },
   { value = "GIT_AUTH_NEGOTIATE", when = { negotiate = { not = "off" } } },
-  { value = "GIT_AUTH_NEGOTIATE_GSSAPI", when = { negotiate = "gssapi" } },
   { value = "GIT_AUTH_NEGOTIATE_GSSFRAMEWORK", when = { negotiate = "gssframework" } },
   { value = "GIT_AUTH_NEGOTIATE_SSPI", when = { negotiate = "sspi" } },
   { value = "VALGRIND", when = { leak_checker = "valgrind" } },
   { value = "GIT_DEBUG_LEAKCHECK_WIN32", when = { leak_checker = "win32" } },
 ]
-flags = [
-  { value = "-idirafter", when = { os = "linux", https = "openssl" } },
-  { value = "/usr/include", when = { os = "linux", https = "openssl" } },
-  { value = "-idirafter", when = { os = "linux", sha1 = "openssl" } },
-  { value = "/usr/include", when = { os = "linux", sha1 = "openssl" } },
-  { value = "-idirafter", when = { os = "linux", sha1 = "openssl-fips" } },
-  { value = "/usr/include", when = { os = "linux", sha1 = "openssl-fips" } },
-  { value = "-idirafter", when = { os = "linux", sha256 = "openssl" } },
-  { value = "/usr/include", when = { os = "linux", sha256 = "openssl" } },
-  { value = "-idirafter", when = { os = "linux", sha256 = "openssl-fips" } },
-  { value = "/usr/include", when = { os = "linux", sha256 = "openssl-fips" } },
-  { value = "-idirafter", when = { os = "linux", http_parser = "llhttp" } },
-  { value = "/usr/include", when = { os = "linux", http_parser = "llhttp" } },
-  { value = "-idirafter", when = { os = "linux", http_parser = "http-parser" } },
-  { value = "/usr/include", when = { os = "linux", http_parser = "http-parser" } },
-  { value = "-idirafter", when = { os = "linux", regex = "pcre" } },
-  { value = "/usr/include", when = { os = "linux", regex = "pcre" } },
-  { value = "-idirafter", when = { os = "linux", regex = "pcre2" } },
-  { value = "/usr/include", when = { os = "linux", regex = "pcre2" } },
-  { value = "-idirafter", when = { os = "linux", ssh = "libssh2" } },
-  { value = "/usr/include", when = { os = "linux", ssh = "libssh2" } },
-  { value = "-idirafter", when = { os = "linux", negotiate = "gssapi" } },
-  { value = "/usr/include", when = { os = "linux", negotiate = "gssapi" } },
-]
 deps = [
   { pkg = "mbedtls", when = { mbedtls = true } },
+  { pkg = "openssl", when = { openssl = true } },
+  { pkg = "libssh2", when = { ssh = "libssh2" } },
   { pkg = "zlib", when = { compression = "zlib" } },
   # @spader Does this work? Internally, how do we know git2_llhttp is a library?
-  { pkg = "git2_llhttp", when = { http_parser = "builtin" } },
+  "git2_llhttp",
   { pkg = "git2_pcre2", when = { regex = "builtin" } },
   { pkg = "git2_zlib", when = { compression = "builtin" } },
   { pkg = "git2_ntlmclient", when = { ntlm = "builtin" } },
@@ -336,7 +297,7 @@ frameworks = ["CoreFoundation", "Security", "GSS"]
 name = "git2_llhttp"
 kinds = ["static"]
 include = ["deps/llhttp"]
-source = [{ path = "deps/llhttp/*.c", when = { http_parser = "builtin" } }]
+source = ["deps/llhttp/*.c"]
 define = [
   { value = "_FILE_OFFSET_BITS=64", when = { os = { not = "windows" } } },
   { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
@@ -464,12 +425,9 @@ define = [
   { value = "OPENSSL_API_COMPAT=0x10100000L", when = { https = "openssl-dynamic" } },
   { value = "CRYPT_MBEDTLS", when = { https = "mbedtls" } },
 ]
-flags = [
-  { value = "-idirafter", when = { os = "linux", https = "openssl" } },
-  { value = "/usr/include", when = { os = "linux", https = "openssl" } },
-]
 deps = [
   { pkg = "mbedtls", when = { https = "mbedtls" } },
+  { pkg = "openssl", when = { https = "openssl" } },
 ]
 
 [[example]]
