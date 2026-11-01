@@ -22,6 +22,11 @@ system_deps = [
 url = "https://github.com/curl/curl.git"
 commit = "8c908d2d0a6d32abdedda2c52e90bd56ec76c24d"
 
+[package.publish]
+include = [
+  { from = "source/include/curl/*.h", to = "curl" },
+]
+
 [deps.package]
 mbedtls = { version = "3.6.6", when = { mbedtls = true } }
 
@@ -327,8 +332,3 @@ deps = ["curl"]
 name = "parseurl"
 source = ["docs/examples/parseurl.c"]
 deps = ["curl"]
-
-[publish]
-copy = [
-  { from = "source/include/curl/*.h", to = "include/curl" },
-]

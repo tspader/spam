@@ -9,6 +9,9 @@ name = "spirv_tools"
 version = "2024.4.0"
 include = ["include", { path = "gen", tree = "manifest" }]
 
+[package.configure]
+source = ["spn.c"]
+
 [package.upstream]
 url = "https://github.com/KhronosGroup/SPIRV-Tools"
 commit = "4d2f0b40bfe290dea6c6904dafdf7fd8328ba346"

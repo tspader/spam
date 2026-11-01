@@ -208,11 +208,11 @@ name = "client"
 source = [{ path = "example/client.c", tree = "manifest" }]
 deps = ["mbedtls"]
 
-[publish]
-copy = [
-  { from = "source/include/mbedtls/*", to = "include/mbedtls" },
-  { from = "source/include/psa/*", to = "include/psa" },
-  { from = "source/3rdparty/everest/include/everest/*", to = "include/everest" },
+[package.publish]
+include = [
+  { from = "source/include/mbedtls/*", to = "mbedtls" },
+  { from = "source/include/psa/*", to = "psa" },
+  { from = "source/3rdparty/everest/include/everest/*", to = "everest", when = { everest = true } },
 ]
 
 [profile.default]

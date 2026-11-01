@@ -9,6 +9,9 @@
 name = "dxc"
 version = "1.8.2502"
 
+[package.configure]
+source = ["spn.c"]
+
 [package.upstream]
 url = "https://github.com/libsdl-org/DirectXShaderCompiler.git"
 commit = "80a7375441f416f6b3e3df815c14ac9132725450"

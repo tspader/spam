@@ -87,6 +87,13 @@ define = "SPN_SDL3_UDEV"
 [[lib]]
 name = "SDL3"
 kinds = ["static"]
+include = [
+  { path = "config", tree = "manifest" },
+  "include/build_config",
+  "include",
+  "src",
+  "src/video/khronos",
+]
 source = [
   "src/*.c",
   "src/atomic/*.c",
@@ -259,9 +266,9 @@ frameworks = [
   "UniformTypeIdentifiers",
 ]
 
-[publish]
-copy = [
-  { from = "source/include/SDL3/*.h", to = "include/SDL3" },
+[package.publish]
+include = [
+  { from = "source/include/SDL3/*.h", to = "SDL3" },
 ]
 
 [[example]]

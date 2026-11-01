@@ -86,6 +86,11 @@ define = "SPN_SDL_UDEV"
 [[lib]]
 name = "SDL2"
 kinds = ["static"]
+include = [
+  { path = "config", tree = "manifest" },
+  "include",
+  "src/video/khronos",
+]
 source = [
   "src/*.c",
   "src/atomic/*.c",
@@ -202,17 +207,19 @@ flags = [
 [[lib]]
 name = "SDL2main"
 kinds = ["static"]
+include = [
+  { path = "config", tree = "manifest" },
+  "include",
+]
 source = [
   { path = "src/main/windows/*.c", when = { os = "windows" } },
   { path = "src/main/dummy/*.c", when = { os = { not = "windows" } } },
 ]
 
-[publish]
-copy = [
-  { from = "source/include/*.h", to = "include" },
-  { from = "manifest/config/SDL_config.h", to = "include" },
-  { from = "manifest/config/SDL_config_spn.h", to = "include" },
-  { from = "manifest/config/SDL_revision.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/include/*.h" },
+  { from = "manifest/config/*" },
 ]
 
 [[example]]
