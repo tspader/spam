@@ -30,7 +30,7 @@ name = "headless"
 source = [{ path = "example/headless.c", tree = "manifest" }]
 deps = ["SDL3_ttf"]
 
-[publish]
-copy = [
-  { from = "source/include/SDL3_ttf/*", to = "include/SDL3_ttf" },
+[package.publish]
+include = [
+  { from = "source/include/SDL3_ttf/*", to = "SDL3_ttf" },
 ]

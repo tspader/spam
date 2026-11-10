@@ -245,7 +245,7 @@ name = "x11"
 source = ["example/x11.c"]
 deps = ["ssh2"]
 
-[publish]
-copy = [
-  { from = "source/include/*.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/include/*.h" },
 ]

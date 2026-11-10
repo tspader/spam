@@ -25,7 +25,7 @@ source = [{ path = "example/filesink.cpp", tree = "manifest" }]
 deps = ["fmt"]
 cxx = { standard = "c++17" }
 
-[publish]
-copy = [
-  { from = "source/include/fmt/*", to = "include/fmt" },
+[package.publish]
+include = [
+  { from = "source/include/fmt/*", to = "fmt" },
 ]

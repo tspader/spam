@@ -122,7 +122,7 @@ deps = ["glfw"]
 [profile.default]
 linkage = "shared"
 
-[publish]
-copy = [
-  { from = "source/include/GLFW/*.h", to = "include/GLFW" },
+[package.publish]
+include = [
+  { from = "source/include/GLFW/*.h", to = "GLFW" },
 ]

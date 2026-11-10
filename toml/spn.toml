@@ -16,7 +16,7 @@ default = false
 name = "toml"
 kinds = ["source"]
 
-[publish]
-copy = [
-  { from = "source/toml.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/toml.h" },
 ]

@@ -1,6 +1,6 @@
 [package]
 name = "dcimgui"
-version = "1.92.9"
+version = "1.92.8"
 
 [options.internal]
 type = "bool"
@@ -22,12 +22,18 @@ default = false
 type = "bool"
 default = false
 
-[deps.package.imgui]
-version = "1.92.8"
+[deps.package]
+imgui = "1.92.8"
+sdl3 = { version = "3.4.14", when = { sdlgpu3 = true } }
 
-[deps.package.sdl3]
-version = "3.4.14"
-when = { sdl3 = true }
+[deps.tool]
+sp = "5.0.0"
+dear_bindings = "0.21.0"
+
+[[tool]]
+name = "generate"
+source = ["tools/generate.c"]
+deps = ["sp"]
 
 [[lib]]
 name = "dcimgui"
@@ -46,18 +52,14 @@ cxx = { standard = "c++17" }
 
 [[example]]
 name = "headless"
-source = [{ path = "example/headless.c", tree = "manifest" }]
+source = ["example/headless.c"]
 deps = ["dcimgui"]
+
+[profile.default]
+options = { sdl3 = true, sdlgpu3 = true }
 
 [config.imgui]
 options = { sdl3 = true, sdlgpu3 = true }
 
-[publish]
-copy = [
-  { from = "source/gen/dcimgui.h", to = "include" },
-  { from = "source/gen/dcimgui_internal.h", to = "include" },
-  { from = "source/gen/dcimgui_impl_sdl2.h", to = "include" },
-  { from = "source/gen/dcimgui_impl_opengl3.h", to = "include" },
-  { from = "source/gen/dcimgui_impl_sdl3.h", to = "include" },
-  { from = "source/gen/dcimgui_impl_sdlgpu3.h", to = "include" },
-]
+[package.publish]
+include = [{ from = "manifest/gen/*.h" }]

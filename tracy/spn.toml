@@ -32,9 +32,9 @@ cxx = { standard = "c++17" }
 [profile.default]
 options = { enable = true }
 
-[publish]
-copy = [
-  { from = "source/public/tracy/*", to = "include/tracy" },
-  { from = "source/public/common/*", to = "include/common" },
-  { from = "source/public/client/*", to = "include/client" },
+[package.publish]
+include = [
+  { from = "source/public/tracy/*", to = "tracy" },
+  { from = "source/public/common/*", to = "common" },
+  { from = "source/public/client/*", to = "client" },
 ]

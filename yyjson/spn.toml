@@ -13,7 +13,7 @@ name = "yyjson"
 kinds = ["static"]
 source = ["src/yyjson.c"]
 
-[publish]
-copy = [
-  { from = "source/src/yyjson.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/src/yyjson.h" },
 ]

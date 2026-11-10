@@ -36,7 +36,7 @@ name = "basic"
 source = [{ path = "example/basic.c", tree = "manifest" }]
 deps = ["spirv_tools"]
 
-[publish]
-copy = [
-  { from = "source/include/spirv-tools/*", to = "include/spirv-tools" },
+[package.publish]
+include = [
+  { from = "source/include/spirv-tools/*", to = "spirv-tools" },
 ]

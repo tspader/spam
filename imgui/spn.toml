@@ -59,11 +59,11 @@ cxx = { standard = "c++17" }
 [profile.default]
 options = { sdl3 = true, sdlgpu3 = true }
 
-[publish]
-copy = [
-  { from = "source/*.h", to = "include" },
-  { from = "source/backends/imgui_impl_sdl2.h", to = "include" },
-  { from = "source/backends/imgui_impl_opengl3.h", to = "include" },
-  { from = "source/backends/imgui_impl_sdl3.h", to = "include" },
-  { from = "source/backends/imgui_impl_sdlgpu3.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/*.h" },
+  { from = "source/backends/imgui_impl_sdl2.h" },
+  { from = "source/backends/imgui_impl_opengl3.h" },
+  { from = "source/backends/imgui_impl_sdl3.h" },
+  { from = "source/backends/imgui_impl_sdlgpu3.h" },
 ]

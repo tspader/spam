@@ -184,9 +184,9 @@ deps = ["freetype"]
 [profile.default]
 options = { zlib = "system", bzip2 = false, png = false, harfbuzz = false, brotli = false, error_strings = true, subpixel_rendering = true, mmap = true, debug = "trace" }
 
-[publish]
-copy = [
-  { from = "source/include/ft2build.h", to = "include" },
-  { from = "source/include/freetype/*", to = "include/freetype" },
-  { from = "source/include/freetype/config/*", to = "include/freetype/config" },
+[package.publish]
+include = [
+  { from = "source/include/ft2build.h" },
+  { from = "source/include/freetype/*", to = "freetype" },
+  { from = "source/include/freetype/config/*", to = "freetype/config" },
 ]

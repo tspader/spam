@@ -31,8 +31,8 @@ define = [
 ]
 cxx = { standard = "c++17", exceptions = true, rtti = true }
 
-[publish]
-copy = [
-  { from = "source/spirv.h", to = "include" },
-  { from = "source/spirv_cross_c.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/spirv.h" },
+  { from = "source/spirv_cross_c.h" },
 ]

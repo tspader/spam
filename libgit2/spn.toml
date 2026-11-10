@@ -444,9 +444,9 @@ define = [
 ]
 deps = ["git2"]
 
-[publish]
-copy = [
-  { from = "source/include/git2.h", to = "include" },
-  { from = "source/include/git2/*", to = "include/git2" },
-  { from = "source/include/git2/sys/*", to = "include/git2/sys" },
+[package.publish]
+include = [
+  { from = "source/include/git2.h" },
+  { from = "source/include/git2/*", to = "git2" },
+  { from = "source/include/git2/sys/*", to = "git2/sys" },
 ]

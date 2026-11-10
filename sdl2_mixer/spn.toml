@@ -28,7 +28,7 @@ name = "tone"
 source = [{ path = "example/tone.c", tree = "manifest" }]
 deps = ["SDL2_mixer"]
 
-[publish]
-copy = [
-  { from = "source/include/SDL_mixer.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/include/SDL_mixer.h" },
 ]

@@ -61,12 +61,12 @@ deps = ["luajit"]
 [profile.default]
 linkage = "shared"
 
-[publish]
-copy = [
-  { from = "source/src/lua.h", to = "include" },
-  { from = "source/src/luaconf.h", to = "include" },
-  { from = "source/src/lualib.h", to = "include" },
-  { from = "source/src/lauxlib.h", to = "include" },
-  { from = "source/src/lua.hpp", to = "include" },
-  { from = "manifest/gen/luajit.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/src/lua.h" },
+  { from = "source/src/luaconf.h" },
+  { from = "source/src/lualib.h" },
+  { from = "source/src/lauxlib.h" },
+  { from = "source/src/lua.hpp" },
+  { from = "manifest/gen/luajit.h" },
 ]

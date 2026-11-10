@@ -127,13 +127,13 @@ source = [
 ]
 flags = ["-std=gnu17"]
 
-[publish]
-copy = [
-  { from = "source/include/*.h", to = "include/alsa" },
-  { from = "source/include/sound/*.h", to = "include/alsa/sound" },
-  { from = "source/include/sound/uapi/*.h", to = "include/alsa/sound/uapi" },
-  { from = "manifest/config/version.h", to = "include/alsa" },
-  { from = "manifest/config/asoundlib.h", to = "include/alsa" },
+[package.publish]
+include = [
+  { from = "source/include/*.h", to = "alsa" },
+  { from = "source/include/sound/*.h", to = "alsa/sound" },
+  { from = "source/include/sound/uapi/*.h", to = "alsa/sound/uapi" },
+  { from = "manifest/config/version.h", to = "alsa" },
+  { from = "manifest/config/asoundlib.h", to = "alsa" },
 ]
 
 [[example]]

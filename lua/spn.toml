@@ -46,9 +46,16 @@ source = [
   "lvm.c",
   "lzio.c",
 ]
-headers = ["lua.h", "luaconf.h", "lualib.h", "lauxlib.h"]
 define = [
   { value = "LUA_USE_POSIX", when = { os = { not = "windows" } } },
+]
+
+[package.publish]
+include = [
+  { from = "source/lua.h" },
+  { from = "source/luaconf.h" },
+  { from = "source/lualib.h" },
+  { from = "source/lauxlib.h" },
 ]
 
 [[example]]

@@ -1,0 +1,7 @@
+[package]
+name = "dear_bindings"
+version = "0.21.0"
+
+[package.upstream]
+url = "https://github.com/dearimgui/dear_bindings.git"
+commit = "c9ff64913915df41c0f4beef485b98a1c685eda5"

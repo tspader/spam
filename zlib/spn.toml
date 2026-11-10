@@ -123,9 +123,9 @@ source = [{ path = "examples/zran.c", when = { abi = { not = "msvc" }, solo = fa
 define = ["TEST", { value = "_DEFAULT_SOURCE", when = { os = { not = "windows" } } }]
 deps = ["z"]
 
-[publish]
-copy = [
-  { from = "source/zlib.h", to = "include" },
-  { from = "manifest/gen/posix/zconf.h", to = "include", when = { abi = { not = "msvc" } } },
-  { from = "manifest/gen/msvc/zconf.h", to = "include", when = { abi = "msvc" } },
+[package.publish]
+include = [
+  { from = "source/zlib.h" },
+  { from = "manifest/gen/posix/zconf.h", when = { abi = { not = "msvc" } } },
+  { from = "manifest/gen/msvc/zconf.h", when = { abi = "msvc" } },
 ]

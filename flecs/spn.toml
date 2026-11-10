@@ -28,7 +28,7 @@ name = "query"
 source = [{ path = "example/query.c", tree = "manifest" }]
 deps = ["flecs"]
 
-[publish]
-copy = [
-  { from = "source/distr/flecs.h", to = "include/flecs" },
+[package.publish]
+include = [
+  { from = "source/distr/flecs.h", to = "flecs" },
 ]

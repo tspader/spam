@@ -182,10 +182,10 @@ source = ["examples/streaming_memory_usage.c"]
 define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
 deps = ["zstd"]
 
-[publish]
-copy = [
-  { from = "source/lib/zstd.h", to = "include" },
-  { from = "source/lib/zdict.h", to = "include" },
-  { from = "source/lib/zstd_errors.h", to = "include" },
-  { from = "source/lib/deprecated/zbuff.h", to = "include/deprecated" },
+[package.publish]
+include = [
+  { from = "source/lib/zstd.h" },
+  { from = "source/lib/zdict.h" },
+  { from = "source/lib/zstd_errors.h" },
+  { from = "source/lib/deprecated/zbuff.h", to = "deprecated" },
 ]

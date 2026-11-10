@@ -405,8 +405,8 @@ deps = ["dxcompiler"]
 flags = ["-fms-extensions"]
 cxx = { standard = "c++17", exceptions = true, rtti = true }
 
-[publish]
-copy = [
-  { from = "source/include/dxc/dxcapi.h", to = "include/dxc" },
-  { from = "source/include/dxc/WinAdapter.h", to = "include/dxc" },
+[package.publish]
+include = [
+  { from = "source/include/dxc/dxcapi.h", to = "dxc" },
+  { from = "source/include/dxc/WinAdapter.h", to = "dxc" },
 ]

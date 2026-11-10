@@ -82,10 +82,10 @@ name = "text_format_text"
 source = ["examples/text/text_format_text.c"]
 deps = ["raylib"]
 
-[publish]
-copy = [
-  { from = "source/src/raylib.h", to = "include" },
-  { from = "source/src/raymath.h", to = "include" },
-  { from = "source/src/rlgl.h", to = "include" },
-  { from = "source/src/rcamera.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/src/raylib.h" },
+  { from = "source/src/raymath.h" },
+  { from = "source/src/rlgl.h" },
+  { from = "source/src/rcamera.h" },
 ]

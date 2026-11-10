@@ -85,8 +85,8 @@ name = "zero_copy"
 source = ["example/zero_copy.c"]
 deps = ["sp"]
 
-[publish]
-copy = [
-  { from = "source/sp.h", to = "include" },
-  { from = "source/sp/*", to = "include/sp" },
+[package.publish]
+include = [
+  { from = "source/sp.h" },
+  { from = "source/sp/*", to = "sp" },
 ]

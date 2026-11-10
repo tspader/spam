@@ -1,16 +1,18 @@
 [package]
 name = "utest"
-url = "https://github.com/sheredom/utest.h.git"
 version = "1.2.0"
-commit = "fb622dc480a5"
 author = "sheredom"
 maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/sheredom/utest.h.git"
+commit = "fb622dc480a5"
 
 [[lib]]
 name = "utest"
 kinds = ["source"]
 
-[publish]
-copy = [
-  { from = "source/utest.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/utest.h" },
 ]

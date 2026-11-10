@@ -29,7 +29,7 @@ name = "print"
 source = [{ path = "example/print.c", tree = "manifest" }]
 deps = ["qrcodegen"]
 
-[publish]
-copy = [
-  { from = "source/c/qrcodegen.h", to = "include" },
+[package.publish]
+include = [
+  { from = "source/c/qrcodegen.h" },
 ]

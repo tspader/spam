@@ -38,7 +38,7 @@ deps = ["SDL3_shadercross"]
 [profile.default]
 options = { dxc = true }
 
-[publish]
-copy = [
-  { from = "source/include/SDL3_shadercross/SDL_shadercross.h", to = "include/SDL3_shadercross" },
+[package.publish]
+include = [
+  { from = "source/include/SDL3_shadercross/SDL_shadercross.h", to = "SDL3_shadercross" },
 ]

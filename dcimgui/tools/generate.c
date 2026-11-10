@@ -1,0 +1,151 @@
+#define SP_IMPLEMENTATION
+#include "sp.h"
+
+#ifdef SP_WIN32
+  #define HOST_PYTHON "python"
+  #define VENV_PYTHON "Scripts/python.exe"
+#else
+  #define HOST_PYTHON "python3"
+  #define VENV_PYTHON "bin/python"
+#endif
+
+static const c8* backends [] = { "sdl2", "opengl3", "sdl3", "sdlgpu3" };
+
+typedef struct {
+  sp_mem_t mem;
+  sp_str_t imgui;
+  sp_str_t dear_bindings;
+  sp_str_t work;
+  sp_str_t python;
+  sp_str_t out;
+  sp_str_t gen;
+} generate_t;
+
+static sp_str_t join(generate_t* g, sp_str_t base, const c8* sub) {
+  return sp_fs_join_path(g->mem, base, sp_cstr_as_str(sub));
+}
+
+static sp_err_t spawn(generate_t* g, sp_ps_config_t config) {
+  sp_ps_output_t result = sp_ps_run(g->mem, config);
+  if (result.error) {
+    sp_log_err("failed to start {}", sp_fmt_str(config.command));
+    return result.error;
+  }
+  if (result.status.exit_code) {
+    sp_log_err("{} exited with {}", sp_fmt_str(config.command), sp_fmt_uint((u32)result.status.exit_code));
+    return SP_ERR;
+  }
+  return SP_OK;
+}
+
+static sp_err_t prepare(generate_t* g) {
+  if (sp_fs_exists(g->work)) {
+    sp_try(sp_fs_remove_dir(g->work));
+  }
+  sp_try(sp_fs_create_dir(g->out));
+
+  sp_try(spawn(g, (sp_ps_config_t) {
+    .command = sp_str_lit(HOST_PYTHON),
+    .args = { sp_str_lit("-m"), sp_str_lit("venv"), join(g, g->work, "venv") },
+  }));
+  return spawn(g, (sp_ps_config_t) {
+    .command = g->python,
+    .args = { sp_str_lit("-m"), sp_str_lit("pip"), sp_str_lit("-q"), sp_str_lit("install"), sp_str_lit("ply==3.11") },
+  });
+}
+
+static sp_err_t bind(generate_t* g) {
+  sp_str_t script = join(g, g->dear_bindings, "dear_bindings.py");
+  sp_str_t imgui_h = join(g, g->imgui, "imgui.h");
+  sp_str_t imconfig_h = join(g, g->imgui, "imconfig.h");
+
+  sp_try(spawn(g, (sp_ps_config_t) {
+    .command = g->python,
+    .args = {
+      script,
+      sp_str_lit("--generateunformattedfunctions"),
+      sp_str_lit("-o"), join(g, g->out, "dcimgui"),
+      imgui_h,
+    },
+  }));
+
+  sp_try(spawn(g, (sp_ps_config_t) {
+    .command = g->python,
+    .args = {
+      script,
+      sp_str_lit("--generateunformattedfunctions"),
+      sp_str_lit("-o"), join(g, g->out, "dcimgui_internal"),
+      sp_str_lit("--include"), imgui_h,
+      join(g, g->imgui, "imgui_internal.h"),
+    },
+  }));
+
+  sp_carr_for(backends, it) {
+    sp_str_t backend = sp_cstr_as_str(backends[it]);
+    sp_try(spawn(g, (sp_ps_config_t) {
+      .command = g->python,
+      .args = {
+        script,
+        sp_str_lit("--backend"),
+        sp_str_lit("--include"), imgui_h,
+        sp_str_lit("--imconfig-path"), imconfig_h,
+        sp_str_lit("-o"), sp_fs_join_path(g->mem, g->out, sp_fmt(g->mem, "dcimgui_impl_{}", sp_fmt_str(backend)).value),
+        sp_fs_join_path(g->mem, g->imgui, sp_fmt(g->mem, "backends/imgui_impl_{}.h", sp_fmt_str(backend)).value),
+      },
+    }));
+  }
+  return SP_OK;
+}
+
+static sp_err_t harvest(generate_t* g, u32* copied) {
+  sp_da(sp_fs_entry_t) entries = sp_zero;
+  sp_try(sp_fs_collect(g->mem, g->out, &entries));
+
+  if (sp_fs_exists(g->gen)) {
+    sp_try(sp_fs_remove_dir(g->gen));
+  }
+  sp_try(sp_fs_create_dir(g->gen));
+
+  sp_da_for(entries, it) {
+    sp_fs_entry_t* entry = &entries[it];
+    sp_str_t ext = sp_fs_get_ext(entry->name);
+    if (!sp_str_equal(ext, sp_str_lit("h")) && !sp_str_equal(ext, sp_str_lit("cpp"))) {
+      continue;
+    }
+    sp_path_t from = sp_path_from_str(entry->path);
+    sp_path_t to = sp_path_from_str(sp_fs_join_path(g->mem, g->gen, entry->name));
+    sp_try(sp_fs_copy_file_at(from, to, SP_FS_ATOMIC_REPLACE));
+    (*copied)++;
+  }
+  return SP_OK;
+}
+
+static sp_err_t generate(generate_t* g, u32* copied) {
+  sp_try(prepare(g));
+  sp_try(bind(g));
+  return harvest(g, copied);
+}
+
+static s32 generate_main(s32 num_args, const c8** args) {
+  generate_t g = {
+    .mem = sp_mem_heap_as_allocator(sp_mem_heap_new()),
+    .imgui = sp_os_env_get(sp_str_lit("SPN_DEP_imgui")),
+    .dear_bindings = sp_os_env_get(sp_str_lit("SPN_DEP_dear_bindings")),
+    .work = sp_str_lit("build/generate"),
+    .gen = sp_str_lit("gen"),
+  };
+  if (sp_str_empty(g.imgui) || sp_str_empty(g.dear_bindings)) {
+    sp_log_err("SPN_DEP_imgui and SPN_DEP_dear_bindings are unset; run this through {}", sp_fmt_cstr("spn run generate"));
+    return 1;
+  }
+  g.python = join(&g, join(&g, g.work, "venv"), VENV_PYTHON);
+  g.out = join(&g, g.work, "out");
+
+  u32 copied = 0;
+  if (generate(&g, &copied)) {
+    return 1;
+  }
+  sp_log("regenerated {} files in {}", sp_fmt_uint(copied), sp_fmt_str(g.gen));
+  return 0;
+}
+SP_MAIN(generate_main)
