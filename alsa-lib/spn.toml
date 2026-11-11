@@ -8,12 +8,6 @@ system_deps = [
   { lib = "rt", when = { os = "linux" } },
 ]
 
-[package.configure]
-source = ["spn.c"]
-
-[package.build]
-source = ["spn.c"]
-
 [package.upstream]
 url = "https://github.com/alsa-project/alsa-lib.git"
 commit = "62c24074ae2a39613b27028cde0bac2a20635ea1"
@@ -21,7 +15,7 @@ commit = "62c24074ae2a39613b27028cde0bac2a20635ea1"
 [[lib]]
 name = "asound"
 kinds = ["static"]
-include = ["include"]
+include = ["include", { path = "config", tree = "manifest" }]
 source = [
   "src/conf.c",
   "src/confeval.c",

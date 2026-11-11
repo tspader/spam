@@ -9,9 +9,6 @@
 name = "dxc"
 version = "1.8.2502"
 
-[package.configure]
-source = ["spn.c"]
-
 [package.upstream]
 url = "https://github.com/libsdl-org/DirectXShaderCompiler.git"
 commit = "80a7375441f416f6b3e3df815c14ac9132725450"
@@ -24,6 +21,22 @@ directx_headers = "1.4.9"
 [[lib]]
 name = "dxcompiler"
 kinds = ["static"]
+include = [
+  { path = "config", tree = "manifest" },
+  { path = "gen/include", tree = "manifest" },
+  { path = "gen/tools/clang/include", tree = "manifest" },
+  { path = "gen/lib/HLSL", tree = "manifest" },
+  { path = "gen/lib/DxilValidation", tree = "manifest" },
+  { path = "gen/lib/DxilPIXPasses", tree = "manifest" },
+  { path = "gen/tools/clang/lib/Basic", tree = "manifest" },
+  { path = "gen/tools/clang/lib/Sema", tree = "manifest" },
+  { path = "gen/tools/clang/tools/dxcompiler", tree = "manifest" },
+  { path = "gen/utils/version", tree = "manifest" },
+  "include",
+  "tools/clang/include",
+  "tools/clang/tools/dxcvalidator",
+  "tools/clang/tools/dxcompiler",
+]
 source = [
   "lib/Analysis/*.cpp",
   "lib/Analysis/IPA/*.cpp",
@@ -395,12 +408,17 @@ define = [
   { value = "_GNU_SOURCE", when = { os = "linux" } },
 ]
 flags = ["-fms-extensions", "-fno-strict-aliasing", "-w"]
-deps = ["spirv_tools", "spirv_headers", "directx_headers"]
+deps = [
+  "spirv_tools",
+  "spirv_headers",
+  { pkg = "directx_headers", include = ["directx", "wsl/stubs"] },
+]
 cxx = { standard = "c++17", exceptions = true, rtti = true }
 
 [[example]]
 name = "compile"
 source = [{ path = "example/compile.cpp", tree = "manifest" }]
+include = ["include"]
 deps = ["dxcompiler"]
 flags = ["-fms-extensions"]
 cxx = { standard = "c++17", exceptions = true, rtti = true }

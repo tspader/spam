@@ -7,10 +7,7 @@
 [package]
 name = "spirv_tools"
 version = "2024.4.0"
-include = ["include", { path = "gen", tree = "manifest" }]
-
-[package.configure]
-source = ["spn.c"]
+include = [".", "include", { path = "gen", tree = "manifest" }]
 
 [package.upstream]
 url = "https://github.com/KhronosGroup/SPIRV-Tools"

@@ -201,11 +201,13 @@ system_deps = [
 [[example]]
 name = "hash"
 source = [{ path = "example/hash.c", tree = "manifest" }]
+include = [{ path = "config", tree = "manifest" }]
 deps = ["mbedcrypto"]
 
 [[example]]
 name = "client"
 source = [{ path = "example/client.c", tree = "manifest" }]
+include = [{ path = "config", tree = "manifest" }]
 deps = ["mbedtls"]
 
 [package.publish]

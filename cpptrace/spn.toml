@@ -81,12 +81,7 @@ default = false
 [[lib]]
 name = "cpptrace"
 kinds = ["static"]
-include = [
-  "include",
-  "src",
-  { path = "/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf" } },
-  { path = "/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf_and_dbghelp" } },
-]
+include = ["include", "src"]
 source = [
   "src/binary/elf.cpp",
   "src/binary/mach-o.cpp",
@@ -148,6 +143,8 @@ define = [
   { value = "HAS_MACH_VM", when = { os = "macos" } },
 ]
 flags = [
+  { value = "-I/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf" } },
+  { value = "-I/usr/include/libdwarf-2", when = { os = "linux", symbols = "libdwarf_and_dbghelp" } },
   { value = "-Wall", when = { werror = true, abi = { not = "msvc" } } },
   { value = "-Wextra", when = { werror = true, abi = { not = "msvc" } } },
   { value = "-Werror", when = { werror = true, abi = { not = "msvc" } } },

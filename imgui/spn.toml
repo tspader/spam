@@ -2,9 +2,6 @@
 name = "imgui"
 version = "1.92.8"
 
-[package.configure]
-source = ["spn.c"]
-
 [package.upstream]
 url = "https://github.com/ocornut/imgui.git"
 commit = "b61e56346a92cfcaf1f43a545ca37b0b32239654"

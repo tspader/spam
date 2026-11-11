@@ -83,10 +83,7 @@ define = "AF_CONFIG_OPTION_TT_SIZE_METRICS"
 [[lib]]
 name = "freetype"
 kinds = ["static"]
-include = [
-  "include",
-  { path = "/usr/include/harfbuzz", when = { harfbuzz = true, os = "linux" } },
-]
+include = ["include"]
 source = [
   "src/autofit/autofit.c",
   "src/base/ftbase.c",
@@ -142,6 +139,8 @@ flags = [
   { value = "/usr/include", when = { png = true, os = "linux" } },
   { value = "-idirafter", when = { harfbuzz = true, os = "linux" } },
   { value = "/usr/include", when = { harfbuzz = true, os = "linux" } },
+  { value = "-idirafter", when = { harfbuzz = true, os = "linux" } },
+  { value = "/usr/include/harfbuzz", when = { harfbuzz = true, os = "linux" } },
   { value = "-idirafter", when = { brotli = true, os = "linux" } },
   { value = "/usr/include", when = { brotli = true, os = "linux" } },
 ]
