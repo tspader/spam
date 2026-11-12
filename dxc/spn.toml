@@ -13,15 +13,22 @@ version = "1.8.2502"
 url = "https://github.com/libsdl-org/DirectXShaderCompiler.git"
 commit = "80a7375441f416f6b3e3df815c14ac9132725450"
 
+[options.static]
+type = "bool"
+default = [{ value = true, when = { os = "windows" } }, { value = false }]
+public = true
+define = "DXC_API_IMPORT="
+
 [deps.package]
 spirv_tools = "2024.4.0"
 spirv_headers = "1.4.304"
-directx_headers = "1.4.9"
+directx_headers = { version = "1.4.9", when = { os = { not = "windows" } } }
 
 [[lib]]
 name = "dxcompiler"
 kinds = ["static"]
 include = [
+  "include/llvm/llvm_assert",
   { path = "config", tree = "manifest" },
   { path = "gen/include", tree = "manifest" },
   { path = "gen/tools/clang/include", tree = "manifest" },
@@ -32,6 +39,8 @@ include = [
   { path = "gen/tools/clang/lib/Sema", tree = "manifest" },
   { path = "gen/tools/clang/tools/dxcompiler", tree = "manifest" },
   { path = "gen/utils/version", tree = "manifest" },
+  { path = "shim", tree = "manifest", when = { os = { not = "windows" } } },
+  { path = "etw", tree = "manifest", when = { abi = "msvc" } },
   "include",
   "tools/clang/include",
   "tools/clang/tools/dxcvalidator",
@@ -50,6 +59,7 @@ source = [
   "lib/DxilCompression/DxilCompression.cpp",
   "lib/DxilCompression/miniz.c",
   "lib/DxilContainer/*.cpp",
+  { path = "lib/DxilDia/*.cpp", when = { abi = "msvc" } },
   "lib/DxilHash/DxilHash.cpp",
   "lib/DxilPIXPasses/*.cpp",
   "lib/DxilRootSignature/*.cpp",
@@ -401,17 +411,25 @@ define = [
   "ENABLE_SPIRV_CODEGEN",
   "SUPPORT_QUERY_GIT_COMMIT_INFO",
   "MS_IMPLICIT_DISK_FILESYSTEM",
-  "_CINDEX_LIB_",
+  "CINDEX_LINKAGE=",
+  "LIBCLANG_CC=",
   "__STDC_CONSTANT_MACROS",
   "__STDC_FORMAT_MACROS",
   "__STDC_LIMIT_MACROS",
   { value = "_GNU_SOURCE", when = { os = "linux" } },
 ]
-flags = ["-fms-extensions", "-fno-strict-aliasing", "-w"]
+flags = [
+  { value = "-fms-extensions", when = { driver = { not = "msvc" } } },
+  { value = "-fno-strict-aliasing", when = { driver = { not = "msvc" } } },
+  { value = "/bigobj", when = { driver = "msvc" } },
+  { value = "/guard:cf", when = { driver = "msvc" } },
+  { value = "/Zc:sizedDealloc-", when = { driver = "msvc" } },
+  "-w",
+]
 deps = [
   "spirv_tools",
   "spirv_headers",
-  { pkg = "directx_headers", include = ["directx", "wsl/stubs"] },
+  { pkg = "directx_headers", when = { os = { not = "windows" } } },
 ]
 cxx = { standard = "c++17", exceptions = true, rtti = true }
 
@@ -420,7 +438,7 @@ name = "compile"
 source = [{ path = "example/compile.cpp", tree = "manifest" }]
 include = ["include"]
 deps = ["dxcompiler"]
-flags = ["-fms-extensions"]
+flags = [{ value = "-fms-extensions", when = { driver = { not = "msvc" } } }]
 cxx = { standard = "c++17", exceptions = true, rtti = true }
 
 [package.publish]

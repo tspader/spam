@@ -40,7 +40,7 @@
 
 /* Host triple LLVM will be executed on */
 #if defined(_WIN32)
-#define LLVM_HOST_TRIPLE "x86_64-w64-mingw32"
+#define LLVM_HOST_TRIPLE "x86_64-pc-win32"
 #elif defined(__APPLE__)
 #define LLVM_HOST_TRIPLE "x86_64-unknown-linux-gnu"
 #else

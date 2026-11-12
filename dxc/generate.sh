@@ -38,6 +38,12 @@
 # _WIN32/__APPLE__ (plus __GLIBC__ guards for glibc-only functions, since the
 # linux reference configure runs against glibc but spn defaults to musl).
 #
+# Two things need a Windows host and are not produced here. The committed
+# _WIN32 values in config/ come from an MSVC configure (the same cmake line
+# as below, with cl); this script would rewrite them from the mingw configure.
+# etw/dxcetw.h is `ninja DxcEtw` in that MSVC build tree, which runs mc.exe on
+# include/dxc/Tracing/dxcetw.man.
+#
 # Requires: git, cmake, ninja, python3, a host clang, and the spn zig
 # toolchain (used only to cmake-configure for the windows and macos variants
 # of the config headers; nothing is built for those targets).
