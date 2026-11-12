@@ -37,4 +37,9 @@
 # define GIT_BUILD_CPU "aarch64"
 #endif
 
+#if defined(GIT_HTTPS_MBEDTLS)
+char *git2_default_cert_location(void);
+# define GIT_DEFAULT_CERT_LOCATION git2_default_cert_location()
+#endif
+
 #endif
