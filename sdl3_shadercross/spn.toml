@@ -40,5 +40,5 @@ options = { dxc = true }
 
 [package.publish]
 include = [
-  { from = "source/include/SDL3_shadercross/SDL_shadercross.h", to = "SDL3_shadercross" },
+  { from = "include/SDL3_shadercross/SDL_shadercross.h", to = "SDL3_shadercross" },
 ]

@@ -195,5 +195,5 @@ deps = ["spirv_tools"]
 
 [package.publish]
 include = [
-  { from = "source/include/spirv-tools/*", to = "spirv-tools" },
+  { from = "include/spirv-tools/*", to = "spirv-tools" },
 ]

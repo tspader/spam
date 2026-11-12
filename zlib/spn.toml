@@ -125,7 +125,7 @@ deps = ["z"]
 
 [package.publish]
 include = [
-  { from = "source/zlib.h" },
-  { from = "manifest/gen/posix/zconf.h", when = { abi = { not = "msvc" } } },
-  { from = "manifest/gen/msvc/zconf.h", when = { abi = "msvc" } },
+  { from = "zlib.h" },
+  { from = "gen/posix/zconf.h", tree = "manifest", when = { abi = { not = "msvc" } } },
+  { from = "gen/msvc/zconf.h", tree = "manifest", when = { abi = "msvc" } },
 ]

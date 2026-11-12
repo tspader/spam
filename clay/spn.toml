@@ -30,15 +30,15 @@ cxx = { standard = "c++20" }
 
 [package.publish]
 include = [
-  { from = "source/clay.h" },
-  { from = "source/renderers/cairo/clay_renderer_cairo.c", to = "renderers/cairo" },
-  { from = "source/renderers/GLES3/*.[ch]", to = "renderers/GLES3" },
-  { from = "source/renderers/playdate/clay_renderer_playdate.c", to = "renderers/playdate" },
-  { from = "source/renderers/raylib/clay_renderer_raylib.c", to = "renderers/raylib" },
-  { from = "source/renderers/SDL2/clay_renderer_SDL2.c", to = "renderers/SDL2" },
-  { from = "source/renderers/SDL3/clay_renderer_SDL3.c", to = "renderers/SDL3" },
-  { from = "source/renderers/sokol/sokol_clay.h", to = "renderers/sokol" },
-  { from = "source/renderers/termbox2/*.[ch]", to = "renderers/termbox2" },
-  { from = "source/renderers/terminal/clay_renderer_terminal_ansi.c", to = "renderers/terminal" },
-  { from = "source/renderers/win32_gdi/clay_renderer_gdi.c", to = "renderers/win32_gdi" },
+  { from = "clay.h" },
+  { from = "renderers/cairo/clay_renderer_cairo.c", to = "renderers/cairo" },
+  { from = "renderers/GLES3/*.[ch]", to = "renderers/GLES3" },
+  { from = "renderers/playdate/clay_renderer_playdate.c", to = "renderers/playdate" },
+  { from = "renderers/raylib/clay_renderer_raylib.c", to = "renderers/raylib" },
+  { from = "renderers/SDL2/clay_renderer_SDL2.c", to = "renderers/SDL2" },
+  { from = "renderers/SDL3/clay_renderer_SDL3.c", to = "renderers/SDL3" },
+  { from = "renderers/sokol/sokol_clay.h", to = "renderers/sokol" },
+  { from = "renderers/termbox2/*.[ch]", to = "renderers/termbox2" },
+  { from = "renderers/terminal/clay_renderer_terminal_ansi.c", to = "renderers/terminal" },
+  { from = "renderers/win32_gdi/clay_renderer_gdi.c", to = "renderers/win32_gdi" },
 ]

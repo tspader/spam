@@ -218,8 +218,8 @@ source = [
 
 [package.publish]
 include = [
-  { from = "source/include/*.h" },
-  { from = "manifest/config/*" },
+  { from = "include/*.h" },
+  { from = "config/*", tree = "manifest" },
 ]
 
 [[example]]

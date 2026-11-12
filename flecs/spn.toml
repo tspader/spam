@@ -30,5 +30,5 @@ deps = ["flecs"]
 
 [package.publish]
 include = [
-  { from = "source/distr/flecs.h", to = "flecs" },
+  { from = "distr/flecs.h", to = "flecs" },
 ]

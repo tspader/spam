@@ -8,7 +8,7 @@ commit = "6c75545a1deb51f5903992c52af6bc35cc9bc103"
 
 [package.publish]
 include = [
-  { from = "source/include/X11/*.h", to = "X11" },
-  { from = "source/include/X11/extensions/*.h", to = "X11/extensions" },
-  { from = "manifest/gen/X11/XlibConf.h", to = "X11" },
+  { from = "include/X11/*.h", to = "X11" },
+  { from = "include/X11/extensions/*.h", to = "X11/extensions" },
+  { from = "gen/X11/XlibConf.h", tree = "manifest", to = "X11" },
 ]

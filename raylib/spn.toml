@@ -84,8 +84,8 @@ deps = ["raylib"]
 
 [package.publish]
 include = [
-  { from = "source/src/raylib.h" },
-  { from = "source/src/raymath.h" },
-  { from = "source/src/rlgl.h" },
-  { from = "source/src/rcamera.h" },
+  { from = "src/raylib.h" },
+  { from = "src/raymath.h" },
+  { from = "src/rlgl.h" },
+  { from = "src/rcamera.h" },
 ]

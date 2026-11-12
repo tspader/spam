@@ -58,9 +58,9 @@ options = { sdl3 = true, sdlgpu3 = true }
 
 [package.publish]
 include = [
-  { from = "source/*.h" },
-  { from = "source/backends/imgui_impl_sdl2.h" },
-  { from = "source/backends/imgui_impl_opengl3.h" },
-  { from = "source/backends/imgui_impl_sdl3.h" },
-  { from = "source/backends/imgui_impl_sdlgpu3.h" },
+  { from = "*.h" },
+  { from = "backends/imgui_impl_sdl2.h" },
+  { from = "backends/imgui_impl_opengl3.h" },
+  { from = "backends/imgui_impl_sdl3.h" },
+  { from = "backends/imgui_impl_sdlgpu3.h" },
 ]

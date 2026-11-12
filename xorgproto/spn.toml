@@ -8,13 +8,13 @@ commit = "c18d2bc22813793bba7f0e4e603c0104d7724802"
 
 [package.publish]
 include = [
-  { from = "source/include/GL/*.h", to = "GL" },
-  { from = "source/include/GL/internal/*.h", to = "GL/internal" },
-  { from = "source/include/X11/*.h", to = "X11" },
-  { from = "source/include/X11/PM/*.h", to = "X11/PM" },
-  { from = "source/include/X11/dri/*.h", to = "X11/dri" },
-  { from = "source/include/X11/extensions/*.h", to = "X11/extensions" },
-  { from = "source/include/X11/fonts/*.h", to = "X11/fonts" },
-  { from = "manifest/gen/glibc/X11/Xpoll.h", to = "X11", when = { abi = "gnu" } },
-  { from = "manifest/gen/libc/X11/Xpoll.h", to = "X11", when = { abi = { not = "gnu" } } },
+  { from = "include/GL/*.h", to = "GL" },
+  { from = "include/GL/internal/*.h", to = "GL/internal" },
+  { from = "include/X11/*.h", to = "X11" },
+  { from = "include/X11/PM/*.h", to = "X11/PM" },
+  { from = "include/X11/dri/*.h", to = "X11/dri" },
+  { from = "include/X11/extensions/*.h", to = "X11/extensions" },
+  { from = "include/X11/fonts/*.h", to = "X11/fonts" },
+  { from = "gen/glibc/X11/Xpoll.h", tree = "manifest", to = "X11", when = { abi = "gnu" } },
+  { from = "gen/libc/X11/Xpoll.h", tree = "manifest", to = "X11", when = { abi = { not = "gnu" } } },
 ]

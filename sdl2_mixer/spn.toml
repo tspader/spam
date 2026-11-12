@@ -30,5 +30,5 @@ deps = ["SDL2_mixer"]
 
 [package.publish]
 include = [
-  { from = "source/include/SDL_mixer.h" },
+  { from = "include/SDL_mixer.h" },
 ]

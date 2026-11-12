@@ -21,9 +21,9 @@ deps = ["directx_headers"]
 
 [package.publish]
 include = [
-  { from = "source/include/directx/*.h", to = "directx" },
-  { from = "source/include/dxguids/*.h", to = "dxguids" },
-  { from = "source/include/wsl/*.h", to = "wsl" },
-  { from = "source/include/wsl/stubs/*.h", to = "wsl/stubs" },
-  { from = "source/include/wsl/stubs/wrl/*.h", to = "wsl/stubs/wrl" },
+  { from = "include/directx/*.h", to = "directx" },
+  { from = "include/dxguids/*.h", to = "dxguids" },
+  { from = "include/wsl/*.h", to = "wsl" },
+  { from = "include/wsl/stubs/*.h", to = "wsl/stubs" },
+  { from = "include/wsl/stubs/wrl/*.h", to = "wsl/stubs/wrl" },
 ]

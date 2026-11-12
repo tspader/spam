@@ -8,5 +8,5 @@ commit = "8ae6cf61b18ecddf26f72a07bbfbd1ea9f022c36"
 
 [package.publish]
 include = [
-  { from = "manifest/gen/X11/Xcursor/Xcursor.h", to = "X11/Xcursor" },
+  { from = "gen/X11/Xcursor/Xcursor.h", tree = "manifest", to = "X11/Xcursor" },
 ]

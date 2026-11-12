@@ -123,11 +123,11 @@ flags = ["-std=gnu17"]
 
 [package.publish]
 include = [
-  { from = "source/include/*.h", to = "alsa" },
-  { from = "source/include/sound/*.h", to = "alsa/sound" },
-  { from = "source/include/sound/uapi/*.h", to = "alsa/sound/uapi" },
-  { from = "manifest/config/version.h", to = "alsa" },
-  { from = "manifest/config/asoundlib.h", to = "alsa" },
+  { from = "include/*.h", to = "alsa" },
+  { from = "include/sound/*.h", to = "alsa/sound" },
+  { from = "include/sound/uapi/*.h", to = "alsa/sound/uapi" },
+  { from = "config/version.h", tree = "manifest", to = "alsa" },
+  { from = "config/asoundlib.h", tree = "manifest", to = "alsa" },
 ]
 
 [[example]]

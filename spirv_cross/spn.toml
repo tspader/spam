@@ -33,6 +33,6 @@ cxx = { standard = "c++17", exceptions = true, rtti = true }
 
 [package.publish]
 include = [
-  { from = "source/spirv.h" },
-  { from = "source/spirv_cross_c.h" },
+  { from = "spirv.h" },
+  { from = "spirv_cross_c.h" },
 ]

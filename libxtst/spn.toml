@@ -8,5 +8,5 @@ commit = "abf3ff74b97c4231d2324d66318bfa1d22e44913"
 
 [package.publish]
 include = [
-  { from = "source/include/X11/extensions/*.h", to = "X11/extensions" },
+  { from = "include/X11/extensions/*.h", to = "X11/extensions" },
 ]

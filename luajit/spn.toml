@@ -63,10 +63,10 @@ linkage = "shared"
 
 [package.publish]
 include = [
-  { from = "source/src/lua.h" },
-  { from = "source/src/luaconf.h" },
-  { from = "source/src/lualib.h" },
-  { from = "source/src/lauxlib.h" },
-  { from = "source/src/lua.hpp" },
-  { from = "manifest/gen/luajit.h" },
+  { from = "src/lua.h" },
+  { from = "src/luaconf.h" },
+  { from = "src/lualib.h" },
+  { from = "src/lauxlib.h" },
+  { from = "src/lua.hpp" },
+  { from = "gen/luajit.h", tree = "manifest" },
 ]

@@ -52,10 +52,10 @@ define = [
 
 [package.publish]
 include = [
-  { from = "source/lua.h" },
-  { from = "source/luaconf.h" },
-  { from = "source/lualib.h" },
-  { from = "source/lauxlib.h" },
+  { from = "lua.h" },
+  { from = "luaconf.h" },
+  { from = "lualib.h" },
+  { from = "lauxlib.h" },
 ]
 
 [[example]]

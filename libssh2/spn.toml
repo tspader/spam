@@ -247,5 +247,5 @@ deps = ["ssh2"]
 
 [package.publish]
 include = [
-  { from = "source/include/*.h" },
+  { from = "include/*.h" },
 ]

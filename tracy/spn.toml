@@ -34,7 +34,7 @@ options = { enable = true }
 
 [package.publish]
 include = [
-  { from = "source/public/tracy/*", to = "tracy" },
-  { from = "source/public/common/*", to = "common" },
-  { from = "source/public/client/*", to = "client" },
+  { from = "public/tracy/*", to = "tracy" },
+  { from = "public/common/*", to = "common" },
+  { from = "public/client/*", to = "client" },
 ]

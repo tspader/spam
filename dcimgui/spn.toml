@@ -62,4 +62,4 @@ options = { sdl3 = true, sdlgpu3 = true }
 options = { sdl3 = true, sdlgpu3 = true }
 
 [package.publish]
-include = [{ from = "manifest/gen/*.h" }]
+include = [{ from = "gen/*.h", tree = "manifest" }]

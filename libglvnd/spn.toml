@@ -8,11 +8,11 @@ commit = "faa23f21fc677af5792825dc30cb1ccef4bf33a6"
 
 [package.publish]
 include = [
-  { from = "source/include/EGL/*.h", to = "EGL" },
-  { from = "source/include/GL/*.h", to = "GL" },
-  { from = "source/include/GLES/*.h", to = "GLES" },
-  { from = "source/include/GLES2/*.h", to = "GLES2" },
-  { from = "source/include/GLES3/*.h", to = "GLES3" },
-  { from = "source/include/KHR/*.h", to = "KHR" },
-  { from = "source/include/glvnd/*.h", to = "glvnd" },
+  { from = "include/EGL/*.h", to = "EGL" },
+  { from = "include/GL/*.h", to = "GL" },
+  { from = "include/GLES/*.h", to = "GLES" },
+  { from = "include/GLES2/*.h", to = "GLES2" },
+  { from = "include/GLES3/*.h", to = "GLES3" },
+  { from = "include/KHR/*.h", to = "KHR" },
+  { from = "include/glvnd/*.h", to = "glvnd" },
 ]

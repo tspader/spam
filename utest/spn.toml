@@ -14,5 +14,5 @@ kinds = ["source"]
 
 [package.publish]
 include = [
-  { from = "source/utest.h" },
+  { from = "utest.h" },
 ]

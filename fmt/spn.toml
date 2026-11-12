@@ -27,5 +27,5 @@ cxx = { standard = "c++17" }
 
 [package.publish]
 include = [
-  { from = "source/include/fmt/*", to = "fmt" },
+  { from = "include/fmt/*", to = "fmt" },
 ]

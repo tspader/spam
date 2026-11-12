@@ -185,7 +185,7 @@ options = { zlib = "system", bzip2 = false, png = false, harfbuzz = false, brotl
 
 [package.publish]
 include = [
-  { from = "source/include/ft2build.h" },
-  { from = "source/include/freetype/*", to = "freetype" },
-  { from = "source/include/freetype/config/*", to = "freetype/config" },
+  { from = "include/ft2build.h" },
+  { from = "include/freetype/*", to = "freetype" },
+  { from = "include/freetype/config/*", to = "freetype/config" },
 ]

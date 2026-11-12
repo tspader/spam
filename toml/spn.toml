@@ -18,5 +18,5 @@ kinds = ["source"]
 
 [package.publish]
 include = [
-  { from = "source/toml.h" },
+  { from = "toml.h" },
 ]

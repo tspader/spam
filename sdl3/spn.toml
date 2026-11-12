@@ -268,7 +268,7 @@ frameworks = [
 
 [package.publish]
 include = [
-  { from = "source/include/SDL3/*.h", to = "SDL3" },
+  { from = "include/SDL3/*.h", to = "SDL3" },
 ]
 
 [[example]]

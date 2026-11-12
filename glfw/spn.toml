@@ -124,5 +124,5 @@ linkage = "shared"
 
 [package.publish]
 include = [
-  { from = "source/include/GLFW/*.h", to = "GLFW" },
+  { from = "include/GLFW/*.h", to = "GLFW" },
 ]

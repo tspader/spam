@@ -43,5 +43,5 @@ deps = ["blake3"]
 
 [package.publish]
 include = [
-  { from = "source/c/blake3.h" },
+  { from = "c/blake3.h" },
 ]

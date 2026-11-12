@@ -425,6 +425,6 @@ cxx = { standard = "c++17", exceptions = true, rtti = true }
 
 [package.publish]
 include = [
-  { from = "source/include/dxc/dxcapi.h", to = "dxc" },
-  { from = "source/include/dxc/WinAdapter.h", to = "dxc" },
+  { from = "include/dxc/dxcapi.h", to = "dxc" },
+  { from = "include/dxc/WinAdapter.h", to = "dxc" },
 ]

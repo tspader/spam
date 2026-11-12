@@ -8,8 +8,8 @@ commit = "f64ae3cafdcf31606401171bb0e8fe3fccc761c2"
 
 [package.publish]
 include = [
-  { from = "source/dbus/*.h", to = "dbus" },
-  { from = "manifest/config/dbus-arch-deps.h", to = "dbus" },
+  { from = "dbus/*.h", to = "dbus" },
+  { from = "config/dbus-arch-deps.h", tree = "manifest", to = "dbus" },
 ]
 
 [[example]]

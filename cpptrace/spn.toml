@@ -166,6 +166,6 @@ options = { symbols = "addr2line" }
 
 [package.publish]
 include = [
-  { from = "source/include/cpptrace/*", to = "cpptrace" },
-  { from = "source/include/ctrace/*", to = "ctrace" },
+  { from = "include/cpptrace/*", to = "cpptrace" },
+  { from = "include/ctrace/*", to = "ctrace" },
 ]

@@ -31,5 +31,5 @@ deps = ["qrcodegen"]
 
 [package.publish]
 include = [
-  { from = "source/c/qrcodegen.h" },
+  { from = "c/qrcodegen.h" },
 ]

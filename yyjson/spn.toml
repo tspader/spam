@@ -15,5 +15,5 @@ source = ["src/yyjson.c"]
 
 [package.publish]
 include = [
-  { from = "source/src/yyjson.h" },
+  { from = "src/yyjson.h" },
 ]

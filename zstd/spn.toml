@@ -184,8 +184,8 @@ deps = ["zstd"]
 
 [package.publish]
 include = [
-  { from = "source/lib/zstd.h" },
-  { from = "source/lib/zdict.h" },
-  { from = "source/lib/zstd_errors.h" },
-  { from = "source/lib/deprecated/zbuff.h", to = "deprecated" },
+  { from = "lib/zstd.h" },
+  { from = "lib/zdict.h" },
+  { from = "lib/zstd_errors.h" },
+  { from = "lib/deprecated/zbuff.h", to = "deprecated" },
 ]
