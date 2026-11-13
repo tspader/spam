@@ -2,26 +2,16 @@
 #define SPN_CURL_CONFIG_H
 
 #ifdef _WIN32
-  #ifndef SPN_CURL_THREADED_RESOLVER
-    #define USE_SYNC_DNS 1
-  #endif
   #include "config-win32.h"
-  #undef USE_UNIX_SOCKETS
   #ifdef __MINGW32__
     #define HAVE_DIRENT_H 1
     #define HAVE_OPENDIR 1
   #endif
-  #ifndef SPN_CURL_LDAP
-    #undef USE_WIN32_LDAP
-    #undef HAVE_LDAP_SSL
-    #define CURL_DISABLE_LDAP 1
-    #define CURL_DISABLE_LDAPS 1
-  #endif
-  #ifdef SPN_CURL_SCHANNEL
+  #undef USE_WIN32_LDAP
+  #undef HAVE_LDAP_SSL
+  #define USE_WINDOWS_SSPI 1
+  #ifdef SPN_CURL_TLS
     #define USE_SCHANNEL 1
-  #endif
-  #if defined(SPN_CURL_SCHANNEL) || defined(SPN_CURL_SSPI)
-    #define USE_WINDOWS_SSPI 1
   #endif
   #ifdef SPN_CURL_IDN
     #define USE_WIN32_IDN 1
@@ -38,9 +28,6 @@
     #define HAVE_SYS_SOCKIO_H 1
     #ifdef SPN_CURL_IDN
       #define USE_APPLE_IDN 1
-    #endif
-    #ifdef SPN_CURL_CA_BUNDLE
-      #define CURL_CA_BUNDLE "/etc/ssl/cert.pem"
     #endif
   #elif defined(__linux__)
     #define _FILE_OFFSET_BITS 64
@@ -64,15 +51,9 @@
     #else
       #define HAVE_POSIX_STRERROR_R 1
     #endif
-    #ifdef SPN_CURL_CA_BUNDLE
-      #define CURL_CA_BUNDLE "/etc/ssl/certs/ca-certificates.crt"
-    #endif
   #else
     #error "spn curl: unsupported platform"
   #endif
-
-  #define CURL_DISABLE_LDAP 1
-  #define CURL_DISABLE_LDAPS 1
 
   #define SIZEOF_INT __SIZEOF_INT__
   #define SIZEOF_LONG __SIZEOF_LONG__
@@ -171,27 +152,23 @@
   #define HAVE_WRITABLE_ARGV 1
   #define STDC_HEADERS 1
 
-  #ifdef SPN_CURL_THREADED_RESOLVER
-    #define USE_THREADS_POSIX 1
-    #define HAVE_PTHREAD_H 1
+  #define USE_THREADS_POSIX 1
+  #define HAVE_PTHREAD_H 1
+
+  #ifdef SPN_CURL_TLS
+    #define USE_MBEDTLS 1
+    #define HAVE_MBEDTLS_DES_CRYPT_ECB 1
+    extern char spn_curl_ca_bundle[];
+    #define CURL_CA_BUNDLE spn_curl_ca_bundle
   #endif
 #endif
 
-#ifdef SPN_CURL_UNIX_SOCKETS
-  #define USE_UNIX_SOCKETS 1
-#endif
-#ifdef SPN_CURL_IPV6
-  #define USE_IPV6 1
-#endif
-#ifdef SPN_CURL_MBEDTLS
-  #define USE_MBEDTLS 1
-  #define HAVE_MBEDTLS_DES_CRYPT_ECB 1
-#endif
+#undef USE_UNIX_SOCKETS
+#define USE_UNIX_SOCKETS 1
+#define USE_IPV6 1
+#define CURL_DISABLE_LDAP 1
+#define CURL_DISABLE_LDAPS 1
 
-#ifndef SPN_CURL_HTTP
-  #define CURL_DISABLE_HTTP 1
-  #define CURL_DISABLE_IPFS 1
-#endif
 #ifndef SPN_CURL_FTP
   #define CURL_DISABLE_FTP 1
 #endif
@@ -254,33 +231,7 @@
 #endif
 #ifndef SPN_CURL_MIME
   #define CURL_DISABLE_MIME 1
-#endif
-#ifndef SPN_CURL_FORM_API
   #define CURL_DISABLE_FORM_API 1
-#endif
-#ifndef SPN_CURL_NTLM
-  #define CURL_DISABLE_NTLM 1
-#endif
-#ifndef SPN_CURL_AWS
-  #define CURL_DISABLE_AWS 1
-#endif
-#ifndef SPN_CURL_HTTP_AUTH
-  #define CURL_DISABLE_HTTP_AUTH 1
-#endif
-#ifndef SPN_CURL_BASIC_AUTH
-  #define CURL_DISABLE_BASIC_AUTH 1
-#endif
-#ifndef SPN_CURL_BEARER_AUTH
-  #define CURL_DISABLE_BEARER_AUTH 1
-#endif
-#ifndef SPN_CURL_DIGEST_AUTH
-  #define CURL_DISABLE_DIGEST_AUTH 1
-#endif
-#ifndef SPN_CURL_KERBEROS_AUTH
-  #define CURL_DISABLE_KERBEROS_AUTH 1
-#endif
-#ifndef SPN_CURL_NEGOTIATE_AUTH
-  #define CURL_DISABLE_NEGOTIATE_AUTH 1
 #endif
 #ifndef SPN_CURL_VERBOSE_STRINGS
   #define CURL_DISABLE_VERBOSE_STRINGS 1
