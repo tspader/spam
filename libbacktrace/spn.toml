@@ -1,0 +1,46 @@
+[package]
+name = "libbacktrace"
+version = "1.0.0"
+author = "ianlancetaylor"
+maintainer = "tspader"
+system_deps = [
+  { lib = "unwind", when = { driver = "zig", os = { not = "macos" } } },
+]
+
+[package.upstream]
+url = "https://github.com/ianlancetaylor/libbacktrace.git"
+commit = "0b9b49cf4a2c9229fc052d6716e1528b2f23e91a"
+
+[[lib]]
+name = "backtrace"
+kinds = ["static"]
+include = [".", { path = "config", tree = "manifest" }]
+source = [
+  "atomic.c",
+  "backtrace.c",
+  "dwarf.c",
+  "fileline.c",
+  "posix.c",
+  "print.c",
+  "simple.c",
+  "sort.c",
+  "state.c",
+  { path = "elf.c", when = { os = "linux" } },
+  { path = "macho.c", when = { os = "macos" } },
+  { path = "pecoff.c", when = { os = "windows" } },
+  { path = "mmap.c", when = { os = { not = "windows" } } },
+  { path = "mmapio.c", when = { os = { not = "windows" } } },
+  { path = "alloc.c", when = { os = "windows" } },
+  { path = "read.c", when = { os = "windows" } },
+]
+
+[[example]]
+name = "trace"
+source = [{ path = "example/trace.c", tree = "manifest" }]
+deps = ["backtrace"]
+
+[package.publish]
+include = [
+  { from = "backtrace.h" },
+  { from = "config/backtrace-supported.h", tree = "manifest" },
+]
