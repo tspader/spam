@@ -1,0 +1,49 @@
+[package]
+name = "libdwarf"
+version = "2.3.4"
+author = "davea42"
+maintainer = "tspader"
+
+[package.upstream]
+url = "https://github.com/davea42/libdwarf-code.git"
+commit = "eaaa082ce7550d03a219e40ebd3fa00a60c9215a"
+
+[deps.package]
+zlib = { version = "1.3.2", when = { decompression = true } }
+zstd = { version = "1.6.0", when = { decompression = true } }
+
+[options.static]
+type = "bool"
+default = true
+public = true
+define = "LIBDWARF_STATIC"
+
+[options.decompression]
+type = "bool"
+default = true
+define = "SPN_LIBDWARF_DECOMPRESSION"
+
+[[lib]]
+name = "dwarf"
+kinds = ["static"]
+include = ["src/lib/libdwarf", { path = "config", tree = "manifest" }]
+source = ["src/lib/libdwarf/*.c"]
+define = [
+  "LIBDWARF_BUILD",
+  { value = "_GNU_SOURCE", when = { os = "linux" } },
+]
+deps = [
+  { pkg = "zlib", when = { decompression = true } },
+  { pkg = "zstd", when = { decompression = true } },
+]
+
+[[example]]
+name = "units"
+source = [{ path = "example/units.c", tree = "manifest" }]
+deps = ["dwarf"]
+
+[package.publish]
+include = [
+  { from = "src/lib/libdwarf/libdwarf.h" },
+  { from = "src/lib/libdwarf/dwarf.h" },
+]
