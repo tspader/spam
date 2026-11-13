@@ -9,15 +9,14 @@ define = [
   { value = "HAVE_UNISTD_H", when = { os = { not = "windows" } } },
   { value = "HAVE_INTTYPES_H", when = { os = { not = "windows" } } },
   { value = "HAVE_SYS_SELECT_H", when = { os = { not = "windows" } } },
+  { value = "HAVE_SYS_TIME_H", when = { os = { not = "windows" } } },
   { value = "HAVE_SYS_UIO_H", when = { os = { not = "windows" } } },
   { value = "HAVE_SYS_IOCTL_H", when = { os = { not = "windows" } } },
   { value = "HAVE_SYS_UN_H", when = { os = { not = "windows" } } },
   { value = "HAVE_ARPA_INET_H", when = { os = { not = "windows" } } },
   { value = "HAVE_NETINET_IN_H", when = { os = { not = "windows" } } },
   { value = "HAVE_O_NONBLOCK", when = { os = { not = "windows" } } },
-  { value = "HAVE_POLL", when = { os = "linux" } },
-  { value = "UNICODE", when = { os = "windows", unicode = true } },
-  { value = "_UNICODE", when = { os = "windows", unicode = true } },
+  { value = "HAVE_POLL", when = { os = { not = "windows" } } },
 ]
 system_deps = [
   { lib = "ws2_32", when = { os = "windows" } },
@@ -47,7 +46,7 @@ define = "LIBSSH2_HAVE_ZLIB"
 
 [options.debug_logging]
 type = "bool"
-default = [{ value = true, when = { mode = "debug" } }, { value = false }]
+default = false
 define = "LIBSSH2DEBUG"
 
 [options.no_deprecated]
@@ -56,15 +55,6 @@ default = false
 public = true
 define = "LIBSSH2_NO_DEPRECATED"
 
-[options.ecdsa_wincng]
-type = "bool"
-default = false
-define = "LIBSSH2_ECDSA_WINCNG"
-
-[options.unicode]
-type = "bool"
-default = false
-
 [[lib]]
 name = "ssh2"
 kinds = ["static"]
@@ -72,6 +62,7 @@ define = [
   { value = "LIBSSH2_OPENSSL", when = { crypto = "openssl" } },
   { value = "LIBSSH2_MBEDTLS", when = { crypto = "mbedtls" } },
   { value = "LIBSSH2_WINCNG", when = { crypto = "wincng" } },
+  { value = "LIBSSH2_ECDSA_WINCNG", when = { crypto = "wincng" } },
 ]
 source = [
   "src/agent.c",
@@ -109,140 +100,14 @@ deps = [
   { pkg = "zlib", when = { zlib = true } },
 ]
 
-[[test]]
-name = "simple"
-source = ["tests/test_simple.c"]
-define = [
-  "LIBSSH2_TESTS",
-  { value = "LIBSSH2_OPENSSL", when = { crypto = "openssl" } },
-  { value = "LIBSSH2_MBEDTLS", when = { crypto = "mbedtls" } },
-  { value = "LIBSSH2_WINCNG", when = { crypto = "wincng" } },
-]
-deps = ["ssh2"]
-
 [[example]]
 name = "methods"
 source = [{ path = "example/methods.c", tree = "manifest" }]
 deps = ["ssh2"]
 
 [[example]]
-name = "direct_tcpip"
-source = ["example/direct_tcpip.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "scp"
-source = ["example/scp.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "scp_nonblock"
-source = ["example/scp_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "scp_write"
-source = ["example/scp_write.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "scp_write_nonblock"
-source = ["example/scp_write_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp"
-source = ["example/sftp.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_RW_nonblock"
-source = ["example/sftp_RW_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_append"
-source = ["example/sftp_append.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_mkdir"
-source = ["example/sftp_mkdir.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_mkdir_nonblock"
-source = ["example/sftp_mkdir_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_nonblock"
-source = ["example/sftp_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_write"
-source = ["example/sftp_write.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_write_nonblock"
-source = ["example/sftp_write_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftp_write_sliding"
-source = ["example/sftp_write_sliding.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftpdir"
-source = ["example/sftpdir.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "sftpdir_nonblock"
-source = ["example/sftpdir_nonblock.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "ssh2"
-source = ["example/ssh2.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "ssh2_agent"
-source = ["example/ssh2_agent.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "ssh2_agent_forwarding"
-source = ["example/ssh2_agent_forwarding.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "ssh2_echo"
-source = ["example/ssh2_echo.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "ssh2_exec"
-source = ["example/ssh2_exec.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "subsystem_netconf"
-source = ["example/subsystem_netconf.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "tcpip-forward"
-source = ["example/tcpip-forward.c"]
-deps = ["ssh2"]
-
-[[example]]
-name = "x11"
-source = ["example/x11.c"]
+name = "exec"
+source = [{ path = "example/exec.c", tree = "manifest" }]
 deps = ["ssh2"]
 
 [package.publish]

@@ -27,6 +27,7 @@ int main(void) {
     return 1;
   }
 
+  libssh2_session_flag(session, LIBSSH2_FLAG_COMPRESS, 1);
   printf("libssh2 %s\n", libssh2_version(0));
   print_methods(session, "kex", LIBSSH2_METHOD_KEX);
   print_methods(session, "hostkey", LIBSSH2_METHOD_HOSTKEY);
