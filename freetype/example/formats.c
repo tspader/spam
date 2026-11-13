@@ -32,7 +32,6 @@ int main(int argc, char** argv) {
   else {
     result |= show(library, "example/assets/JetBrainsMono-Regular.ttf");
     result |= show(library, "example/assets/JetBrainsMono-Regular.woff");
-    result |= show(library, "example/assets/JetBrainsMono-Regular.woff2");
   }
 
   FT_Done_FreeType(library);

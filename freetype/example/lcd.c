@@ -14,10 +14,7 @@ int main(int argc, char** argv) {
   }
 
   FT_Error error = FT_Library_SetLcdFilter(library, FT_LCD_FILTER_DEFAULT);
-  if (error) {
-    fprintf(stderr, "FT_Library_SetLcdFilter: %s\n", FT_Error_String(error));
-    return 1;
-  }
+  printf("lcd filter: %s\n", error ? "off (subpixel_rendering = false)" : "on");
 
   FT_Face face;
   error = FT_New_Face(library, path, 0, &face);
