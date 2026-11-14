@@ -1,0 +1,242 @@
+[package]
+name = "xz"
+version = "5.8.4"
+author = "tukaani-project"
+maintainer = "tspader"
+include = ["src/common", "src/liblzma/api"]
+define = [
+  "HAVE_STDBOOL_H",
+  "HAVE_INTTYPES_H",
+  "HAVE_CHECK_CRC32",
+  "HAVE_CHECK_CRC64",
+  "HAVE_CHECK_SHA256",
+  "HAVE_MF_HC3",
+  "HAVE_MF_HC4",
+  "HAVE_MF_BT2",
+  "HAVE_MF_BT3",
+  "HAVE_MF_BT4",
+  { value = "HAVE_ENCODER_LZMA1", when = { encoders = true } },
+  { value = "HAVE_ENCODER_LZMA2", when = { encoders = true } },
+  { value = "HAVE_ENCODER_DELTA", when = { encoders = true } },
+  { value = "HAVE_ENCODER_X86", when = { encoders = true } },
+  { value = "HAVE_ENCODER_ARM", when = { encoders = true } },
+  { value = "HAVE_ENCODER_ARMTHUMB", when = { encoders = true } },
+  { value = "HAVE_ENCODER_ARM64", when = { encoders = true } },
+  { value = "HAVE_ENCODER_POWERPC", when = { encoders = true } },
+  { value = "HAVE_ENCODER_IA64", when = { encoders = true } },
+  { value = "HAVE_ENCODER_SPARC", when = { encoders = true } },
+  { value = "HAVE_ENCODER_RISCV", when = { encoders = true } },
+  { value = "HAVE_DECODER_LZMA1", when = { decoders = true } },
+  { value = "HAVE_DECODER_LZMA2", when = { decoders = true } },
+  { value = "HAVE_DECODER_DELTA", when = { decoders = true } },
+  { value = "HAVE_DECODER_X86", when = { decoders = true } },
+  { value = "HAVE_DECODER_ARM", when = { decoders = true } },
+  { value = "HAVE_DECODER_ARMTHUMB", when = { decoders = true } },
+  { value = "HAVE_DECODER_ARM64", when = { decoders = true } },
+  { value = "HAVE_DECODER_POWERPC", when = { decoders = true } },
+  { value = "HAVE_DECODER_IA64", when = { decoders = true } },
+  { value = "HAVE_DECODER_SPARC", when = { decoders = true } },
+  { value = "HAVE_DECODER_RISCV", when = { decoders = true } },
+  { value = "HAVE_LZIP_DECODER", when = { decoders = true } },
+  { value = "MYTHREAD_POSIX", when = { threads = true, os = { not = "windows" } } },
+  { value = "MYTHREAD_VISTA", when = { threads = true, os = "windows" } },
+  { value = "HAVE_CLOCK_GETTIME", when = { os = { not = "windows" } } },
+  { value = "HAVE_CLOCK_MONOTONIC", when = { os = "linux" } },
+  { value = "HAVE_PTHREAD_CONDATTR_SETCLOCK", when = { os = "linux" } },
+  { value = "TUKLIB_FAST_UNALIGNED_ACCESS", when = { arch = "x86_64" } },
+  { value = "TUKLIB_FAST_UNALIGNED_ACCESS", when = { arch = "aarch64" } },
+  { value = "HAVE___BUILTIN_BSWAPXX", when = { driver = { not = "msvc" } } },
+  { value = "HAVE___BUILTIN_ASSUME_ALIGNED", when = { driver = { not = "msvc" } } },
+  { value = "_GNU_SOURCE", when = { abi = { not = "msvc" } } },
+]
+system_deps = [
+  { lib = "pthread", when = { threads = true, os = { not = "windows" } } },
+]
+
+[package.upstream]
+url = "https://github.com/tukaani-project/xz.git"
+commit = "d3e650e63c110e830fd5391e7f8b45df0b91d3da"
+
+[options.static]
+type = "bool"
+default = true
+public = true
+define = "LZMA_API_STATIC"
+
+[options.threads]
+type = "bool"
+default = true
+
+[options.encoders]
+type = "bool"
+default = true
+define = "HAVE_ENCODERS"
+
+[options.decoders]
+type = "bool"
+default = true
+define = "HAVE_DECODERS"
+
+[[lib]]
+name = "lzma"
+kinds = ["static", "shared"]
+include = [
+  "src/liblzma/common",
+  "src/liblzma/check",
+  "src/liblzma/lz",
+  "src/liblzma/rangecoder",
+  "src/liblzma/lzma",
+  "src/liblzma/delta",
+  "src/liblzma/simple",
+]
+source = [
+  "src/common/tuklib_physmem.c",
+  "src/liblzma/check/check.c",
+  "src/liblzma/check/crc32_fast.c",
+  "src/liblzma/check/crc64_fast.c",
+  "src/liblzma/check/sha256.c",
+  "src/liblzma/common/block_util.c",
+  "src/liblzma/common/common.c",
+  "src/liblzma/common/easy_preset.c",
+  "src/liblzma/common/filter_common.c",
+  "src/liblzma/common/hardware_physmem.c",
+  "src/liblzma/common/index.c",
+  "src/liblzma/common/stream_flags_common.c",
+  "src/liblzma/common/string_conversion.c",
+  "src/liblzma/common/vli_size.c",
+  "src/liblzma/delta/delta_common.c",
+  "src/liblzma/lzma/lzma_encoder_presets.c",
+  "src/liblzma/simple/simple_coder.c",
+  "src/liblzma/simple/x86.c",
+  "src/liblzma/simple/arm.c",
+  "src/liblzma/simple/armthumb.c",
+  "src/liblzma/simple/arm64.c",
+  "src/liblzma/simple/powerpc.c",
+  "src/liblzma/simple/ia64.c",
+  "src/liblzma/simple/sparc.c",
+  "src/liblzma/simple/riscv.c",
+  { path = "src/common/tuklib_cpucores.c", when = { threads = true } },
+  { path = "src/liblzma/common/hardware_cputhreads.c", when = { threads = true } },
+  { path = "src/liblzma/common/outqueue.c", when = { threads = true } },
+  { path = "src/liblzma/common/*_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/common/easy_encoder_memusage.c", when = { encoders = true } },
+  { path = "src/liblzma/common/stream_encoder_mt.c", when = { encoders = true, threads = true } },
+  { path = "src/liblzma/delta/delta_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/lz/lz_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/lz/lz_encoder_mf.c", when = { encoders = true } },
+  { path = "src/liblzma/lzma/fastpos_table.c", when = { encoders = true } },
+  { path = "src/liblzma/lzma/lzma_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/lzma/lzma_encoder_optimum_fast.c", when = { encoders = true } },
+  { path = "src/liblzma/lzma/lzma_encoder_optimum_normal.c", when = { encoders = true } },
+  { path = "src/liblzma/lzma/lzma2_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/rangecoder/price_table.c", when = { encoders = true } },
+  { path = "src/liblzma/simple/simple_encoder.c", when = { encoders = true } },
+  { path = "src/liblzma/common/*_decoder.c", when = { decoders = true } },
+  { path = "src/liblzma/common/easy_decoder_memusage.c", when = { decoders = true } },
+  { path = "src/liblzma/common/file_info.c", when = { decoders = true } },
+  { path = "src/liblzma/common/index_hash.c", when = { decoders = true } },
+  { path = "src/liblzma/common/stream_decoder_mt.c", when = { decoders = true, threads = true } },
+  { path = "src/liblzma/delta/delta_decoder.c", when = { decoders = true } },
+  { path = "src/liblzma/lz/lz_decoder.c", when = { decoders = true } },
+  { path = "src/liblzma/lzma/lzma_decoder.c", when = { decoders = true } },
+  { path = "src/liblzma/lzma/lzma2_decoder.c", when = { decoders = true } },
+  { path = "src/liblzma/simple/simple_decoder.c", when = { decoders = true } },
+]
+define = [
+  "TUKLIB_SYMBOL_PREFIX=lzma_",
+  { value = "TUKLIB_PHYSMEM_SYSCONF", when = { os = { not = "windows" } } },
+  { value = "TUKLIB_CPUCORES_SCHED_GETAFFINITY", when = { os = "linux" } },
+  { value = "TUKLIB_CPUCORES_SYSCTL", when = { os = "macos" } },
+  { value = "HAVE_SYS_PARAM_H", when = { os = "macos" } },
+  { value = "HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR", when = { driver = { not = "msvc" } } },
+  { value = "HAVE_CPUID_H", when = { arch = "x86_64", driver = { not = "msvc" } } },
+  { value = "HAVE_IMMINTRIN_H", when = { arch = "x86_64" } },
+  { value = "HAVE_USABLE_CLMUL", when = { arch = "x86_64" } },
+  { value = "HAVE_ARM64_CRC32", when = { arch = "aarch64", os = { not = "windows" } } },
+  { value = "HAVE_GETAUXVAL", when = { arch = "aarch64", os = "linux" } },
+  { value = "HAVE_HWCAP_CRC32", when = { arch = "aarch64", os = "linux" } },
+  { value = "HAVE_VISIBILITY=1", when = { os = { not = "windows" } } },
+]
+flags = [{ value = "-fvisibility=hidden", when = { os = { not = "windows" } } }]
+
+[[test]]
+name = "test_block_header"
+source = [{ path = "tests/test_block_header.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_filter_flags"
+source = [{ path = "tests/test_filter_flags.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_filter_str"
+source = [{ path = "tests/test_filter_str.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_hardware"
+source = [{ path = "tests/test_hardware.c", when = { threads = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_index_hash"
+source = [{ path = "tests/test_index_hash.c", when = { encoders = true, decoders = true } }]
+include = ["src/liblzma"]
+deps = ["lzma"]
+
+[[test]]
+name = "test_microlzma"
+source = [{ path = "tests/test_microlzma.c", when = { encoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_stream_buffer_encode"
+source = [{ path = "tests/test_stream_buffer_encode.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_stream_flags"
+source = [{ path = "tests/test_stream_flags.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[test]]
+name = "test_vli"
+source = [{ path = "tests/test_vli.c", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[example]]
+name = "roundtrip"
+source = [{ path = "example/roundtrip.c", tree = "manifest", when = { encoders = true, decoders = true } }]
+deps = ["lzma"]
+
+[[example]]
+name = "01_compress_easy"
+source = [{ path = "doc/examples/01_compress_easy.c", when = { encoders = true, os = { not = "windows" } } }]
+deps = ["lzma"]
+
+[[example]]
+name = "02_decompress"
+source = [{ path = "doc/examples/02_decompress.c", when = { decoders = true, os = { not = "windows" } } }]
+deps = ["lzma"]
+
+[[example]]
+name = "03_compress_custom"
+source = [{ path = "doc/examples/03_compress_custom.c", when = { encoders = true, os = { not = "windows" } } }]
+deps = ["lzma"]
+
+[[example]]
+name = "04_compress_easy_mt"
+source = [{ path = "doc/examples/04_compress_easy_mt.c", when = { encoders = true, threads = true, os = { not = "windows" } } }]
+deps = ["lzma"]
+
+[[example]]
+name = "11_file_info"
+source = [{ path = "doc/examples/11_file_info.c", when = { decoders = true } }]
+deps = ["lzma"]
+
+[package.publish]
+include = [
+  { from = "src/liblzma/api/lzma.h" },
+  { from = "src/liblzma/api/lzma/*.h", to = "lzma" },
+]
