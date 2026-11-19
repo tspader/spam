@@ -17,6 +17,50 @@ commit = "b925b3e3fc6771171602323b45fbe9fb8fc90369"
 type = "bool"
 default = [{ value = false, when = { os = "windows" } }, { value = true }]
 
+[deps.tool]
+sp = "5.0.0"
+
+[[tool]]
+name = "generate"
+source = [{ path = "tools/generate.c", tree = "manifest" }]
+
+[[tool]]
+name = "minilua"
+source = ["src/host/minilua.c"]
+flags = [{ value = "-fno-sanitize=undefined", when = { abi = { not = "msvc" } } }]
+
+[[tool]]
+name = "buildvm-x86_64-linux"
+include = [
+  "src",
+  { path = "gen", tree = "manifest" },
+  { path = "gen/x86_64-linux", tree = "manifest" },
+]
+source = ["src/host/buildvm*.c"]
+define = [
+  "LUAJIT_TARGET=LUAJIT_ARCH_x64",
+  "LUAJIT_OS=LUAJIT_OS_LINUX",
+  "LJ_ARCH_HASFPU=1",
+  "LJ_ABI_SOFTFP=0",
+]
+flags = [{ value = "-fno-sanitize=undefined", when = { abi = { not = "msvc" } } }]
+
+[[tool]]
+name = "buildvm-aarch64-macos"
+include = [
+  "src",
+  { path = "gen", tree = "manifest" },
+  { path = "gen/aarch64-macos", tree = "manifest" },
+]
+source = ["src/host/buildvm*.c"]
+define = [
+  "LUAJIT_TARGET=LUAJIT_ARCH_arm64",
+  "LUAJIT_OS=LUAJIT_OS_OSX",
+  "LJ_ARCH_HASFPU=1",
+  "LJ_ABI_SOFTFP=0",
+]
+flags = [{ value = "-fno-sanitize=undefined", when = { abi = { not = "msvc" } } }]
+
 [[lib]]
 name = "luajit"
 kinds = ["static", "shared"]

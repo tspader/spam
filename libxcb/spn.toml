@@ -2,7 +2,21 @@
 name = "libxcb"
 version = "1.17.0"
 
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/lib/libxcb.git"
+commit = "622152ee42a310876f10602601206954b8d0613e"
+
+[deps.tool]
+sp = "5.0.0"
+xcbproto = "1.17.0"
+
+[[tool]]
+name = "generate"
+source = [{ path = "tools/generate.c", tree = "manifest" }]
+
 [package.publish]
 include = [
+  { from = "src/xcb.h", to = "xcb" },
+  { from = "src/xcbext.h", to = "xcb" },
   { from = "gen/*.h", tree = "manifest", to = "xcb" },
 ]

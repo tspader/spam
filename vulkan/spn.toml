@@ -1,0 +1,16 @@
+[package]
+name = "vulkan"
+version = "1.4.362"
+
+[deps.package]
+vulkan_headers = { version = "1.4.362", public = true }
+
+[[lib]]
+name = "vulkan"
+shared = [
+  { stub = "stub/x86_64-linux/libvulkan.so.1", tree = "manifest", when = { os = "linux", arch = "x86_64" } },
+  { stub = "stub/aarch64-linux/libvulkan.so.1", tree = "manifest", when = { os = "linux", arch = "aarch64" } },
+  { stub = "stub/x86_64-windows/vulkan-1.lib", tree = "manifest", when = { os = "windows", arch = "x86_64" } },
+  { stub = "stub/aarch64-windows/vulkan-1.lib", tree = "manifest", when = { os = "windows", arch = "aarch64" } },
+  { stub = "stub/libvulkan.tbd", tree = "manifest", when = { os = "macos" } },
+]

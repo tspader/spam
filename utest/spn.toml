@@ -8,10 +8,6 @@ maintainer = "tspader"
 url = "https://github.com/sheredom/utest.h.git"
 commit = "fb622dc480a5"
 
-[[lib]]
-name = "utest"
-kinds = ["source"]
-
 [package.publish]
 include = [
   { from = "utest.h" },

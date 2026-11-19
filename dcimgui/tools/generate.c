@@ -26,6 +26,7 @@ static sp_str_t join(generate_t* g, sp_str_t base, const c8* sub) {
 }
 
 static sp_err_t spawn(generate_t* g, sp_ps_config_t config) {
+  config.env.extra[0] = (sp_env_var_t) { .key = sp_str_lit("PYTHONDONTWRITEBYTECODE"), .value = sp_str_lit("1") };
   sp_ps_output_t result = sp_ps_run(g->mem, config);
   if (result.error) {
     sp_log_err("failed to start {}", sp_fmt_str(config.command));
@@ -35,6 +36,20 @@ static sp_err_t spawn(generate_t* g, sp_ps_config_t config) {
     sp_log_err("{} exited with {}", sp_fmt_str(config.command), sp_fmt_uint((u32)result.status.exit_code));
     return SP_ERR;
   }
+  return SP_OK;
+}
+
+static sp_err_t locate(generate_t* g, sp_ps_config_t query, sp_str_t* path) {
+  query.io.out.mode = SP_PS_IO_MODE_CREATE;
+  sp_ps_output_t result = sp_ps_run(g->mem, query);
+  if (result.error) {
+    sp_log_err("failed to start {}", sp_fmt_str(query.command));
+    return result.error;
+  }
+  if (result.status.exit_code) {
+    return SP_ERR;
+  }
+  *path = sp_str_trim_right(result.out);
   return SP_OK;
 }
 
@@ -112,8 +127,8 @@ static sp_err_t harvest(generate_t* g, u32* copied) {
     if (!sp_str_equal(ext, sp_str_lit("h")) && !sp_str_equal(ext, sp_str_lit("cpp"))) {
       continue;
     }
-    sp_path_t from = sp_path_from_str(entry->path);
-    sp_path_t to = sp_path_from_str(sp_fs_join_path(g->mem, g->gen, entry->name));
+    sp_path_t from = sp_path_at_cwd(entry->path);
+    sp_path_t to = sp_path_at_cwd(sp_fs_join_path(g->mem, g->gen, entry->name));
     sp_try(sp_fs_copy_file_at(from, to, SP_FS_ATOMIC_REPLACE));
     (*copied)++;
   }
@@ -121,6 +136,14 @@ static sp_err_t harvest(generate_t* g, u32* copied) {
 }
 
 static sp_err_t generate(generate_t* g, u32* copied) {
+  sp_try(locate(g, (sp_ps_config_t) {
+    .command = sp_str_lit("spn"),
+    .args = { sp_str_lit("path"), sp_str_lit("imgui") },
+  }, &g->imgui));
+  sp_try(locate(g, (sp_ps_config_t) {
+    .command = sp_str_lit("spn"),
+    .args = { sp_str_lit("path"), sp_str_lit("--tool-dep"), sp_str_lit("dear_bindings") },
+  }, &g->dear_bindings));
   sp_try(prepare(g));
   sp_try(bind(g));
   return harvest(g, copied);
@@ -129,15 +152,9 @@ static sp_err_t generate(generate_t* g, u32* copied) {
 static s32 generate_main(s32 num_args, const c8** args) {
   generate_t g = {
     .mem = sp_mem_heap_as_allocator(sp_mem_heap_new()),
-    .imgui = sp_os_env_get(sp_str_lit("SPN_DEP_imgui")),
-    .dear_bindings = sp_os_env_get(sp_str_lit("SPN_DEP_dear_bindings")),
     .work = sp_str_lit("build/generate"),
     .gen = sp_str_lit("gen"),
   };
-  if (sp_str_empty(g.imgui) || sp_str_empty(g.dear_bindings)) {
-    sp_log_err("SPN_DEP_imgui and SPN_DEP_dear_bindings are unset; run this through {}", sp_fmt_cstr("spn run generate"));
-    return 1;
-  }
   g.python = join(&g, join(&g, g.work, "venv"), VENV_PYTHON);
   g.out = join(&g, g.work, "out");
 

@@ -16,7 +16,7 @@ default = false
 define = "SDL_SHADERCROSS_DXC"
 
 [deps.package]
-sdl3 = "3.4.14"
+sdl3 = { version = "3.4.14", public = true }
 spirv_cross = "1.3.296"
 dxc = "1.8.2502"
 
@@ -24,11 +24,6 @@ dxc = "1.8.2502"
 name = "SDL3_shadercross"
 kinds = ["static"]
 source = ["src/SDL_shadercross.c"]
-deps = [
-  "sdl3",
-  "spirv_cross",
-  { pkg = "dxc", when = { dxc = true, os = { not = "windows" } } },
-]
 
 [[example]]
 name = "compile"

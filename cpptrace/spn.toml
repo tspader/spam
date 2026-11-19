@@ -101,10 +101,6 @@ define = [
   { value = "CPPTRACE_HAS_DLADDR1", when = { os = "linux", abi = "gnu" } },
   { value = "HAS_MACH_VM", when = { os = "macos" } },
 ]
-deps = [
-  { pkg = "libdwarf", when = { symbols = "libdwarf" } },
-  { pkg = "libbacktrace", when = { symbols = "libbacktrace" } },
-]
 cxx = { standard = "c++11" }
 
 [[example]]

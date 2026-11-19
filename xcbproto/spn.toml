@@ -1,0 +1,7 @@
+[package]
+name = "xcbproto"
+version = "1.17.0"
+
+[package.upstream]
+url = "https://gitlab.freedesktop.org/xorg/proto/xcbproto.git"
+commit = "77d7fc04da729ddc5ed4aacf30253726fac24dca"

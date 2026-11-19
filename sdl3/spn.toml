@@ -246,24 +246,22 @@ flags = [
   { value = "-msse3", when = { arch = "x86_64" } },
   { value = "-fobjc-arc", when = { os = "macos" } },
 ]
-
-[lib.macos]
-frameworks = [
-  "AVFoundation",
-  "AudioToolbox",
-  "Carbon",
-  "Cocoa",
-  "CoreAudio",
-  "CoreFoundation",
-  "CoreHaptics",
-  "CoreMedia",
-  "CoreVideo",
-  "ForceFeedback",
-  "GameController",
-  "IOKit",
-  "Metal",
-  "QuartzCore",
-  "UniformTypeIdentifiers",
+system_deps = [
+  { framework = "AVFoundation" },
+  { framework = "AudioToolbox" },
+  { framework = "Carbon" },
+  { framework = "Cocoa" },
+  { framework = "CoreAudio" },
+  { framework = "CoreFoundation" },
+  { framework = "CoreHaptics" },
+  { framework = "CoreMedia" },
+  { framework = "CoreVideo" },
+  { framework = "ForceFeedback" },
+  { framework = "GameController" },
+  { framework = "IOKit" },
+  { framework = "Metal" },
+  { framework = "QuartzCore" },
+  { framework = "UniformTypeIdentifiers" },
 ]
 
 [package.publish]

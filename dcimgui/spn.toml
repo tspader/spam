@@ -23,8 +23,8 @@ type = "bool"
 default = false
 
 [deps.package]
-imgui = "1.92.8"
-sdl3 = { version = "3.4.14", when = { sdlgpu3 = true } }
+imgui = { version = "=1.92.8", public = true }
+sdl3 = { version = "3.4.14", when = { sdlgpu3 = true }, public = true }
 
 [deps.tool]
 sp = "5.0.0"
@@ -33,7 +33,6 @@ dear_bindings = "0.21.0"
 [[tool]]
 name = "generate"
 source = ["tools/generate.c"]
-deps = ["sp"]
 
 [[lib]]
 name = "dcimgui"
@@ -47,7 +46,6 @@ source = [
   { path = "gen/dcimgui_impl_sdlgpu3.cpp", when = { sdlgpu3 = true } },
 ]
 include = ["gen"]
-deps = ["imgui"]
 cxx = { standard = "c++17" }
 
 [[example]]

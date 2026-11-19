@@ -33,7 +33,14 @@ default = false
 define = "SPIRV_LOG_DEBUG"
 
 [deps.package]
-spirv_headers = { path = "../../spirv_headers/1.202609.0" }
+spirv_headers = "=1.202609.0"
+
+[deps.tool]
+sp = "5.0.0"
+
+[[tool]]
+name = "generate"
+source = [{ path = "tools/generate.c", tree = "manifest" }]
 
 [[lib]]
 name = "spirv_tools"
@@ -67,8 +74,7 @@ source = [
   "source/val/*.cpp",
 ]
 flags = [{ value = "/EHs", when = { driver = "msvc" } }]
-system_deps = [{ value = "rt", when = { os = "linux" } }]
-deps = ["spirv_headers"]
+system_deps = [{ lib = "rt", when = { os = "linux" } }]
 cxx = { standard = "c++17" }
 
 [[lib]]

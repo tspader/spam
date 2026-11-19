@@ -25,15 +25,10 @@ commit = "8c908d2d0a6d32abdedda2c52e90bd56ec76c24d"
 include = [
   { from = "include/curl/*.h", to = "curl" },
 ]
+define = ["CURL_STATICLIB"]
 
 [deps.package]
 mbedtls = { version = "3.6.7", when = { tls = true, os = { not = "windows" } } }
-
-[options.staticlib]
-type = "bool"
-default = true
-public = true
-define = "CURL_STATICLIB"
 
 [options.tls]
 type = "bool"
@@ -173,8 +168,10 @@ source = [
   "lib/vssh/*.c",
   { path = "config/ca_bundle.c", tree = "manifest", when = { tls = true, os = { not = "windows" } } },
 ]
-deps = [{ pkg = "mbedtls", when = { tls = true, os = { not = "windows" } } }]
-macos = { frameworks = ["SystemConfiguration", "CoreFoundation"] }
+system_deps = [
+  { framework = "SystemConfiguration" },
+  { framework = "CoreFoundation" },
+]
 
 [[bin]]
 name = "curl"

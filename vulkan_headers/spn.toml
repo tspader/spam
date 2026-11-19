@@ -6,19 +6,13 @@ version = "1.4.362"
 url = "https://github.com/KhronosGroup/Vulkan-Headers.git"
 commit = "ee2ec5fd83dafce291024683b50dc89219333076"
 
-[[lib]]
-name = "vulkan_headers"
-kinds = ["source"]
-
 [[example]]
 name = "basic"
 source = [{ path = "example/basic.c", tree = "manifest" }]
-deps = ["vulkan_headers"]
 
 [[example]]
 name = "hpp"
 source = [{ path = "example/hpp.cpp", tree = "manifest" }]
-deps = ["vulkan_headers"]
 cxx = { standard = "c++17" }
 
 [package.publish]

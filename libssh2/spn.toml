@@ -94,11 +94,6 @@ source = [
   { path = "src/mbedtls.c", when = { crypto = "mbedtls" } },
   { path = "src/wincng.c", when = { crypto = "wincng" } },
 ]
-deps = [
-  { pkg = "openssl", when = { crypto = "openssl" } },
-  { pkg = "mbedtls", when = { crypto = "mbedtls" } },
-  { pkg = "zlib", when = { zlib = true } },
-]
 
 [[example]]
 name = "methods"

@@ -94,7 +94,6 @@ define = [
   { value = "GIT_NSEC_WIN32", when = { os = "windows" } },
 ]
 deps = [
-  { pkg = "mbedtls", when = { os = { not = "windows" } } },
   "git2_pcre2",
   "git2_zlib",
 ]

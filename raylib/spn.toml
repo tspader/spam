@@ -53,9 +53,14 @@ define = [
   { value = "_CRT_SECURE_NO_WARNINGS", when = { os = "windows" } },
   { value = "GL_SILENCE_DEPRECATION", when = { os = "macos" } },
 ]
-
-[lib.macos]
-frameworks = ["Cocoa", "IOKit", "CoreFoundation", "CoreAudio", "CoreVideo", "OpenGL"]
+system_deps = [
+  { framework = "Cocoa" },
+  { framework = "IOKit" },
+  { framework = "CoreFoundation" },
+  { framework = "CoreAudio" },
+  { framework = "CoreVideo" },
+  { framework = "OpenGL" },
+]
 
 [[example]]
 name = "core_basic_window"

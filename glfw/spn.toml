@@ -83,9 +83,12 @@ define = [
   { value = "_CRT_SECURE_NO_WARNINGS", when = { abi = "msvc" } },
   { value = "_GLFW_COCOA", when = { os = "macos" } },
 ]
-
-[lib.macos]
-frameworks = ["Cocoa", "IOKit", "CoreFoundation", "QuartzCore"]
+system_deps = [
+  { framework = "Cocoa" },
+  { framework = "IOKit" },
+  { framework = "CoreFoundation" },
+  { framework = "QuartzCore" },
+]
 
 [[example]]
 name = "window"

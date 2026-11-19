@@ -3,90 +3,72 @@ name = "sp"
 version = "5.0.0"
 author = "tspader"
 maintainer = "tspader"
-system_deps = [
-  { lib = "m", when = { os = "linux" } },
-]
 
 [package.upstream]
 url = "https://github.com/tspader/sp.git"
 commit = "574d537381a536cc5c70520348d0030c5d32fefc"
 
-[[lib]]
-name = "sp"
-kinds = ["source"]
-
 [[example]]
 name = "app"
 source = ["example/app.c"]
-deps = ["sp"]
 
 [[example]]
 name = "array"
 source = ["example/array.c"]
-deps = ["sp"]
 
 [[example]]
 name = "cargo"
 source = ["example/cargo.c"]
-deps = ["sp"]
 
 [[example]]
 name = "cli"
 source = ["example/cli.c"]
-deps = ["sp"]
 
 [[example]]
 name = "format"
 source = ["example/format.c"]
-deps = ["sp"]
 
 [[example]]
 name = "hash_table"
 source = ["example/hash_table.c"]
-deps = ["sp"]
 
 [[example]]
 name = "io"
 source = ["example/io.c"]
-deps = ["sp"]
 
 [[example]]
 name = "ls"
 source = ["example/ls.c"]
-deps = ["sp"]
 
 [[example]]
 name = "palette"
 source = ["example/palette.c"]
-deps = ["sp"]
 
 [[example]]
 name = "prompt"
 source = ["example/prompt.c"]
-deps = ["sp"]
 
 [[example]]
 name = "prompt_fancy"
 source = ["example/prompt_fancy.c"]
-deps = ["sp"]
 
 [[example]]
 name = "signal"
 source = ["example/signal.c"]
-deps = ["sp"]
 
 [[example]]
 name = "wc"
 source = ["example/wc.c"]
-deps = ["sp"]
 
 [[example]]
 name = "zero_copy"
 source = ["example/zero_copy.c"]
-deps = ["sp"]
 
 [package.publish]
 include = [
   { from = "sp.h" },
   { from = "sp/*", to = "sp" },
+]
+system_deps = [
+  { lib = "m", when = { os = "linux" } },
 ]

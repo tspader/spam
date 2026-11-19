@@ -32,10 +32,6 @@ define = [
   "LIBDWARF_BUILD",
   { value = "_GNU_SOURCE", when = { os = "linux" } },
 ]
-deps = [
-  { pkg = "zlib", when = { decompression = true } },
-  { pkg = "zstd", when = { decompression = true } },
-]
 
 [[example]]
 name = "units"

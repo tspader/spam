@@ -8,7 +8,7 @@ url = "https://github.com/libsdl-org/SDL_ttf.git"
 commit = "a42434b8c96daaf7650dbd0befe480c090d1c2eb"
 
 [deps.package]
-sdl3 = "3.4.14"
+sdl3 = { version = "3.4.14", public = true }
 freetype = "2.13.2"
 
 [[lib]]
@@ -23,7 +23,6 @@ source = [
   "src/SDL_surface_textengine.c",
   "src/SDL_ttf.c",
 ]
-deps = ["sdl3", "freetype"]
 
 [[example]]
 name = "headless"

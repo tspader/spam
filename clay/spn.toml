@@ -8,24 +8,17 @@ maintainer = "tspader"
 url = "https://github.com/nicbarker/clay.git"
 commit = "76ec3632d80c145158136fd44db501448e7b17c4"
 
-[[lib]]
-name = "clay"
-kinds = ["source"]
-
 [[example]]
 name = "layout"
 source = [{ path = "example/layout.c", tree = "manifest" }]
-deps = ["clay"]
 
 [[example]]
 name = "terminal"
 source = [{ path = "examples/terminal-example/main.c", when = { abi = { not = "msvc" } } }]
-deps = ["clay"]
 
 [[example]]
 name = "cpp"
 source = ["examples/cpp-project-example/main.cpp"]
-deps = ["clay"]
 cxx = { standard = "c++20" }
 
 [package.publish]
