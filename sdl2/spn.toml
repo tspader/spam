@@ -203,6 +203,23 @@ flags = [
   { value = "-msse3", when = { arch = "x86_64" } },
   { value = "-fobjc-arc", when = { os = "macos" } },
 ]
+system_deps = [
+  { framework = "AVFoundation" },
+  { framework = "AudioToolbox" },
+  { framework = "Carbon" },
+  { framework = "Cocoa" },
+  { framework = "CoreAudio" },
+  { framework = "CoreFoundation" },
+  { framework = "CoreGraphics" },
+  { framework = "CoreHaptics" },
+  { framework = "CoreVideo" },
+  { framework = "ForceFeedback" },
+  { framework = "Foundation" },
+  { framework = "GameController" },
+  { framework = "IOKit" },
+  { framework = "Metal" },
+  { framework = "QuartzCore" },
+]
 
 [[lib]]
 name = "SDL2main"
@@ -225,12 +242,12 @@ include = [
 [[example]]
 name = "window"
 source = [{ path = "example/window.c", tree = "manifest" }]
-deps = ["SDL2"]
+deps = ["SDL2", "SDL2main"]
 
 [[example]]
 name = "surface"
 source = [{ path = "example/surface.c", tree = "manifest" }]
-deps = ["SDL2"]
+deps = ["SDL2", "SDL2main"]
 
 [profile.default]
 options = { x11 = true }

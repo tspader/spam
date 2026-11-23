@@ -17,5 +17,4 @@ name = "version"
 source = [{ path = "example/version.c", tree = "manifest" }]
 
 [profile.default]
-linkage = "shared"
 abi = "gnu"

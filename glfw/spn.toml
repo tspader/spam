@@ -105,25 +105,34 @@ deps = ["glfw"]
 name = "gears"
 source = ["examples/gears.c"]
 include = ["deps"]
-define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+define = [
+  { value = "_DEFAULT_SOURCE", when = { os = "linux" } },
+  { value = "_USE_MATH_DEFINES", when = { os = "windows" } },
+]
 deps = ["glfw"]
 
 [[example]]
 name = "boing"
 source = ["examples/boing.c"]
 include = ["deps"]
-define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+define = [
+  { value = "_DEFAULT_SOURCE", when = { os = "linux" } },
+  { value = "_USE_MATH_DEFINES", when = { os = "windows" } },
+]
 deps = ["glfw"]
 
 [[example]]
 name = "wave"
 source = ["examples/wave.c"]
 include = ["deps"]
-define = [{ value = "_DEFAULT_SOURCE", when = { os = "linux" } }]
+define = [
+  { value = "_DEFAULT_SOURCE", when = { os = "linux" } },
+  { value = "_USE_MATH_DEFINES", when = { os = "windows" } },
+]
 deps = ["glfw"]
 
 [profile.default]
-linkage = "shared"
+libc = { value = "shared", when = { os = "linux" } }
 
 [package.publish]
 include = [

@@ -1,2 +1,2 @@
 #pragma once
-#include <oaidl.h>
+#include_next <oaidl.h>

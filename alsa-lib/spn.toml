@@ -137,5 +137,4 @@ deps = ["asound"]
 flags = ["-std=gnu17"]
 
 [profile.default]
-linkage = "shared"
 abi = "gnu"

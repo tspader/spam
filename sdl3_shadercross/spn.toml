@@ -31,6 +31,7 @@ source = [{ path = "example/compile.c", tree = "manifest" }]
 deps = ["SDL3_shadercross"]
 
 [profile.default]
+toolchain = { value = "msvc", when = { os = "windows" } }
 options = { dxc = true }
 
 [package.publish]

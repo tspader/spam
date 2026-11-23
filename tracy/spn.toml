@@ -4,6 +4,8 @@ version = "0.11.1"
 system_deps = [
   { lib = "pthread", when = { os = "linux" } },
   { lib = "dl", when = { os = "linux" } },
+  { lib = "ws2_32", when = { os = "windows" } },
+  { lib = "dbghelp", when = { os = "windows" } },
 ]
 
 [package.upstream]

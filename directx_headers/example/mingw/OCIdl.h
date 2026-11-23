@@ -1,2 +1,2 @@
 #pragma once
-#include <ocidl.h>
+#include_next <ocidl.h>

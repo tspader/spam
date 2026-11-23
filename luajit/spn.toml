@@ -103,7 +103,7 @@ include = [{ path = "gen", tree = "manifest" }]
 deps = ["luajit"]
 
 [profile.default]
-linkage = "shared"
+libc = { value = "shared", when = { os = "linux" } }
 
 [package.publish]
 include = [

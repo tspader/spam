@@ -218,6 +218,5 @@ include = [
 ]
 
 [profile.default]
-linkage = "shared"
-abi = "gnu"
-options = { threading = true, everest = true, p256m = true }
+abi = { value = "gnu", when = { os = "linux" } }
+options = { everest = true, p256m = true }
